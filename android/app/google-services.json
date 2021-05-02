@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "302376036187",
+    "firebase_url": "https://multi-entregas-je.firebaseio.com",
+    "project_id": "multi-entregas-je",
+    "storage_bucket": "multi-entregas-je.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302376036187:android:bb0ead2b424c783d73dc7e",
+        "android_client_info": {
+          "package_name": "app.allapp.allapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302376036187-902gsa7otkdoaitcngdsd090ll4b5c2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.allapp.allapp",
+            "certificate_hash": "8f76e05d2604dacca65ba51c592147e22a2afb0b"
+          }
+        },
+        {
+          "client_id": "302376036187-upoh96dot0mmdnmn2e5k3ek6rpr2ub02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.allapp.allapp",
+            "certificate_hash": "2b0f1e736d1dc01795141032cf8deb3e3332e3d2"
+          }
+        },
+        {
+          "client_id": "302376036187-pbc85gir3bq33p05a6k8p0qup5qi6kk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxLX1oDRd7x5QOsfXBxfqRHI-QXp9WSRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302376036187-pbc85gir3bq33p05a6k8p0qup5qi6kk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
