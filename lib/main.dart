@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
               selectionHandleColor: hexaColor('#FFFFFF'),
             ),
           ),
-          // initialRoute: Pref().lastPage,
-          initialRoute: SliverPage.pathName,
+          initialRoute: Pref().lastPage,
+          // initialRoute: SliverPage.pathName,
           routes: {
             WelcomePage.pathName: (_) => WelcomePage(),
             EnterPhone.pathName: (_) => EnterPhone(),

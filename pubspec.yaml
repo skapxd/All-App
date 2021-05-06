@@ -35,14 +35,24 @@ dependencies:
   flutter_bloc: ^7.0.0
   bloc: ^7.0.0
   shared_preferences: ^2.0.5
+  md2_tab_indicator: ^1.0.2
 
   firebase_core: ^1.1.0
   firebase_auth: ^1.1.2
 
+  flutter_launcher_icons: ^0.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+    
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/brand/icono.png"
+  
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -59,6 +69,7 @@ flutter:
   assets:
     - assets/brand/
     - assets/icons/
+    - assets/ruburos/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
