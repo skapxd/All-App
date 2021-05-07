@@ -1,5 +1,4 @@
 import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 
 class SliverPage extends StatelessWidget {

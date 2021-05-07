@@ -50,7 +50,6 @@ class EnterCode extends StatelessWidget {
 
                   BlocProvider.of<PhoneBloc>(context).add(AddMsg(msg));
 
-                  print(msg.length);
                   int length = msg.length;
 
                   if (length == 6) {

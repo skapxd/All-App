@@ -17,10 +17,6 @@ class CustomBackgroundGradient extends StatelessWidget {
 
     final pixel = MediaQuery.of(context).devicePixelRatio;
 
-    print(pixel + vw);
-
-    print(vw);
-
     return Container(
       height: vh,
       width: vw,

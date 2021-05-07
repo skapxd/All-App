@@ -20,7 +20,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // _tabController = new TabController(vsync: this, length: choices.length);
-    _tabController = new TabController(length: 11, vsync: this);
+    _tabController = new TabController(length: 12, vsync: this);
 
     _tabController.addListener(() {
       print(_tabController.index);
@@ -28,6 +28,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   final tabText = [
+    Tab(
+      icon: Text('Todo'),
+    ),
     Tab(
       icon: Text('Supermercado'),
     ),
@@ -185,6 +188,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ),
                   Text(
                     '11',
+                    style: TextStyle(color: hexaColor('#FFFFFF')),
+                  ),
+                  Text(
+                    '12',
                     style: TextStyle(color: hexaColor('#FFFFFF')),
                   ),
                 ],
