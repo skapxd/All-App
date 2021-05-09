@@ -1,7 +1,9 @@
 import 'package:allapp/src/data/shared/pref.dart';
 import 'package:allapp/src/utils/Color.dart';
 import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import 'package:allapp/src/widgets/RowShop.dart';
 import 'package:allapp/src/widgets/ruburos/Supermercado.dart';
+import 'package:allapp/src/widgets/ruburos/Todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -16,10 +18,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   TabController _tabController;
 
+  // ScrollController _scrollController;
+
+  PageController _pageController;
+
   @override
   void initState() {
     super.initState();
     // _tabController = new TabController(vsync: this, length: choices.length);
+    // _scrollController = ScrollController();
+
+    _pageController = PageController();
+
     _tabController = new TabController(length: 12, vsync: this);
 
     _tabController.addListener(() {
@@ -84,119 +94,80 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return Scaffold(
       body: CustomBackgroundGradient(
         child: SafeArea(
-          child: DefaultTabController(
-            length: 3,
-            child: NestedScrollView(
-              physics: BouncingScrollPhysics(),
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverPersistentHeader(
-                    floating: true,
-                    pinned: false,
-                    delegate: _SliverCustomHeaderDelegate(
-                      child: Container(
-                        color: hexaColor('#232323'),
-                        alignment: Alignment.centerLeft,
-                        child: AppBar(
-                          tabController: _tabController,
-                          vw: vw,
-                        ),
-                      ),
-                      minHeight: 60,
-                      maxHeight: 60,
+          child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: [
+              SliverPersistentHeader(
+                floating: true,
+                pinned: false,
+                delegate: _SliverCustomHeaderDelegate(
+                  child: Container(
+                    color: hexaColor('#232323'),
+                    alignment: Alignment.centerLeft,
+                    child: AppBar(
+                      tabController: _tabController,
+                      vw: vw,
                     ),
                   ),
-                  SliverPersistentHeader(
-                    floating: false,
-                    pinned: true,
-                    delegate: _SliverCustomHeaderDelegate(
-                      minHeight: 51,
-                      maxHeight: 51,
-                      child: Container(
-                        color: hexaColor('#232323'),
-                        child: Column(
-                          children: [
-                            TabBar(
-                              indicatorSize: TabBarIndicatorSize.label,
-                              labelColor: hexaColor('#E6D29F'),
-                              unselectedLabelColor: Colors.white,
-                              controller: _tabController,
-                              indicatorColor: hexaColor('#E6D29F'),
-                              indicatorWeight: 4,
-                              isScrollable: true,
-                              physics: BouncingScrollPhysics(),
-                              indicator: MD2Indicator(
-                                  //it begins here
-                                  indicatorHeight: 4,
-                                  indicatorColor: hexaColor('#E6D29F'),
-                                  indicatorSize: MD2IndicatorSize
-                                      .normal //3 different modes tiny-normal-full
-                                  ),
-                              tabs: tabText,
-                            ),
-                            Container(
-                              height: 1,
-                              color: hexaColor('#E6D29F'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ];
-              },
-              body: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                children: [
-                  Supermercado(),
-                  Text(
-                    '2',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '3',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '4',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '5',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '6',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '7',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '8',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '9',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '10',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '11',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                  Text(
-                    '12',
-                    style: TextStyle(color: hexaColor('#FFFFFF')),
-                  ),
-                ],
+                  minHeight: 60,
+                  maxHeight: 60,
+                ),
               ),
-            ),
+              SliverPersistentHeader(
+                // floating: true,
+                pinned: true,
+                delegate: _SliverCustomHeaderDelegate(
+                  minHeight: 51,
+                  maxHeight: 51,
+                  child: Container(
+                    color: hexaColor('#232323'),
+                    child: Column(
+                      children: [
+                        TabBar(
+                          onTap: (value) {
+                            setState(() {});
+                          },
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: hexaColor('#E6D29F'),
+                          unselectedLabelColor: Colors.white,
+                          controller: _tabController,
+                          indicatorColor: hexaColor('#E6D29F'),
+                          indicatorWeight: 4,
+                          isScrollable: true,
+                          physics: BouncingScrollPhysics(),
+                          indicator: MD2Indicator(
+                              //it begins here
+                              indicatorHeight: 4,
+                              indicatorColor: hexaColor('#E6D29F'),
+                              indicatorSize: MD2IndicatorSize
+                                  .normal //3 different modes tiny-normal-full
+                              ),
+                          tabs: tabText,
+                        ),
+                        Container(
+                          height: 1,
+                          color: hexaColor('#E6D29F'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              _tabController.index != 0
+                  ? SliverList(
+                      delegate: SliverChildListDelegate(
+                        [],
+                      ),
+                    )
+                  : Todo(),
+              _tabController.index != 1
+                  ? SliverList(
+                      delegate: SliverChildListDelegate(
+                        [],
+                      ),
+                    )
+                  : Supermercado()
+            ],
           ),
         ),
       ),
