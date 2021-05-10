@@ -1,11 +1,8 @@
+import 'package:allapp/src/models/images.dart';
 import 'package:allapp/src/utils/Color.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-// enum TypeBusiness {
-
-// }
+import 'package:transparent_image/transparent_image.dart';
 
 class Business {
   final String name;
@@ -15,11 +12,13 @@ class Business {
 }
 
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
-  final List<Business> nameBusiness;
+  final ListModelImageUrls nameBusiness;
   final String subCategoria;
+  final int itemCount;
   FilaDeSubCategoriaDeTiendas({
-    this.nameBusiness,
-    this.subCategoria,
+    @required this.nameBusiness,
+    @required this.subCategoria,
+    @required this.itemCount,
   });
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,10 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
               ),
             ),
           ),
-          FilaDeTiendas(nameBusiness: this.nameBusiness),
+          FilaDeTiendas(
+            nameBusiness: this.nameBusiness,
+            itemCount: this.itemCount,
+          ),
         ],
       ),
     );
@@ -53,10 +55,13 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
 }
 
 class FilaDeTiendas extends StatelessWidget {
-  final List<Business> nameBusiness;
+  final ListModelImageUrls nameBusiness;
+  // final List<Business> nameBusiness;
+  final int itemCount;
 
   FilaDeTiendas({
     @required this.nameBusiness,
+    @required this.itemCount,
   });
   @override
   Widget build(BuildContext context) {
@@ -65,31 +70,25 @@ class FilaDeTiendas extends StatelessWidget {
 
     return Container(
       height: vw * 0.38,
-      // color: Colors.amber,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
-        itemCount: nameBusiness.length,
+        itemCount: this.itemCount,
         itemBuilder: (context, index) {
-          final nameTemp = nameBusiness[index].name;
+          // final nameTemp = nameBusiness[index].name;
 
-          final length = nameTemp.length;
-          final listOfText = nameTemp.split(' ');
-          final spaceChart = listOfText[0];
-          String name = nameTemp;
+          // final length = nameTemp.length;
+          // final listOfText = nameTemp.split(' ');
+          // final spaceChart = listOfText[0];
+          // String name = nameTemp;
 
-          if (spaceChart.length > 7 && spaceChart.length < 11) {
-            // print(nameTemp.indexOf(' '));
-
-            // print(true);
-
-            name = nameTemp.replaceFirst(' ', '\n');
-            // print(name);
-          } else if (spaceChart.length > 11) {
-            final firstPartName = spaceChart.substring(0, 11);
-            final secondPartName = spaceChart.substring(11, spaceChart.length);
-            name = '$firstPartName\n$secondPartName';
-          }
+          // if (spaceChart.length > 7 && spaceChart.length < 11) {
+          //   name = nameTemp.replaceFirst(' ', '\n');
+          // } else if (spaceChart.length > 11) {
+          //   final firstPartName = spaceChart.substring(0, 11);
+          //   final secondPartName = spaceChart.substring(11, spaceChart.length);
+          //   name = '$firstPartName\n$secondPartName';
+          // }
 
           return Container(
             margin: index == 0
@@ -109,7 +108,7 @@ class FilaDeTiendas extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _ImageBusiness(
-                  url: this.nameBusiness[index].url,
+                  url: this.nameBusiness.items[index].thumb,
                   ruburo: 'supermercado',
                 ),
                 Container(
@@ -118,7 +117,7 @@ class FilaDeTiendas extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: vw * 0.01),
                   child: Text(
-                    name,
+                    this.nameBusiness.items[index].thumb,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: hexaColor('#8C8C8C'),
@@ -149,16 +148,6 @@ class FilaDeTiendas extends StatelessWidget {
   }
 }
 
-http() async {
-  try {
-    var response =
-        await Dio().get('https://ipinfo.io/json?token=2859130d42a1bb');
-    print(response);
-  } catch (e) {
-    print(e);
-  }
-}
-
 class _ImageBusiness extends StatelessWidget {
   final String url;
   final String ruburo;
@@ -177,20 +166,31 @@ class _ImageBusiness extends StatelessWidget {
         // padding: EdgeInsets.all(vw * 0.013),
         decoration: BoxDecoration(
           color: hexaColor('#303030'),
-
-          // color: hexaColor('#BEA07D'),
           boxShadow: [
             BoxShadow(
               color: rgbColor(0, 0, 0, 0.2),
               blurRadius: 5,
               // spreadRadius: 10,
-              offset: Offset(2, 2),
+              offset: Offset(3, 3),
             ),
           ],
           borderRadius: BorderRadius.circular(vw * 0.05),
         ),
-        child: Image.network(
-          this.url,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(vw * 0.05),
+          child: FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: this.url,
+            height: vw * 0.25,
+            width: vw * 0.25,
+            fit: BoxFit.cover,
+          ),
+          // child: Image.network(
+          //   this.url,
+          //   fit: BoxFit.cover,
+          //   height: vw * 0.25,
+          //   width: vw * 0.25,
+          // ),
         ),
       );
     } else {

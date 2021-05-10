@@ -5,6 +5,7 @@ import 'package:allapp/src/pages/02_03_Phone/03_Enter_Code.dart';
 import 'package:allapp/src/pages/02_03_Phone/bloc/phone_bloc.dart';
 import 'package:allapp/src/pages/04_home/04_Home.dart';
 import 'package:allapp/src/utils/Color.dart';
+import 'package:allapp/src/widgets/BloqueDePago/PageImage.dart';
 import 'package:allapp/src/widgets/SliverPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
             EnterCode.pathName: (_) => EnterCode(),
             Home.pathName: (_) => Home(),
             SliverPage.pathName: (_) => SliverPage(),
+            PageImage.pathName: (_) => PageImage(),
           },
         ),
       ),

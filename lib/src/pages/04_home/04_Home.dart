@@ -37,6 +37,99 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     });
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    // View Width
+    final double vw = MediaQuery.of(context).size.width;
+    // View Height
+    final double vh = MediaQuery.of(context).size.height;
+
+    Pref().lastPage = Home.pathName;
+
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: hexaColor('#232323'),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: hexaColor('#E6D29F'),
+        currentIndex: this.currentIndex,
+        onTap: (value) {
+          setState(() {
+            currentIndex = value;
+            _pageController.jumpToPage(value);
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Container(
+              margin: EdgeInsets.only(top: 3),
+              child: SvgPicture.asset(
+                'assets/icons/shop.svg',
+                height: vw * 0.07,
+                color: currentIndex == 0
+                    ? hexaColor('#E6D29F')
+                    : hexaColor('#CCCCCC'),
+              ),
+            ),
+            // title: Text(''),
+            label: 'Tiendas',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              margin: EdgeInsets.only(top: 3),
+              child: SvgPicture.asset(
+                'assets/icons/map.svg',
+                height: vw * 0.07,
+                color: currentIndex == 1
+                    ? hexaColor('#E6D29F')
+                    : hexaColor('#CCCCCC'),
+              ),
+            ),
+            label: 'Mapa',
+          )
+        ],
+      ),
+      body: PageView(
+        controller: _pageController,
+        children: [
+          _Tiendas(),
+          _Mapa(),
+        ],
+      ),
+    );
+  }
+}
+
+class _Mapa extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // View Width
+    final double vw = MediaQuery.of(context).size.width;
+    // View Height
+    final double vh = MediaQuery.of(context).size.height;
+
+    return Container(
+      height: vh,
+      width: vw,
+    );
+  }
+}
+
+class _Tiendas extends StatefulWidget {
+  @override
+  __TiendasState createState() => __TiendasState();
+}
+
+class __TiendasState extends State<_Tiendas> with TickerProviderStateMixin {
+  TabController _tabController;
+
   final tabText = [
     Tab(
       icon: Text('Todo'),
@@ -77,9 +170,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   ];
 
   @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = new TabController(length: 12, vsync: this);
   }
 
   @override
@@ -89,87 +183,125 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    Pref().lastPage = Home.pathName;
+    return CustomBackgroundGradient(
+      child: SafeArea(
+        child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            BuscadorYPerfil(
+              tabController: _tabController,
+              vw: vw,
+            ),
+            CustomTapBar(
+              tabController: _tabController,
+              tabText: tabText,
+              onTap: (value) {
+                setState(() {});
+              },
+            ),
+            _tabController.index != 0
+                ? SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  )
+                : Todo(),
+            _tabController.index != 1
+                ? SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  )
+                : Supermercado()
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-    return Scaffold(
-      body: CustomBackgroundGradient(
-        child: SafeArea(
-          child: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: [
-              SliverPersistentHeader(
-                floating: true,
-                pinned: false,
-                delegate: _SliverCustomHeaderDelegate(
-                  child: Container(
-                    color: hexaColor('#232323'),
-                    alignment: Alignment.centerLeft,
-                    child: AppBar(
-                      tabController: _tabController,
-                      vw: vw,
+class CustomTapBar extends StatelessWidget {
+  const CustomTapBar(
+      {Key key,
+      @required TabController tabController,
+      @required this.tabText,
+      @required this.onTap})
+      : _tabController = tabController,
+        super(key: key);
+
+  final TabController _tabController;
+  final List<Tab> tabText;
+  final ValueChanged<int> onTap;
+  @override
+  Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      // floating: true,
+      pinned: true,
+      delegate: _SliverCustomHeaderDelegate(
+        minHeight: 51,
+        maxHeight: 51,
+        child: Container(
+          color: hexaColor('#232323'),
+          child: Column(
+            children: [
+              TabBar(
+                onTap: this.onTap,
+                indicatorSize: TabBarIndicatorSize.label,
+                labelColor: hexaColor('#E6D29F'),
+                unselectedLabelColor: Colors.white,
+                controller: _tabController,
+                indicatorColor: hexaColor('#E6D29F'),
+                indicatorWeight: 4,
+                isScrollable: true,
+                physics: BouncingScrollPhysics(),
+                indicator: MD2Indicator(
+                    //it begins here
+                    indicatorHeight: 4,
+                    indicatorColor: hexaColor('#E6D29F'),
+                    indicatorSize: MD2IndicatorSize
+                        .normal //3 different modes tiny-normal-full
                     ),
-                  ),
-                  minHeight: 60,
-                  maxHeight: 60,
-                ),
+                tabs: tabText,
               ),
-              SliverPersistentHeader(
-                // floating: true,
-                pinned: true,
-                delegate: _SliverCustomHeaderDelegate(
-                  minHeight: 51,
-                  maxHeight: 51,
-                  child: Container(
-                    color: hexaColor('#232323'),
-                    child: Column(
-                      children: [
-                        TabBar(
-                          onTap: (value) {
-                            setState(() {});
-                          },
-                          indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: hexaColor('#E6D29F'),
-                          unselectedLabelColor: Colors.white,
-                          controller: _tabController,
-                          indicatorColor: hexaColor('#E6D29F'),
-                          indicatorWeight: 4,
-                          isScrollable: true,
-                          physics: BouncingScrollPhysics(),
-                          indicator: MD2Indicator(
-                              //it begins here
-                              indicatorHeight: 4,
-                              indicatorColor: hexaColor('#E6D29F'),
-                              indicatorSize: MD2IndicatorSize
-                                  .normal //3 different modes tiny-normal-full
-                              ),
-                          tabs: tabText,
-                        ),
-                        Container(
-                          height: 1,
-                          color: hexaColor('#E6D29F'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              Container(
+                height: 1,
+                color: hexaColor('#E6D29F'),
               ),
-              _tabController.index != 0
-                  ? SliverList(
-                      delegate: SliverChildListDelegate(
-                        [],
-                      ),
-                    )
-                  : Todo(),
-              _tabController.index != 1
-                  ? SliverList(
-                      delegate: SliverChildListDelegate(
-                        [],
-                      ),
-                    )
-                  : Supermercado()
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BuscadorYPerfil extends StatelessWidget {
+  const BuscadorYPerfil({
+    Key key,
+    @required TabController tabController,
+    @required this.vw,
+  })  : _tabController = tabController,
+        super(key: key);
+
+  final TabController _tabController;
+  final double vw;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      floating: true,
+      pinned: false,
+      delegate: _SliverCustomHeaderDelegate(
+        child: Container(
+          color: hexaColor('#232323'),
+          alignment: Alignment.centerLeft,
+          child: AppBar(
+            tabController: _tabController,
+            vw: vw,
+          ),
+        ),
+        minHeight: 60,
+        maxHeight: 60,
       ),
     );
   }
