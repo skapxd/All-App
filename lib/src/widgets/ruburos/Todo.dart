@@ -84,11 +84,11 @@ class Todo extends StatelessWidget {
 
               if (snapshot.data == null) {
                 return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
-                  nombre: 'más usados la ultima semana',
+                  nombre: 'más usados esta semana',
                 );
               } else {
                 return FilaDeSubCategoriaDeTiendas(
-                  subCategoria: 'más usados la ultima semana',
+                  subCategoria: 'más usados esta semana',
                   itemCount: snapshot.data.items.length,
                   nameBusiness: snapshot.data,
                 );

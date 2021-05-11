@@ -26,5 +26,8 @@ class Pref {
 
   set phone(String value) => _pref.setString('phone', value);
 
-  //
+  // GET & SET
+  String get nombe => _pref.getString('nombe') ?? 'Nombre';
+
+  set nombe(String value) => _pref.setString('nombe', value);
 }

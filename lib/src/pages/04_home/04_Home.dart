@@ -1,12 +1,14 @@
 import 'package:allapp/src/data/shared/pref.dart';
 import 'package:allapp/src/utils/Color.dart';
 import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import 'package:allapp/src/widgets/Menu/Menu.dart';
 import 'package:allapp/src/widgets/RowShop.dart';
 import 'package:allapp/src/widgets/ruburos/Supermercado.dart';
 import 'package:allapp/src/widgets/ruburos/Todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class Home extends StatefulWidget {
   static final String pathName = '/Home';
@@ -97,6 +99,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ],
       ),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: [
           _Tiendas(),
@@ -190,7 +193,6 @@ class __TiendasState extends State<_Tiendas> with TickerProviderStateMixin {
           slivers: [
             BuscadorYPerfil(
               tabController: _tabController,
-              vw: vw,
             ),
             CustomTapBar(
               tabController: _tabController,
@@ -279,12 +281,10 @@ class BuscadorYPerfil extends StatelessWidget {
   const BuscadorYPerfil({
     Key key,
     @required TabController tabController,
-    @required this.vw,
   })  : _tabController = tabController,
         super(key: key);
 
   final TabController _tabController;
-  final double vw;
 
   @override
   Widget build(BuildContext context) {
@@ -297,7 +297,6 @@ class BuscadorYPerfil extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppBar(
             tabController: _tabController,
-            vw: vw,
           ),
         ),
         minHeight: 60,
@@ -308,18 +307,30 @@ class BuscadorYPerfil extends StatelessWidget {
 }
 
 class AppBar extends StatelessWidget {
-  const AppBar({
+  AppBar({
     Key key,
-    @required this.vw,
     @required TabController tabController,
   })  : _tabController = tabController,
         super(key: key);
 
-  final double vw;
   final TabController _tabController;
+
+  // final String phone = '${}';
 
   @override
   Widget build(BuildContext context) {
+    final List<String> phoneTemp = Pref().phone.substring(3, 13).split('');
+    final String nombre = Pref().nombe;
+    phoneTemp.insert(3, ' ');
+    phoneTemp.insert(7, ' ');
+
+    String phone = phoneTemp.join();
+
+    // View Width
+    final double vw = MediaQuery.of(context).size.width;
+    // View Height
+    final double vh = MediaQuery.of(context).size.height;
+
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,21 +370,7 @@ class AppBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                  color: hexaColor('#E6E6E6'),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  Pref().phone.split('')[12],
-                  style: TextStyle(
-                    color: hexaColor('#383838'),
-                  ),
-                ),
-              )
+              Menu()
             ],
           ),
         ),

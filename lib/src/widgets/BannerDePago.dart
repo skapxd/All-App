@@ -1,4 +1,5 @@
 import 'package:allapp/src/utils/Color.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -30,6 +31,10 @@ class BannerDePago extends StatelessWidget {
           height: vw * 0.3,
           margin: EdgeInsets.symmetric(vertical: vw * 0.02),
           child: ListView.builder(
+            // child: PageView.builder(
+            //  pageSnapping: ,
+            // controller: PageController(viewportFraction: 0.9),
+            // physics: PageScrollPhysics(),
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
