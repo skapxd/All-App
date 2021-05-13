@@ -74,8 +74,6 @@ class EnterPhone extends StatelessWidget {
                       BlocProvider.of<PhoneBloc>(context)
                           .add(AddPhone(country + phone));
 
-                      print(phone);
-
                       int length = phone.length;
 
                       if (length == 10) {
@@ -100,7 +98,6 @@ class EnterPhone extends StatelessWidget {
                         onGetToken: (value) {
                           BlocProvider.of<PhoneBloc>(context)
                               .add(AddToken(value));
-                          print('token this: $value');
                         },
                         onSuccess: (value) {
                           BlocProvider.of<PhoneBloc>(context)
@@ -113,9 +110,6 @@ class EnterPhone extends StatelessWidget {
                           );
 
                           Pref().phone = state.modelPhone.phone;
-
-                          print('Auth without OTP');
-                          print('token this: $value');
                         },
                       );
                     } else {

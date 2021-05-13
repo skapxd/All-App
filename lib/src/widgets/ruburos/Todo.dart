@@ -22,7 +22,7 @@ class Todo extends StatelessWidget {
       });
 
       // final hola = json.encode(response2.data);
-      print(response2.data);
+      // print(response2.data);
       return ListModelImageUrls.fromJsonList(response2.data);
     } catch (e) {
       return ListModelImageUrls.fromJsonList([]);
@@ -44,25 +44,51 @@ class Todo extends StatelessWidget {
           FutureBuilder(
             future: http(),
             builder: (context, AsyncSnapshot<ListModelImageUrls> snapshot) {
-              print(snapshot);
+              // print(snapshot);
 
               if (snapshot.data == null) {
                 return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
                   nombre: 'RECOMENDADOS POR ALL APP',
                 );
-              } else {
-                return FilaDeSubCategoriaDeTiendas(
-                  subCategoria: 'RECOMENDADOS POR ALL APP',
-                  itemCount: snapshot.data.items.length,
-                  nameBusiness: snapshot.data,
-                );
+              }
+
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
+                    nombre: 'RECOMENDADOS POR ALL APP',
+                  );
+                  break;
+                case ConnectionState.waiting:
+                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
+                    nombre: 'RECOMENDADOS POR ALL APP',
+                  );
+                  break;
+                case ConnectionState.active:
+                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
+                    nombre: 'RECOMENDADOS POR ALL APP',
+                  );
+                  break;
+                case ConnectionState.done:
+                  // TODO: Handle this case.
+                  return FilaDeSubCategoriaDeTiendas(
+                    subCategoria: 'RECOMENDADOS POR ALL APP',
+                    itemCount: snapshot.data.items.length,
+                    nameBusiness: snapshot.data,
+                    ruburo: 'Supermercado',
+                  );
+                  break;
+
+                default:
+                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
+                    nombre: 'RECOMENDADOS POR ALL APP',
+                  );
               }
             },
           ),
           FutureBuilder(
             future: http(),
             builder: (context, AsyncSnapshot<ListModelImageUrls> snapshot) {
-              print(snapshot);
+              // print(snapshot);
 
               if (snapshot.data == null) {
                 return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
@@ -73,6 +99,7 @@ class Todo extends StatelessWidget {
                   subCategoria: 'Mejor calificados',
                   itemCount: snapshot.data.items.length,
                   nameBusiness: snapshot.data,
+                  ruburo: 'Supermercado',
                 );
               }
             },
@@ -80,7 +107,7 @@ class Todo extends StatelessWidget {
           FutureBuilder(
             future: http(),
             builder: (context, AsyncSnapshot<ListModelImageUrls> snapshot) {
-              print(snapshot);
+              // print(snapshot);
 
               if (snapshot.data == null) {
                 return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
@@ -91,6 +118,7 @@ class Todo extends StatelessWidget {
                   subCategoria: 'más usados esta semana',
                   itemCount: snapshot.data.items.length,
                   nameBusiness: snapshot.data,
+                  ruburo: 'Supermercado',
                 );
               }
             },
@@ -99,7 +127,7 @@ class Todo extends StatelessWidget {
           FutureBuilder(
             future: http(),
             builder: (context, AsyncSnapshot<ListModelImageUrls> snapshot) {
-              print(snapshot);
+              // print(snapshot);
 
               if (snapshot.data == null) {
                 return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
@@ -110,6 +138,7 @@ class Todo extends StatelessWidget {
                   subCategoria: 'nuevas tiendas',
                   itemCount: snapshot.data.items.length,
                   nameBusiness: snapshot.data,
+                  ruburo: 'Supermercado',
                 );
               }
             },
@@ -131,8 +160,6 @@ class PlaceHolderOfFilaDeSubCategoriaDeTiendas extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
-
-    // return Container();
 
     return Container(
       // height: vw * 0.4,
@@ -160,7 +187,7 @@ class PlaceHolderOfFilaDeSubCategoriaDeTiendas extends StatelessWidget {
             ),
           ),
           Container(
-            height: vw * 0.38,
+            height: vw * 0.39,
             child: Row(
               children: [
                 _PlaceHolderOfFilaDeSubCategoriaDeTiendasItem(),
@@ -202,7 +229,6 @@ class _PlaceHolderOfFilaDeSubCategoriaDeTiendasItem extends StatelessWidget {
                       BoxShadow(
                         color: rgbColor(0, 0, 0, 0.2),
                         blurRadius: 5,
-                        // spreadRadius: 10,
                         offset: Offset(3, 3),
                       ),
                     ],

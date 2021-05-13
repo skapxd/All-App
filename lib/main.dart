@@ -4,6 +4,10 @@ import 'package:allapp/src/pages/02_03_Phone/02_Enter_Phone.dart';
 import 'package:allapp/src/pages/02_03_Phone/03_Enter_Code.dart';
 import 'package:allapp/src/pages/02_03_Phone/bloc/phone_bloc.dart';
 import 'package:allapp/src/pages/04_home/04_Home.dart';
+import 'package:allapp/src/pages/05_favoritos/05_favoritos.dart';
+import 'package:allapp/src/pages/06_comercio/06_comercio.dart';
+import 'package:allapp/src/pages/06_comercio/bloc/comercio_bloc.dart';
+import 'package:allapp/src/pages/07_crear-productos/07_crear_producto.dart';
 import 'package:allapp/src/utils/Color.dart';
 import 'package:allapp/src/widgets/BloqueDePago/PageImage.dart';
 import 'package:allapp/src/widgets/SliverPage.dart';
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => new PhoneBloc()),
         BlocProvider(create: (_) => new MenuBloc()),
+        BlocProvider(create: (_) => new ComercioBloc()),
       ],
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -63,6 +68,9 @@ class MyApp extends StatelessWidget {
             Home.pathName: (_) => Home(),
             SliverPage.pathName: (_) => SliverPage(),
             PageImage.pathName: (_) => PageImage(),
+            FavoritosPage.pathName: (_) => FavoritosPage(),
+            ComercioPage.pathName: (_) => ComercioPage(),
+            CrearProductosPage.pathName: (_) => CrearProductosPage(),
           },
         ),
       ),

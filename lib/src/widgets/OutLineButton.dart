@@ -4,8 +4,23 @@ class CustomOutLineButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final EdgeInsets margin;
+  final double width;
+  final BoxDecoration decoration;
+  final TextStyle textStyle;
+  static final TextStyle defaultTextStyle = TextStyle(
+    color: Color(0xffBEA07D),
+    letterSpacing: 7,
+    fontWeight: FontWeight.w300,
+  );
 
-  CustomOutLineButton({this.text, this.onTap, this.margin});
+  CustomOutLineButton({
+    this.text,
+    this.onTap,
+    this.margin,
+    this.width,
+    this.decoration,
+    this.textStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +30,11 @@ class CustomOutLineButton extends StatelessWidget {
     final double vh = MediaQuery.of(context).size.height;
 
     return Container(
+      decoration: this.decoration,
       child: GestureDetector(
         onTap: this.onTap,
         child: Container(
-          width: vw * 0.63,
+          width: this.width ?? vw * 0.63,
           height: vw * 0.13,
           alignment: Alignment.center,
           margin: this.margin,
@@ -33,11 +49,7 @@ class CustomOutLineButton extends StatelessWidget {
           ),
           child: Text(
             this.text,
-            style: TextStyle(
-              color: Color(0xffBEA07D),
-              letterSpacing: 7,
-              fontWeight: FontWeight.w300,
-            ),
+            style: this.textStyle ?? defaultTextStyle,
           ),
         ),
       ),

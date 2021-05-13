@@ -15,10 +15,12 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
   final ListModelImageUrls nameBusiness;
   final String subCategoria;
   final int itemCount;
+  final String ruburo;
   FilaDeSubCategoriaDeTiendas({
     @required this.nameBusiness,
     @required this.subCategoria,
     @required this.itemCount,
+    @required this.ruburo,
   });
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
           FilaDeTiendas(
             nameBusiness: this.nameBusiness,
             itemCount: this.itemCount,
+            ruburo: this.ruburo,
           ),
         ],
       ),
@@ -56,12 +59,13 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
 
 class FilaDeTiendas extends StatelessWidget {
   final ListModelImageUrls nameBusiness;
-  // final List<Business> nameBusiness;
+  final String ruburo;
   final int itemCount;
 
   FilaDeTiendas({
     @required this.nameBusiness,
     @required this.itemCount,
+    @required this.ruburo,
   });
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,7 @@ class FilaDeTiendas extends StatelessWidget {
     final vh = MediaQuery.of(context).size.height;
 
     return Container(
-      height: vw * 0.38,
+      height: vw * 0.39,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
@@ -90,6 +94,12 @@ class FilaDeTiendas extends StatelessWidget {
           //   name = '$firstPartName\n$secondPartName';
           // }
 
+          List<String> name = this.nameBusiness.items[index].thumb.split('');
+
+          if (name.length > 12) {
+            name.insert(12, '\n');
+          }
+
           return Container(
             margin: index == 0
                 ? EdgeInsets.only(
@@ -109,7 +119,7 @@ class FilaDeTiendas extends StatelessWidget {
               children: [
                 _ImageBusiness(
                   url: this.nameBusiness.items[index].thumb,
-                  ruburo: 'supermercado',
+                  ruburo: this.ruburo,
                 ),
                 Container(
                   // color: Colors.white,
@@ -117,7 +127,7 @@ class FilaDeTiendas extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: vw * 0.01),
                   child: Text(
-                    this.nameBusiness.items[index].thumb,
+                    name.join(''),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: hexaColor('#8C8C8C'),

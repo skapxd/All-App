@@ -370,7 +370,7 @@ class AppBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Menu()
+              MenuButton()
             ],
           ),
         ),
