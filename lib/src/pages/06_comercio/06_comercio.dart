@@ -1,13 +1,10 @@
-import 'dart:io';
-
-import 'package:allapp/src/pages/07_crear-productos/07_crear_producto.dart';
+import 'package:allapp/src/pages/06_comercio/crear-productos-page/crear_producto.dart';
+import 'package:allapp/src/pages/06_comercio/widgets/select_icon.dart';
 import 'package:allapp/src/widgets/OutLineButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,6 +31,33 @@ class ComercioPage extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            InkWell(
+              highlightColor: rgbColor(0, 0, 0, 0),
+              splashColor: rgbColor(0, 0, 0, 0),
+              child: Container(
+                height: vw * 0.07,
+                width: vw * 0.07,
+                child: SvgPicture.asset(
+                  'assets/icons/report-issue.svg',
+                  height: vw * 0.07,
+                ),
+              ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Importante'),
+                    );
+                  },
+                );
+              },
+            ),
+            SizedBox(
+              width: vw * 0.05,
+            )
+          ],
           title: Text(
             'TIENDA',
             textAlign: TextAlign.center,
@@ -66,7 +90,7 @@ class ComercioPage extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             child: BlocBuilder<ComercioBloc, ComercioState>(
               builder: (context, state) {
-                ComercioIfEditar stateTemp;
+                ComercioIfEditar stateTemp = ComercioIfEditar(ifEnable: true);
 
                 if (state is ComercioIfEditar) {
                   stateTemp = state;
@@ -77,17 +101,23 @@ class ComercioPage extends StatelessWidget {
                     SizedBox(
                       height: vw * 0.1,
                     ),
-                    // _SelecteIcon(
-                    //   ifEnable: stateTemp.ifEnable,
-                    // ),
+                    SelecteIcon(
+                      ifEnable: stateTemp.ifEnable,
+                    ),
                     SizedBox(
                       height: vw * 0.1,
                     ),
-                    _IfEditarFormulario(
+                    _IfSwichFormulario(
+                      text: 'Habilitar edición',
                       onChanged: (value) {
                         BlocProvider.of<ComercioBloc>(context)
                             .add(AddComercioIfEnableEditar(value));
                       },
+                    ),
+                    _IfSwichFormulario(
+                      text: 'Visibilidad de la tienda',
+                      onChanged: (value) {},
+                      initialIfEnable: false,
                     ),
                     Form(
                       child: Container(
@@ -108,6 +138,10 @@ class ComercioPage extends StatelessWidget {
                               keyboardType: TextInputType.phone,
                               text: 'Teléfono',
                               maxLength: 13,
+                              maskTextInputFormatter: MaskTextInputFormatter(
+                                mask: '### ### ## ##',
+                                filter: {"#": RegExp(r'[0-9]')},
+                              ),
                               margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
                                 print(value);
@@ -119,6 +153,10 @@ class ComercioPage extends StatelessWidget {
                               keyboardType: TextInputType.phone,
                               maxLength: 13,
                               text: 'WhatsApp',
+                              maskTextInputFormatter: MaskTextInputFormatter(
+                                mask: '### ### ## ##',
+                                filter: {"#": RegExp(r'[0-9]')},
+                              ),
                               margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
                                 print(value);
@@ -137,6 +175,10 @@ class ComercioPage extends StatelessWidget {
                             ),
                             _CustomTextInput(
                               ifEnable: stateTemp.ifEnable,
+                              // maskTextInputFormatter: MaskTextInputFormatter(
+                              //   mask: '### ### - #############',
+                              //   filter: {"#": RegExp(r'[0-9]')},
+                              // ),
                               text: 'Dirección ej: Cll ## ## ',
                               maxLength: null,
                               margin: EdgeInsets.only(bottom: vw * 0.08),
@@ -167,45 +209,50 @@ class ComercioPage extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(bottom: vw * 0.08),
                       width: vw * 0.7,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: vw * 0.15,
-                                width: vw * 0.15,
-                                decoration: BoxDecoration(
-                                  color: hexaColor('#BEA07D'),
-                                  borderRadius: BorderRadius.circular(vw),
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.all(vw * 0.03),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/camara.svg',
+                      child: InkWell(
+                        highlightColor: rgbColor(0, 0, 0, 0),
+                        splashColor: rgbColor(0, 0, 0, 0),
+                        onTap: () => print('object'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  height: vw * 0.15,
+                                  width: vw * 0.15,
+                                  decoration: BoxDecoration(
+                                    color: hexaColor('#BEA07D'),
+                                    borderRadius: BorderRadius.circular(vw),
+                                  ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(vw * 0.03),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/camara.svg',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                left: vw * 0.105,
-                                // left: 42,
-                                child: Icon(
-                                  Icons.add,
-                                  color: hexaColor('#FFDEBD'),
-                                ),
-                              )
-                            ],
-                          ),
-                          Text(
-                            'AGREGAR FOTOS \nDEL COMERCIO',
-                            style: TextStyle(
-                              fontSize: 12,
-                              height: 1.8,
-                              letterSpacing: 5,
-                              color: hexaColor('#BEA07D'),
+                                Positioned(
+                                  left: vw * 0.105,
+                                  // left: 42,
+                                  child: Icon(
+                                    Icons.add,
+                                    color: hexaColor('#FFDEBD'),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                            Text(
+                              'AGREGAR FOTOS \nDEL COMERCIO',
+                              style: TextStyle(
+                                fontSize: 12,
+                                height: 1.8,
+                                letterSpacing: 5,
+                                color: hexaColor('#BEA07D'),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -219,21 +266,34 @@ class ComercioPage extends StatelessWidget {
   }
 }
 
-class _IfEditarFormulario extends StatefulWidget {
+class _IfSwichFormulario extends StatefulWidget {
   final ValueChanged<bool> onChanged;
-  const _IfEditarFormulario({
+  final String text;
+  final bool initialIfEnable;
+  const _IfSwichFormulario({
     Key key,
     this.onChanged,
+    this.text,
+    this.initialIfEnable,
   }) : super(key: key);
 
   @override
-  __IfEditarFormularioState createState() => __IfEditarFormularioState();
+  _IfSwichFormularioState createState() => _IfSwichFormularioState();
 }
 
-class __IfEditarFormularioState extends State<_IfEditarFormulario> {
-  bool state = true;
+class _IfSwichFormularioState extends State<_IfSwichFormulario> {
+  bool state;
+
+  @override
+  void initState() {
+    super.initState();
+
+    state = widget.initialIfEnable ?? true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // state = widget.initialIfEnable ?? true;
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -245,7 +305,7 @@ class __IfEditarFormularioState extends State<_IfEditarFormulario> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Habilitar edición',
+            widget.text,
             style: TextStyle(
               color: hexaColor('#D6D6D6', opacity: 0.4),
             ),
@@ -263,111 +323,6 @@ class __IfEditarFormularioState extends State<_IfEditarFormulario> {
             value: this.state,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SelecteIcon extends StatelessWidget {
-  final picker = ImagePicker();
-
-  final bool ifEnable;
-
-  _SelecteIcon({this.ifEnable = true});
-
-  Future getImage(
-    BuildContext context,
-  ) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      BlocProvider.of<ComercioBloc>(context)
-          .add(AddComercioIcon(File(pickedFile.path)));
-    } else {
-      print('No image selected.');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(vw * 0.05),
-      onTap: !this.ifEnable
-          ? null
-          : () async {
-              await getImage(context);
-            },
-      child: BlocBuilder<ComercioBloc, ComercioState>(
-        builder: (context, state) {
-          ComercioIcon stateTemp = state;
-          if (stateTemp.icon != null) {
-            return Container(
-              height: vw * 0.25,
-              width: vw * 0.25,
-              decoration: BoxDecoration(
-                color: hexaColor('#353535'),
-                boxShadow: [
-                  BoxShadow(
-                    color: rgbColor(0, 0, 0, 0.3),
-                    blurRadius: 10,
-                    offset: Offset(4, 4),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(vw * 0.05),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(vw * 0.05),
-                child: Image.file(
-                  stateTemp.icon,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          } else {
-            return Container(
-              padding: EdgeInsets.all(vw * 0.05),
-              height: vw * 0.25,
-              width: vw * 0.25,
-              decoration: BoxDecoration(
-                color: hexaColor('#353535'),
-                boxShadow: [
-                  BoxShadow(
-                    color: rgbColor(0, 0, 0, 0.3),
-                    blurRadius: 10,
-                    offset: Offset(4, 4),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(vw * 0.05),
-              ),
-              child: SvgPicture.asset('assets/icons/placeholder.svg'),
-            );
-          }
-          // if (stateTemp is ComercioIcon) {
-          // } else {
-          //   return Container(
-          //     padding: EdgeInsets.all(vw * 0.05),
-          //     height: vw * 0.25,
-          //     width: vw * 0.25,
-          //     decoration: BoxDecoration(
-          //       color: hexaColor('#353535'),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: rgbColor(0, 0, 0, 0.3),
-          //           blurRadius: 10,
-          //           offset: Offset(4, 4),
-          //         ),
-          //       ],
-          //       borderRadius: BorderRadius.circular(vw * 0.05),
-          //     ),
-          //     child: SvgPicture.asset('assets/icons/placeholder.svg'),
-          //   );
-          // }
-        },
       ),
     );
   }
@@ -524,6 +479,8 @@ class _CustomTextInput extends StatelessWidget {
   final ValueChanged<String> onChange;
   final String formatters;
   final bool ifEnable;
+  final RegExp filterValues;
+  final MaskTextInputFormatter maskTextInputFormatter;
 
   // final maskFormatter = new MaskTextInputFormatter(
   //     mask: '### ### ## ##', filter: {"#": RegExp(r'[0-9]')});
@@ -537,6 +494,8 @@ class _CustomTextInput extends StatelessWidget {
     this.keyboardType,
     this.formatters,
     this.ifEnable,
+    this.filterValues,
+    this.maskTextInputFormatter,
     this.maxLength = 21,
   }) : super(key: key);
 
@@ -550,14 +509,15 @@ class _CustomTextInput extends StatelessWidget {
       margin: this.margin,
       child: TextFormField(
         enabled: this.ifEnable,
-        inputFormatters: this.keyboardType == TextInputType.phone
-            ? [
-                MaskTextInputFormatter(
-                  mask: '### ### ## ##',
-                  filter: {"#": RegExp(r'[0-9]')},
-                )
-              ]
-            : [],
+        inputFormatters: [this.maskTextInputFormatter],
+        // inputFormatters: this.keyboardType == TextInputType.phone
+        //     ? [
+        //         MaskTextInputFormatter(
+        //           mask: this.formatters,
+        //           filter: {this.formatters[0]: this.filterValues},
+        //         )
+        //       ]
+        //     : [],
         keyboardType: this.keyboardType,
         maxLength: this.maxLength,
         onChanged: this.onChange,

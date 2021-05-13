@@ -14,5 +14,5 @@ class ComercioIcon extends ComercioState {
 class ComercioIfEditar extends ComercioState {
   final bool ifEnable;
 
-  ComercioIfEditar({this.ifEnable = true});
+  ComercioIfEditar({this.ifEnable});
 }

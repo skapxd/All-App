@@ -7,7 +7,7 @@ import 'package:allapp/src/pages/04_home/04_Home.dart';
 import 'package:allapp/src/pages/05_favoritos/05_favoritos.dart';
 import 'package:allapp/src/pages/06_comercio/06_comercio.dart';
 import 'package:allapp/src/pages/06_comercio/bloc/comercio_bloc.dart';
-import 'package:allapp/src/pages/07_crear-productos/07_crear_producto.dart';
+import 'package:allapp/src/pages/06_comercio/crear-productos-page/crear_producto.dart';
 import 'package:allapp/src/utils/Color.dart';
 import 'package:allapp/src/widgets/BloqueDePago/PageImage.dart';
 import 'package:allapp/src/widgets/SliverPage.dart';
