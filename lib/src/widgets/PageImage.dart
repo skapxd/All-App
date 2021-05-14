@@ -1,5 +1,5 @@
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import '../utils/Color.dart';
+import 'BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 
 class PageImage extends StatefulWidget {

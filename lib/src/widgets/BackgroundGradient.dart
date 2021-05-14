@@ -1,5 +1,6 @@
-import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/Color.dart';
 
 class CustomBackgroundGradient extends StatelessWidget {
   final Widget child;

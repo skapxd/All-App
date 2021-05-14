@@ -1,17 +1,18 @@
-import 'package:allapp/src/data/auth/auth_Phone.dart';
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/pages/02_03_Phone/03_Enter_Code.dart';
-import 'package:allapp/src/pages/02_03_Phone/bloc/phone_bloc.dart';
-import 'package:allapp/src/pages/04_home/04_Home.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/CustomText.dart';
-import 'package:allapp/src/widgets/OutLineButton.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
+import '../../data/auth/auth_Phone.dart';
+import '../../data/shared/pref.dart';
+import '../../utils/Color.dart';
+import '../../widgets/BackgroundGradient.dart';
+import '../../widgets/CustomText.dart';
+import '../../widgets/OutLineButton.dart';
+import '../04_home/04_Home.dart';
+import '03_Enter_Code.dart';
+import 'bloc/phone_bloc.dart';
 
 class EnterPhone extends StatelessWidget {
   static final String pathName = '/EnterPhone';

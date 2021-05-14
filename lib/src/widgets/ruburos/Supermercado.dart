@@ -1,11 +1,8 @@
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BannerDePago.dart';
-import 'package:allapp/src/widgets/BannerInicial.dart';
-import 'package:allapp/src/widgets/BloqueDePago/BloqueDePago.dart';
-import 'package:allapp/src/widgets/RowShop.dart';
-import 'package:allapp/src/widgets/ValorarTiendas.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../BannerInicial.dart';
+import '../BloqueDePago/BloqueDePago.dart';
+import '../ValorarTiendas.dart';
 
 class Supermercado extends StatelessWidget {
   @override

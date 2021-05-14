@@ -1,5 +1,6 @@
-import 'package:allapp/src/pages/01_wellcome/01_wellcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../pages/01_wellcome/01_wellcome.dart';
 
 class Pref {
   static final Pref _instance = new Pref._internal();

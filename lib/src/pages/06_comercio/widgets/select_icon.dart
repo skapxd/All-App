@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:allapp/src/pages/06_comercio/bloc/comercio_bloc.dart';
-import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../utils/Color.dart';
 
 class SelecteIcon extends StatefulWidget {
   final bool ifEnable;

@@ -49,7 +49,8 @@ dependencies:
 
   firebase_core: ^1.1.0
   firebase_auth: ^1.1.2
-
+  firebase_storage: ^8.0.6
+  
   transparent_image: ^2.0.0
 
   dio: ^4.0.0
@@ -57,6 +58,8 @@ dependencies:
   url_launcher: ^6.0.3
 
   flutter_staggered_grid_view: ^0.4.0
+
+  ninja_prime: ^2.0.0
 
 dev_dependencies:
   flutter_test:

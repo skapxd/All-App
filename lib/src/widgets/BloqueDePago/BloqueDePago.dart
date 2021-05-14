@@ -1,6 +1,7 @@
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BloqueDePago/PageImage.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/Color.dart';
+import '../PageImage.dart';
 
 class BloqueDePago extends StatelessWidget {
   @override

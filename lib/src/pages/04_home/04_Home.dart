@@ -1,14 +1,13 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
-import 'package:allapp/src/widgets/Menu/Menu.dart';
-import 'package:allapp/src/widgets/RowShop.dart';
-import 'package:allapp/src/widgets/ruburos/Supermercado.dart';
-import 'package:allapp/src/widgets/ruburos/Todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../../data/shared/pref.dart';
+import '../../utils/Color.dart';
+import '../../widgets/BackgroundGradient.dart';
+import '../../widgets/Menu/Menu.dart';
+import '../../widgets/ruburos/Supermercado.dart';
+import '../../widgets/ruburos/Todo.dart';
 
 class Home extends StatefulWidget {
   static final String pathName = '/Home';

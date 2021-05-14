@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:allapp/src/utils/Color.dart';
+
+import '../utils/Color.dart';
 
 class ValorarTiendas extends StatelessWidget {
   @override

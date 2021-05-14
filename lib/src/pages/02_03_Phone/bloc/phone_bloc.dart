@@ -1,6 +1,7 @@
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:allapp/src/models/phone.dart';
+import 'package:meta/meta.dart';
+
+import '../../../models/phone.dart';
 
 part 'phone_event.dart';
 part 'phone_state.dart';

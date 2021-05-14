@@ -1,12 +1,12 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/pages/05_favoritos/05_favoritos.dart';
-import 'package:allapp/src/pages/06_comercio/06_comercio.dart';
-import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../data/shared/pref.dart';
+import '../../pages/05_favoritos/05_favoritos.dart';
+import '../../pages/06_comercio/06_comercio.dart';
+import '../../utils/Color.dart';
 import 'bloc/menu_bloc.dart';
 
 class MenuButton extends StatelessWidget {

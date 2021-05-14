@@ -1,16 +1,17 @@
-import 'package:allapp/src/pages/06_comercio/crear-productos-page/crear_producto.dart';
-import 'package:allapp/src/pages/06_comercio/widgets/select_icon.dart';
-import 'package:allapp/src/widgets/OutLineButton.dart';
+import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
+import 'package:allapp/src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../utils/Color.dart';
+import '../../widgets/OutLineButton.dart';
 import 'bloc/comercio_bloc.dart';
+import 'crear-productos-page/crear_producto.dart';
+import 'widgets/select_icon.dart';
 
 class ComercioPage extends StatelessWidget {
   static final String pathName = '/ComercioPage';
@@ -125,6 +126,7 @@ class ComercioPage extends StatelessWidget {
                         child: Column(
                           children: [
                             _CustomTextInput(
+                              maskTextInputFormatter: null,
                               ifEnable: stateTemp.ifEnable,
                               text: 'Nombre de tienda',
                               margin: EdgeInsets.only(bottom: vw * 0.03),
@@ -138,10 +140,12 @@ class ComercioPage extends StatelessWidget {
                               keyboardType: TextInputType.phone,
                               text: 'Teléfono',
                               maxLength: 13,
-                              maskTextInputFormatter: MaskTextInputFormatter(
-                                mask: '### ### ## ##',
-                                filter: {"#": RegExp(r'[0-9]')},
-                              ),
+                              maskTextInputFormatter: [
+                                MaskTextInputFormatter(
+                                  mask: '### ### ## ##',
+                                  filter: {"#": RegExp(r'[0-9]')},
+                                )
+                              ],
                               margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
                                 print(value);
@@ -153,10 +157,12 @@ class ComercioPage extends StatelessWidget {
                               keyboardType: TextInputType.phone,
                               maxLength: 13,
                               text: 'WhatsApp',
-                              maskTextInputFormatter: MaskTextInputFormatter(
-                                mask: '### ### ## ##',
-                                filter: {"#": RegExp(r'[0-9]')},
-                              ),
+                              maskTextInputFormatter: [
+                                MaskTextInputFormatter(
+                                  mask: '### ### ## ##',
+                                  filter: {"#": RegExp(r'[0-9]')},
+                                )
+                              ],
                               margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
                                 print(value);
@@ -212,7 +218,8 @@ class ComercioPage extends StatelessWidget {
                       child: InkWell(
                         highlightColor: rgbColor(0, 0, 0, 0),
                         splashColor: rgbColor(0, 0, 0, 0),
-                        onTap: () => print('object'),
+                        onTap: () =>
+                            Navigator.pushNamed(context, PhotosPage.pathName),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -477,13 +484,8 @@ class _CustomTextInput extends StatelessWidget {
   final EdgeInsets margin;
   final TextInputType keyboardType;
   final ValueChanged<String> onChange;
-  final String formatters;
   final bool ifEnable;
-  final RegExp filterValues;
-  final MaskTextInputFormatter maskTextInputFormatter;
-
-  // final maskFormatter = new MaskTextInputFormatter(
-  //     mask: '### ### ## ##', filter: {"#": RegExp(r'[0-9]')});
+  final List<MaskTextInputFormatter> maskTextInputFormatter;
 
   _CustomTextInput({
     Key key,
@@ -492,9 +494,7 @@ class _CustomTextInput extends StatelessWidget {
     @required this.onChange,
     this.margin,
     this.keyboardType,
-    this.formatters,
     this.ifEnable,
-    this.filterValues,
     this.maskTextInputFormatter,
     this.maxLength = 21,
   }) : super(key: key);
@@ -509,15 +509,7 @@ class _CustomTextInput extends StatelessWidget {
       margin: this.margin,
       child: TextFormField(
         enabled: this.ifEnable,
-        inputFormatters: [this.maskTextInputFormatter],
-        // inputFormatters: this.keyboardType == TextInputType.phone
-        //     ? [
-        //         MaskTextInputFormatter(
-        //           mask: this.formatters,
-        //           filter: {this.formatters[0]: this.filterValues},
-        //         )
-        //       ]
-        //     : [],
+        inputFormatters: this.maskTextInputFormatter,
         keyboardType: this.keyboardType,
         maxLength: this.maxLength,
         onChanged: this.onChange,

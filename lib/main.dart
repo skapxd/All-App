@@ -1,22 +1,24 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/pages/01_wellcome/01_wellcome.dart';
-import 'package:allapp/src/pages/02_03_Phone/02_Enter_Phone.dart';
-import 'package:allapp/src/pages/02_03_Phone/03_Enter_Code.dart';
-import 'package:allapp/src/pages/02_03_Phone/bloc/phone_bloc.dart';
-import 'package:allapp/src/pages/04_home/04_Home.dart';
-import 'package:allapp/src/pages/05_favoritos/05_favoritos.dart';
-import 'package:allapp/src/pages/06_comercio/06_comercio.dart';
-import 'package:allapp/src/pages/06_comercio/bloc/comercio_bloc.dart';
-import 'package:allapp/src/pages/06_comercio/crear-productos-page/crear_producto.dart';
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BloqueDePago/PageImage.dart';
-import 'package:allapp/src/widgets/SliverPage.dart';
+import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
+import 'package:allapp/src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'src/data/shared/pref.dart';
+import 'src/pages/01_wellcome/01_wellcome.dart';
+import 'src/pages/02_03_Phone/02_Enter_Phone.dart';
+import 'src/pages/02_03_Phone/03_Enter_Code.dart';
+import 'src/pages/02_03_Phone/bloc/phone_bloc.dart';
+import 'src/pages/04_home/04_Home.dart';
+import 'src/pages/05_favoritos/05_favoritos.dart';
+import 'src/pages/06_comercio/06_comercio.dart';
+import 'src/pages/06_comercio/bloc/comercio_bloc.dart';
+import 'src/pages/06_comercio/crear-productos-page/crear_producto.dart';
+import 'src/utils/Color.dart';
+import 'src/widgets/PageImage.dart';
 import 'src/widgets/Menu/bloc/menu_bloc.dart';
+import 'src/widgets/SliverPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
             FavoritosPage.pathName: (_) => FavoritosPage(),
             ComercioPage.pathName: (_) => ComercioPage(),
             CrearProductosPage.pathName: (_) => CrearProductosPage(),
+            PhotosPage.pathName: (_) => PhotosPage(),
+            AddPageImage.pathName: (_) => AddPageImage(),
           },
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:allapp/src/utils/Color.dart';
+import '../utils/Color.dart';
 import 'package:flutter/material.dart';
 
 class SliverPage extends StatelessWidget {

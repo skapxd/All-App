@@ -1,13 +1,14 @@
-import 'package:allapp/src/models/images.dart';
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/BannerDePago.dart';
-import 'package:allapp/src/widgets/BannerInicial.dart';
-import 'package:allapp/src/widgets/BloqueDePago/BloqueDePago.dart';
-import 'package:allapp/src/widgets/RowShop.dart';
-import 'package:allapp/src/widgets/ValorarTiendas.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../models/images.dart';
+import '../../utils/Color.dart';
+import '../BannerDePago.dart';
+import '../BannerInicial.dart';
+import '../BloqueDePago/BloqueDePago.dart';
+import '../RowShop.dart';
+import '../ValorarTiendas.dart';
 
 class Todo extends StatelessWidget {
   Future<ListModelImageUrls> http() async {

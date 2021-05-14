@@ -1,10 +1,11 @@
-import 'package:allapp/src/pages/02_03_Phone/02_Enter_Phone.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
-import 'package:allapp/src/utils/Color.dart';
-import 'package:allapp/src/widgets/CustomText.dart';
-import 'package:allapp/src/widgets/OutLineButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../utils/Color.dart';
+import '../../widgets/BackgroundGradient.dart';
+import '../../widgets/CustomText.dart';
+import '../../widgets/OutLineButton.dart';
+import '../02_03_Phone/02_Enter_Phone.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage();

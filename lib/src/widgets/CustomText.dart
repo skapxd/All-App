@@ -1,3 +1,4 @@
+import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
@@ -8,6 +9,13 @@ class CustomText extends StatelessWidget {
   final Alignment alignment;
   final double width;
   final TextAlign textAlign;
+
+  final defaultTextStayle = TextStyle(
+    color: hexaColor('#BEA07D'),
+    fontWeight: FontWeight.w400,
+    letterSpacing: 12,
+    height: 1.5,
+  );
 
   CustomText(
     this.text, {
@@ -28,7 +36,7 @@ class CustomText extends StatelessWidget {
       padding: this.padding,
       child: Text(
         this.text,
-        style: this.style,
+        style: this.style ?? this.defaultTextStayle,
         textAlign: this.textAlign,
       ),
     );
