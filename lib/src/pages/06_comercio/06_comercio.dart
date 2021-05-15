@@ -1,3 +1,4 @@
+import 'package:allapp/src/data/shared/pref.dart';
 import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
 import 'package:allapp/src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,8 @@ import 'widgets/select_icon.dart';
 
 class ComercioPage extends StatelessWidget {
   static final String pathName = '/ComercioPage';
+
+  final _pref = Pref();
 
   @override
   Widget build(BuildContext context) {
@@ -91,11 +94,19 @@ class ComercioPage extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             child: BlocBuilder<ComercioBloc, ComercioState>(
               builder: (context, state) {
-                ComercioIfEditar stateTemp = ComercioIfEditar(ifEnable: true);
+                ComercioIfEditar stateTemp =
+                    ComercioIfEditar(ifEnable: _pref.ifHabilitarEdicion);
 
                 if (state is ComercioIfEditar) {
                   stateTemp = state;
                 }
+
+                final _controllerTelefonoTienda =
+                    TextEditingController(text: _pref.telefotoDeTienda);
+
+                final _controllerWhatsAppTienda =
+                    TextEditingController(text: _pref.whatsAppDeTienda);
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -103,22 +114,26 @@ class ComercioPage extends StatelessWidget {
                       height: vw * 0.1,
                     ),
                     SelecteIcon(
-                      ifEnable: stateTemp.ifEnable,
+                      ifEnable: _pref.ifHabilitarEdicion,
                     ),
                     SizedBox(
                       height: vw * 0.1,
                     ),
                     _IfSwichFormulario(
                       text: 'Habilitar edición',
+                      initialIfEnable: _pref.ifHabilitarEdicion,
                       onChanged: (value) {
+                        _pref.ifHabilitarEdicion = value;
                         BlocProvider.of<ComercioBloc>(context)
                             .add(AddComercioIfEnableEditar(value));
                       },
                     ),
                     _IfSwichFormulario(
                       text: 'Visibilidad de la tienda',
-                      onChanged: (value) {},
-                      initialIfEnable: false,
+                      initialIfEnable: _pref.ifVisibilidadDeTienda,
+                      onChanged: (value) {
+                        _pref.ifVisibilidadDeTienda = value;
+                      },
                     ),
                     Form(
                       child: Container(
@@ -126,69 +141,84 @@ class ComercioPage extends StatelessWidget {
                         child: Column(
                           children: [
                             _CustomTextInput(
+                              iconPath: 'assets/icons/settings-shop-2.svg',
+                              initialValue: _pref.nombreDeTienda,
                               maskTextInputFormatter: null,
-                              ifEnable: stateTemp.ifEnable,
+                              ifEnable: _pref.ifHabilitarEdicion,
                               text: 'Nombre de tienda',
                               margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
+                                _pref.nombreDeTienda = value;
                                 print(value);
                               },
-                              iconPath: 'assets/icons/settings-shop-2.svg',
                             ),
                             _CustomTextInput(
-                              ifEnable: stateTemp.ifEnable,
+                              textEditingController: _controllerTelefonoTienda,
+                              // initialValue: _pref.telefotoDeTienda,
+                              ifEnable: _pref.ifHabilitarEdicion,
                               keyboardType: TextInputType.phone,
                               text: 'Teléfono',
                               maxLength: 13,
+                              margin: EdgeInsets.only(bottom: vw * 0.03),
+                              iconPath: 'assets/icons/call.svg',
                               maskTextInputFormatter: [
                                 MaskTextInputFormatter(
                                   mask: '### ### ## ##',
                                   filter: {"#": RegExp(r'[0-9]')},
                                 )
                               ],
-                              margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
-                                print(value);
+                                if (value.length <
+                                    _pref.telefotoDeTienda.length) {
+                                  _controllerTelefonoTienda.clear();
+                                  _pref.telefotoDeTienda = value;
+                                }
+                                _pref.telefotoDeTienda = value;
                               },
-                              iconPath: 'assets/icons/call.svg',
                             ),
                             _CustomTextInput(
-                              ifEnable: stateTemp.ifEnable,
+                              ifEnable: _pref.ifHabilitarEdicion,
                               keyboardType: TextInputType.phone,
                               maxLength: 13,
+                              textEditingController: _controllerWhatsAppTienda,
                               text: 'WhatsApp',
+                              iconPath: 'assets/icons/whatsapp.svg',
+                              margin: EdgeInsets.only(bottom: vw * 0.03),
                               maskTextInputFormatter: [
                                 MaskTextInputFormatter(
                                   mask: '### ### ## ##',
                                   filter: {"#": RegExp(r'[0-9]')},
                                 )
                               ],
-                              margin: EdgeInsets.only(bottom: vw * 0.03),
                               onChange: (value) {
-                                print(value);
+                                if (value.length <
+                                    _pref.whatsAppDeTienda.length) {
+                                  _controllerWhatsAppTienda.clear();
+                                } else {
+                                  _pref.whatsAppDeTienda = value;
+                                }
                               },
-                              iconPath: 'assets/icons/whatsapp.svg',
                             ),
                             _CustomTextInput(
-                              ifEnable: stateTemp.ifEnable,
+                              ifEnable: _pref.ifHabilitarEdicion,
+                              initialValue: _pref.telegramDeTienda,
                               maxLength: null,
+                              iconPath: 'assets/icons/telegram.svg',
                               text: 'Telegram ej: @Nombre',
                               margin: EdgeInsets.only(bottom: vw * 0.08),
                               onChange: (value) {
+                                _pref.telegramDeTienda = value;
                                 print(value);
                               },
-                              iconPath: 'assets/icons/telegram.svg',
                             ),
                             _CustomTextInput(
-                              ifEnable: stateTemp.ifEnable,
-                              // maskTextInputFormatter: MaskTextInputFormatter(
-                              //   mask: '### ### - #############',
-                              //   filter: {"#": RegExp(r'[0-9]')},
-                              // ),
+                              ifEnable: _pref.ifHabilitarEdicion,
+                              initialValue: _pref.direccionDeTienda,
                               text: 'Dirección ej: Cll ## ## ',
                               maxLength: null,
                               margin: EdgeInsets.only(bottom: vw * 0.08),
                               onChange: (value) {
+                                _pref.direccionDeTienda = value;
                                 print(value);
                               },
                               iconPath: 'assets/icons/lat-lan.svg',
@@ -198,7 +228,11 @@ class ComercioPage extends StatelessWidget {
                       ),
                     ),
                     _CustomButton(
-                      ifEnable: stateTemp.ifEnable,
+                      text: 'Ubicación',
+                      ifEnable: _pref.ifHabilitarEdicion,
+                      onGetLatLan: (value) {
+                        print(value);
+                      },
                     ),
                     CustomOutLineButton(
                       margin: EdgeInsets.only(bottom: vw * 0.1),
@@ -279,8 +313,8 @@ class _IfSwichFormulario extends StatefulWidget {
   final bool initialIfEnable;
   const _IfSwichFormulario({
     Key key,
-    this.onChanged,
     this.text,
+    this.onChanged,
     this.initialIfEnable,
   }) : super(key: key);
 
@@ -300,7 +334,6 @@ class _IfSwichFormularioState extends State<_IfSwichFormulario> {
 
   @override
   Widget build(BuildContext context) {
-    // state = widget.initialIfEnable ?? true;
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -337,7 +370,11 @@ class _IfSwichFormularioState extends State<_IfSwichFormulario> {
 
 class _CustomButton extends StatelessWidget {
   final bool ifEnable;
+  final String text;
+  final ValueChanged<String> onGetLatLan;
   _CustomButton({
+    @required this.text,
+    this.onGetLatLan,
     this.ifEnable = true,
   });
 
@@ -377,7 +414,7 @@ class _CustomButton extends StatelessWidget {
               Container(
                 width: vw * 0.55,
                 child: Text(
-                  'Ubicación',
+                  this.text,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: hexaColor('#D6D6D6', opacity: 0.4),
@@ -424,7 +461,7 @@ class _CustomButton extends StatelessWidget {
                         actions: [
                           OutlinedButton(
                             onPressed: () {
-                              print('Obtener lat-lan');
+                              Navigator.pop(context);
                             },
                             style: ButtonStyle(
                               overlayColor: MaterialStateProperty.all(
@@ -457,7 +494,7 @@ class _CustomButton extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pop(context);
+                              this.onGetLatLan('Lat-Lan');
                             },
                             child: Text(
                               'Obtener',
@@ -480,23 +517,27 @@ class _CustomButton extends StatelessWidget {
 class _CustomTextInput extends StatelessWidget {
   final String text;
   final int maxLength;
+  final bool ifEnable;
   final String iconPath;
   final EdgeInsets margin;
+  final String initialValue;
   final TextInputType keyboardType;
   final ValueChanged<String> onChange;
-  final bool ifEnable;
   final List<MaskTextInputFormatter> maskTextInputFormatter;
+  final TextEditingController textEditingController;
 
   _CustomTextInput({
     Key key,
+    this.margin,
+    this.ifEnable,
+    this.initialValue,
+    this.keyboardType,
+    this.maxLength = 21,
     @required this.text,
     @required this.iconPath,
     @required this.onChange,
-    this.margin,
-    this.keyboardType,
-    this.ifEnable,
+    this.textEditingController,
     this.maskTextInputFormatter,
-    this.maxLength = 21,
   }) : super(key: key);
 
   @override
@@ -508,6 +549,8 @@ class _CustomTextInput extends StatelessWidget {
     return Container(
       margin: this.margin,
       child: TextFormField(
+        controller: this.textEditingController,
+        initialValue: this.initialValue,
         enabled: this.ifEnable,
         inputFormatters: this.maskTextInputFormatter,
         keyboardType: this.keyboardType,

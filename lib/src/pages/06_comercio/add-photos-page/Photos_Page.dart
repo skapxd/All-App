@@ -1,3 +1,7 @@
+import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+
 import '../../../utils/Color.dart';
 import '../../../widgets/BackgroundGradient.dart';
 import '../../../widgets/PageImage.dart';
@@ -37,83 +41,93 @@ class _PhotosPageState extends State<PhotosPage> {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: hexaColor('#D5D5D5'),
-        splashColor: hexaColor('#FFFFFF'),
-        child: Icon(
-          // Icons.cloud_upload,
-          Icons.add_photo_alternate_outlined,
-          color: hexaColor('#232323'),
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, PageImage.pathName);
-        },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: rgbColor(0, 0, 0, 0),
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: hexaColor('#303030'),
       ),
-      appBar: AppBar(
-        title: Text(
-          'IMAGENES',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            height: 1.5,
-            fontSize: 15,
-            color: hexaColor('#E6D29F'),
-            letterSpacing: 5,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: hexaColor('#D5D5D5'),
+          splashColor: hexaColor('#FFFFFF'),
+          child: Icon(
+            // Icons.cloud_upload,
+            Icons.add_photo_alternate_outlined,
+            color: hexaColor('#232323'),
           ),
-        ),
-        leading: InkWell(
-          borderRadius: BorderRadius.circular(vw),
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 15),
-            child: SvgPicture.asset(
-              'assets/icons/back-arrow.svg',
-            ),
-          ),
-        ),
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: hexaColor('#303030'),
-      ),
-      backgroundColor: hexaColor('#303030'),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
-        child: StaggeredGridView.countBuilder(
-          controller: _scrollController,
-          physics: BouncingScrollPhysics(),
-          // itemCount: 8,
-          crossAxisCount: 4,
-          mainAxisSpacing: 16.0,
-          crossAxisSpacing: 16.0,
-
-          staggeredTileBuilder: (int index) {
-            // double size
-            return StaggeredTile.count(
-              2,
-              index.isOdd ? 3 : 3.3,
-            );
+          onPressed: () {
+            Navigator.pushNamed(context, AddPageImage.pathName);
           },
-
-          itemBuilder: (BuildContext context, int index) => new Container(
-            decoration: BoxDecoration(
-              color: index.isEven
-                  ? hexaColor('#D6D6D6', opacity: 0.5)
-                  : hexaColor('#D6D6D6', opacity: 0.3),
-              borderRadius: BorderRadius.circular(vw * 0.07),
+        ),
+        appBar: AppBar(
+          title: Text(
+            'IMAGENES',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 1.5,
+              fontSize: 15,
+              color: hexaColor('#E6D29F'),
+              letterSpacing: 5,
             ),
-            child: InkWell(
-              onTap: () {
-                print('imagenes: $index');
-                Navigator.pushNamed(
-                  context,
-                  PageImage.pathName,
-                  arguments: index,
-                );
-              },
-              child: new Center(
-                child: new CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: new Text('$index'),
+          ),
+          leading: InkWell(
+            borderRadius: BorderRadius.circular(vw),
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
+              child: SvgPicture.asset(
+                'assets/icons/back-arrow.svg',
+              ),
+            ),
+          ),
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: hexaColor('#303030'),
+        ),
+        backgroundColor: hexaColor('#303030'),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          child: StaggeredGridView.countBuilder(
+            controller: _scrollController,
+            physics: BouncingScrollPhysics(),
+            // itemCount: 8,
+            crossAxisCount: 4,
+            mainAxisSpacing: 16.0,
+            crossAxisSpacing: 16.0,
+
+            staggeredTileBuilder: (int index) {
+              // double size
+              return StaggeredTile.count(
+                2,
+                index.isOdd ? 3 : 3.3,
+              );
+            },
+
+            itemBuilder: (BuildContext context, int index) => new Container(
+              decoration: BoxDecoration(
+                color: index.isEven
+                    ? hexaColor('#D6D6D6', opacity: 0.5)
+                    : hexaColor('#D6D6D6', opacity: 0.3),
+                borderRadius: BorderRadius.circular(vw * 0.07),
+              ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(vw * 0.07),
+                onTap: () {
+                  print('imagenes: $index');
+                  Navigator.pushNamed(
+                    context,
+                    PageImage.pathName,
+                    arguments: index,
+                  );
+                  // print(FirebaseAuth.instance.currentUser);
+                },
+                child: new Center(
+                  child: new CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: new Text('$index'),
+                  ),
                 ),
               ),
             ),
