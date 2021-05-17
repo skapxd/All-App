@@ -24,23 +24,25 @@ class ComercioPage extends StatefulWidget {
 
 class _ComercioPageState extends State<ComercioPage> {
   final String importante =
-      '''La información escrita en los campos de texto se guardan automaticamente al escribir
+      '''La información escrita en los campos de texto se guarda automáticamente al escribir
 
 Usted puede deshabilitar la edición para no cambiar de forma accidental los datos escritos
 
-Tambien puede cambiar la visibilidad de la tienda en cualquier momento
+también puede cambiar la visibilidad de la tienda en cualquier momento
 
-All App permite que multiples tiendas tengan el mismo nombre, si su tienda esta registrada en cámara y comercio All App puede certificar su tienda
+All App permite que múltiples tiendas tengan el mismo nombre, si su tienda está registrada en cámara y comercio All App puede certificar su tienda
 
-Usted debe autorizar a los domiciliarios que le llevaran sus domicilios, de forma predeterminada no tiene ningun domiciliario autorizado, con ingresar los números de teléfono los autoriza
+Usted debe autorizar a los domiciliarios que le llevaran sus domicilios, de forma predeterminada no tiene ningún domiciliario autorizado, con ingresar los números de teléfono los autoriza
 
-Si usted no cuenta con contactos de domiciliarios de confianza, usted puede utilziar los contactos que All App le ofrece.
+Si usted no cuenta con contactos de domiciliarios de confianza, usted puede utilizar los contactos que All App le ofrece
 
 Si usted utiliza los contactos que All App ofrece, All App no se hace responsable del rendimiento, responsabilidad, efectividad o cuentas pendientes que tenga con el domiciliario
 
-En el caso de que algun domiciliario le llegase a quedar mal por cualquier motivo usted podra puntuarlo y All App se encargara de hacer visible su reseña a todas las demas tiendas, las reseñas negativas (o positivas) imptactan inmediatamente en la reputación del domiciliario  
+En el caso de que algun domiciliario le llegase a quedar mal por cualquier motivo usted podrá puntuarlo y All App se encargara de hacer visible su reseña a todas las demás tiendas, las reseñas negativas (o positivas) impacta inmediatamente en la reputación del domiciliario  
 
-Se asumira que usted esta de acuerdo si decide utilizar esta aplicacion como su tienda virtual
+All App se reserva el derecho a cambiar estos términos en cualquier momento, por favor léalos periódicamente
+
+Se asumirá que usted está de acuerdo si decide continuar
 ''';
 
   Pref _pref;
@@ -313,8 +315,12 @@ Se asumira que usted esta de acuerdo si decide utilizar esta aplicacion como su 
                         text: 'Ubicación',
                         ifEnable: _pref.ifHabilitarEdicion,
                         onGetLatLan: () {
-                          Navigator.pushNamed(
-                              context, ComercioMapaPage.pathName);
+                          accesoGps(
+                            onGranted: () {
+                              Navigator.pushNamed(
+                                  context, ComercioMapaPage.pathName);
+                            },
+                          );
                         },
                       ),
                       CustomOutLineButton(

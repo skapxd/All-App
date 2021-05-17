@@ -2,7 +2,6 @@ part of 'utils.dart';
 
 void accesoGps({
   VoidCallback onGranted,
-  PageController pageController,
 }) async {
   final status = await Permission.location.request();
 
