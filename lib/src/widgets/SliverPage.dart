@@ -1,5 +1,6 @@
-import '../utils/Color.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
 
 class SliverPage extends StatelessWidget {
   static final String pathName = '/SliverPage';

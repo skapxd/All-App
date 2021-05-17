@@ -1,18 +1,21 @@
 part of 'comercio_bloc.dart';
 
 @immutable
-abstract class ComercioState {}
-
-class ComercioInitial extends ComercioState {}
-
-class ComercioIcon extends ComercioState {
+class ComercioState {
   final File icon;
-
-  ComercioIcon({this.icon});
-}
-
-class ComercioIfEditar extends ComercioState {
   final bool ifEnable;
+  final bool aceptoTerminos;
 
-  ComercioIfEditar({this.ifEnable});
+  ComercioState({
+    this.icon,
+    this.ifEnable,
+    this.aceptoTerminos,
+  });
+
+  ComercioState copyWith({File icon, bool ifEnable, bool aceptoTerminos}) =>
+      ComercioState(
+        icon: icon ?? this.icon,
+        ifEnable: ifEnable ?? this.ifEnable,
+        aceptoTerminos: aceptoTerminos ?? this.aceptoTerminos,
+      );
 }

@@ -1,13 +1,12 @@
 import 'dart:io';
 
-import 'package:allapp/src/data/storage/storage.dart';
-import 'package:allapp/src/widgets/PageImage.dart';
-import 'package:allapp/src/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../utils/Color.dart';
+import '../../../data/storage/storage.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/BackgroundGradient.dart';
+import '../../../widgets/CustomText.dart';
 
 class AddPageImage extends StatefulWidget {
   static final String pathName = '/AddPageImage';

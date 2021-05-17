@@ -1,4 +1,4 @@
-import 'dart:ui';
+part of 'utils.dart';
 
 Color hexaColor(String color, {double opacity = 1.0}) {
   int colorS = int.tryParse(

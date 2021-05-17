@@ -1,9 +1,9 @@
+import '../../utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../models/images.dart';
-import '../../utils/Color.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';
 import '../BloqueDePago/BloqueDePago.dart';

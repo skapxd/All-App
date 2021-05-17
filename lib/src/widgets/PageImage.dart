@@ -1,6 +1,7 @@
-import '../utils/Color.dart';
-import 'BackgroundGradient.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
+import 'BackgroundGradient.dart';
 
 class PageImage extends StatefulWidget {
   static final String pathName = '/PageImage';

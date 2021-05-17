@@ -1,8 +1,9 @@
-import '../models/images.dart';
-import '../utils/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../models/images.dart';
+import '../utils/utils.dart';
 
 class Business {
   final String name;

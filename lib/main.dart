@@ -1,5 +1,7 @@
-import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
-import 'package:allapp/src/pages/06_comercio/add-photos-page/Photos_Page.dart';
+import 'package:allapp/src/data/bloc/mapa/mapa_bloc.dart';
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/pages/04_home/bloc/home_bloc.dart';
+import 'package:allapp/src/pages/06_comercio/mapa_page/mapa_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +15,13 @@ import 'src/pages/02_03_Phone/bloc/phone_bloc.dart';
 import 'src/pages/04_home/04_Home.dart';
 import 'src/pages/05_favoritos/05_favoritos.dart';
 import 'src/pages/06_comercio/06_comercio.dart';
+import 'src/pages/06_comercio/add-photos-page/Image_Page.dart';
+import 'src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'src/pages/06_comercio/bloc/comercio_bloc.dart';
 import 'src/pages/06_comercio/crear-productos-page/crear_producto.dart';
-import 'src/utils/Color.dart';
-import 'src/widgets/PageImage.dart';
+import 'src/utils/utils.dart';
 import 'src/widgets/Menu/bloc/menu_bloc.dart';
+import 'src/widgets/PageImage.dart';
 import 'src/widgets/SliverPage.dart';
 
 void main() async {
@@ -39,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => new PhoneBloc()),
         BlocProvider(create: (_) => new MenuBloc()),
         BlocProvider(create: (_) => new ComercioBloc()),
+        BlocProvider(create: (_) => new MiUbicacionBloc()),
+        BlocProvider(create: (_) => new MapaBloc()),
+        BlocProvider(create: (_) => new HomeBloc()),
       ],
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -62,7 +69,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           initialRoute: Pref().lastPage,
-          // initialRoute: SliverPage.pathName,
+          // initialRoute: EnterPhone.pathName,
           routes: {
             WelcomePage.pathName: (_) => WelcomePage(),
             EnterPhone.pathName: (_) => EnterPhone(),
@@ -75,6 +82,7 @@ class MyApp extends StatelessWidget {
             CrearProductosPage.pathName: (_) => CrearProductosPage(),
             PhotosPage.pathName: (_) => PhotosPage(),
             AddPageImage.pathName: (_) => AddPageImage(),
+            ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
           },
         ),
       ),

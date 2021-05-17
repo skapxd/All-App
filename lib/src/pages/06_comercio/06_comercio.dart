@@ -1,6 +1,6 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
-import 'package:allapp/src/pages/06_comercio/add-photos-page/Photos_Page.dart';
+import 'package:allapp/src/pages/06_comercio/mapa_page/mapa_page.dart';
+
+import '../../utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,16 +8,107 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../utils/Color.dart';
+import '../../data/shared/pref.dart';
 import '../../widgets/OutLineButton.dart';
+import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
 import 'crear-productos-page/crear_producto.dart';
 import 'widgets/select_icon.dart';
 
-class ComercioPage extends StatelessWidget {
+class ComercioPage extends StatefulWidget {
   static final String pathName = '/ComercioPage';
 
-  final _pref = Pref();
+  @override
+  _ComercioPageState createState() => _ComercioPageState();
+}
+
+class _ComercioPageState extends State<ComercioPage> {
+  final String importante =
+      '''La información escrita en los campos de texto se guardan automaticamente al escribir
+
+Usted puede deshabilitar la edición para no cambiar de forma accidental los datos escritos
+
+Tambien puede cambiar la visibilidad de la tienda en cualquier momento
+
+All App permite que multiples tiendas tengan el mismo nombre, si su tienda esta registrada en cámara y comercio All App puede certificar su tienda
+
+Usted debe autorizar a los domiciliarios que le llevaran sus domicilios, de forma predeterminada no tiene ningun domiciliario autorizado, con ingresar los números de teléfono los autoriza
+
+Si usted no cuenta con contactos de domiciliarios de confianza, usted puede utilziar los contactos que All App le ofrece.
+
+Si usted utiliza los contactos que All App ofrece, All App no se hace responsable del rendimiento, responsabilidad, efectividad o cuentas pendientes que tenga con el domiciliario
+
+En el caso de que algun domiciliario le llegase a quedar mal por cualquier motivo usted podra puntuarlo y All App se encargara de hacer visible su reseña a todas las demas tiendas, las reseñas negativas (o positivas) imptactan inmediatamente en la reputación del domiciliario  
+
+Se asumira que usted esta de acuerdo si decide utilizar esta aplicacion como su tienda virtual
+''';
+
+  Pref _pref;
+
+  @override
+  void initState() {
+    super.initState();
+    _pref = Pref();
+    Future.delayed(Duration.zero,
+        () => _pref.ifVerInfoDeTienda ? showCustomDialog(context) : null);
+  }
+
+  showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      useRootNavigator: false,
+      routeSettings: RouteSettings(),
+      barrierDismissible: false,
+      builder: (context) {
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: rgbColor(0, 0, 0, 0),
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: hexaColor('#101010'),
+          ),
+          child: AlertDialog(
+            backgroundColor: hexaColor('#303030'),
+            title: Text(
+              'Importante',
+              style: TextStyle(
+                color: hexaColor('#A3A3A3'),
+              ),
+            ),
+            content: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    child: Text(
+                      this.importante,
+                      style: TextStyle(
+                        color: hexaColor('#A3A3A3'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actions: [
+              _IfSwichFormulario(
+                initialIfEnable: !_pref.ifVerInfoDeTienda,
+                text: 'Aceptar términos',
+                onChanged: (value) {
+                  print('Swich of termns $value');
+                  _pref.ifVerInfoDeTienda = !value;
+                  final bloc = BlocProvider.of<ComercioBloc>(context);
+                  bloc.add(AddAceptoTerminos(!value));
+                  print('bloc ===> ${bloc.state.aceptoTerminos}');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +139,7 @@ class ComercioPage extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('Importante'),
-                    );
-                  },
-                );
+                showCustomDialog(context);
               },
             ),
             SizedBox(
@@ -94,210 +178,213 @@ class ComercioPage extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             child: BlocBuilder<ComercioBloc, ComercioState>(
               builder: (context, state) {
-                ComercioIfEditar stateTemp =
-                    ComercioIfEditar(ifEnable: _pref.ifHabilitarEdicion);
-
-                if (state is ComercioIfEditar) {
-                  stateTemp = state;
-                }
-
                 final _controllerTelefonoTienda =
                     TextEditingController(text: _pref.telefotoDeTienda);
 
                 final _controllerWhatsAppTienda =
                     TextEditingController(text: _pref.whatsAppDeTienda);
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: vw * 0.1,
-                    ),
-                    SelecteIcon(
-                      ifEnable: _pref.ifHabilitarEdicion,
-                    ),
-                    SizedBox(
-                      height: vw * 0.1,
-                    ),
-                    _IfSwichFormulario(
-                      text: 'Habilitar edición',
-                      initialIfEnable: _pref.ifHabilitarEdicion,
-                      onChanged: (value) {
-                        _pref.ifHabilitarEdicion = value;
-                        BlocProvider.of<ComercioBloc>(context)
-                            .add(AddComercioIfEnableEditar(value));
-                      },
-                    ),
-                    _IfSwichFormulario(
-                      text: 'Visibilidad de la tienda',
-                      initialIfEnable: _pref.ifVisibilidadDeTienda,
-                      onChanged: (value) {
-                        _pref.ifVisibilidadDeTienda = value;
-                      },
-                    ),
-                    Form(
-                      child: Container(
-                        width: vw * 0.7,
-                        child: Column(
-                          children: [
-                            _CustomTextInput(
-                              iconPath: 'assets/icons/settings-shop-2.svg',
-                              initialValue: _pref.nombreDeTienda,
-                              maskTextInputFormatter: null,
-                              ifEnable: _pref.ifHabilitarEdicion,
-                              text: 'Nombre de tienda',
-                              margin: EdgeInsets.only(bottom: vw * 0.03),
-                              onChange: (value) {
-                                _pref.nombreDeTienda = value;
-                                print(value);
-                              },
-                            ),
-                            _CustomTextInput(
-                              textEditingController: _controllerTelefonoTienda,
-                              // initialValue: _pref.telefotoDeTienda,
-                              ifEnable: _pref.ifHabilitarEdicion,
-                              keyboardType: TextInputType.phone,
-                              text: 'Teléfono',
-                              maxLength: 13,
-                              margin: EdgeInsets.only(bottom: vw * 0.03),
-                              iconPath: 'assets/icons/call.svg',
-                              maskTextInputFormatter: [
-                                MaskTextInputFormatter(
-                                  mask: '### ### ## ##',
-                                  filter: {"#": RegExp(r'[0-9]')},
-                                )
-                              ],
-                              onChange: (value) {
-                                if (value.length <
-                                    _pref.telefotoDeTienda.length) {
-                                  _controllerTelefonoTienda.clear();
+                print(state.aceptoTerminos);
+
+                if (state.aceptoTerminos) {
+                  return Container();
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: vw * 0.1,
+                      ),
+                      SelecteIcon(
+                        ifEnable: _pref.ifHabilitarEdicion,
+                      ),
+                      SizedBox(
+                        height: vw * 0.1,
+                      ),
+                      _IfSwichFormulario(
+                        text: 'Habilitar edición',
+                        initialIfEnable: _pref.ifHabilitarEdicion,
+                        onChanged: (value) {
+                          _pref.ifHabilitarEdicion = value;
+                          BlocProvider.of<ComercioBloc>(context)
+                              .add(AddComercioIfEnableEditar(value));
+                        },
+                      ),
+                      _IfSwichFormulario(
+                        text: 'Visibilidad de la tienda',
+                        initialIfEnable: _pref.ifVisibilidadDeTienda,
+                        onChanged: (value) {
+                          _pref.ifVisibilidadDeTienda = value;
+                        },
+                      ),
+                      Form(
+                        child: Container(
+                          width: vw * 0.7,
+                          child: Column(
+                            children: [
+                              _CustomTextInput(
+                                iconPath: 'assets/icons/settings-shop-2.svg',
+                                initialValue: _pref.nombreDeTienda,
+                                maskTextInputFormatter: null,
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                text: 'Nombre de tienda',
+                                margin: EdgeInsets.only(bottom: vw * 0.03),
+                                onChange: (value) {
+                                  _pref.nombreDeTienda = value;
+                                  print(value);
+                                },
+                              ),
+                              _CustomTextInput(
+                                textEditingController:
+                                    _controllerTelefonoTienda,
+                                // initialValue: _pref.telefotoDeTienda,
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                keyboardType: TextInputType.phone,
+                                text: 'Teléfono',
+                                maxLength: 13,
+                                margin: EdgeInsets.only(bottom: vw * 0.03),
+                                iconPath: 'assets/icons/call.svg',
+                                maskTextInputFormatter: [
+                                  MaskTextInputFormatter(
+                                    mask: '### ### ## ##',
+                                    filter: {"#": RegExp(r'[0-9]')},
+                                  )
+                                ],
+                                onChange: (value) {
                                   _pref.telefotoDeTienda = value;
-                                }
-                                _pref.telefotoDeTienda = value;
-                              },
-                            ),
-                            _CustomTextInput(
-                              ifEnable: _pref.ifHabilitarEdicion,
-                              keyboardType: TextInputType.phone,
-                              maxLength: 13,
-                              textEditingController: _controllerWhatsAppTienda,
-                              text: 'WhatsApp',
-                              iconPath: 'assets/icons/whatsapp.svg',
-                              margin: EdgeInsets.only(bottom: vw * 0.03),
-                              maskTextInputFormatter: [
-                                MaskTextInputFormatter(
-                                  mask: '### ### ## ##',
-                                  filter: {"#": RegExp(r'[0-9]')},
-                                )
-                              ],
-                              onChange: (value) {
-                                if (value.length <
-                                    _pref.whatsAppDeTienda.length) {
-                                  _controllerWhatsAppTienda.clear();
-                                } else {
+
+                                  if (value.length == 13) {
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                              ),
+                              _CustomTextInput(
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                keyboardType: TextInputType.phone,
+                                maxLength: 13,
+                                textEditingController:
+                                    _controllerWhatsAppTienda,
+                                text: 'WhatsApp',
+                                iconPath: 'assets/icons/whatsapp.svg',
+                                margin: EdgeInsets.only(bottom: vw * 0.03),
+                                maskTextInputFormatter: [
+                                  MaskTextInputFormatter(
+                                    mask: '### ### ## ##',
+                                    filter: {"#": RegExp(r'[0-9]')},
+                                  )
+                                ],
+                                onChange: (value) {
                                   _pref.whatsAppDeTienda = value;
-                                }
-                              },
-                            ),
-                            _CustomTextInput(
-                              ifEnable: _pref.ifHabilitarEdicion,
-                              initialValue: _pref.telegramDeTienda,
-                              maxLength: null,
-                              iconPath: 'assets/icons/telegram.svg',
-                              text: 'Telegram ej: @Nombre',
-                              margin: EdgeInsets.only(bottom: vw * 0.08),
-                              onChange: (value) {
-                                _pref.telegramDeTienda = value;
-                                print(value);
-                              },
-                            ),
-                            _CustomTextInput(
-                              ifEnable: _pref.ifHabilitarEdicion,
-                              initialValue: _pref.direccionDeTienda,
-                              text: 'Dirección ej: Cll ## ## ',
-                              maxLength: null,
-                              margin: EdgeInsets.only(bottom: vw * 0.08),
-                              onChange: (value) {
-                                _pref.direccionDeTienda = value;
-                                print(value);
-                              },
-                              iconPath: 'assets/icons/lat-lan.svg',
-                            ),
-                          ],
+
+                                  if (value.length == 13) {
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                              ),
+                              _CustomTextInput(
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                initialValue: _pref.telegramDeTienda,
+                                maxLength: null,
+                                iconPath: 'assets/icons/telegram.svg',
+                                text: 'Telegram ej: @Nombre',
+                                margin: EdgeInsets.only(bottom: vw * 0.08),
+                                onChange: (value) {
+                                  _pref.telegramDeTienda = value;
+                                  print(value);
+                                },
+                              ),
+                              _CustomTextInput(
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                initialValue: _pref.direccionDeTienda,
+                                text: 'Dirección ej: Cll ## ## ',
+                                maxLength: null,
+                                margin: EdgeInsets.only(bottom: vw * 0.08),
+                                onChange: (value) {
+                                  _pref.direccionDeTienda = value;
+                                  print(value);
+                                },
+                                iconPath: 'assets/icons/lat-lan.svg',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    _CustomButton(
-                      text: 'Ubicación',
-                      ifEnable: _pref.ifHabilitarEdicion,
-                      onGetLatLan: (value) {
-                        print(value);
-                      },
-                    ),
-                    CustomOutLineButton(
-                      margin: EdgeInsets.only(bottom: vw * 0.1),
-                      textStyle: CustomOutLineButton.defaultTextStyle.copyWith(
-                        letterSpacing: 5,
+                      _CustomButton(
+                        text: 'Ubicación',
+                        ifEnable: _pref.ifHabilitarEdicion,
+                        onGetLatLan: () {
+                          Navigator.pushNamed(
+                              context, ComercioMapaPage.pathName);
+                        },
                       ),
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, CrearProductosPage.pathName);
-                      },
-                      text: 'CREAR PRODUCTOS',
-                      width: vw * 0.7,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: vw * 0.08),
-                      width: vw * 0.7,
-                      child: InkWell(
-                        highlightColor: rgbColor(0, 0, 0, 0),
-                        splashColor: rgbColor(0, 0, 0, 0),
-                        onTap: () =>
-                            Navigator.pushNamed(context, PhotosPage.pathName),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  height: vw * 0.15,
-                                  width: vw * 0.15,
-                                  decoration: BoxDecoration(
-                                    color: hexaColor('#BEA07D'),
-                                    borderRadius: BorderRadius.circular(vw),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.all(vw * 0.03),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/camara.svg',
+                      CustomOutLineButton(
+                        margin: EdgeInsets.only(bottom: vw * 0.1),
+                        textStyle:
+                            CustomOutLineButton.defaultTextStyle.copyWith(
+                          letterSpacing: 5,
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CrearProductosPage.pathName,
+                          );
+                        },
+                        text: 'CREAR PRODUCTOS',
+                        width: vw * 0.7,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: vw * 0.08),
+                        width: vw * 0.7,
+                        child: InkWell(
+                          highlightColor: rgbColor(0, 0, 0, 0),
+                          splashColor: rgbColor(0, 0, 0, 0),
+                          onTap: () =>
+                              Navigator.pushNamed(context, PhotosPage.pathName),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    height: vw * 0.15,
+                                    width: vw * 0.15,
+                                    decoration: BoxDecoration(
+                                      color: hexaColor('#BEA07D'),
+                                      borderRadius: BorderRadius.circular(vw),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.all(vw * 0.03),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/camara.svg',
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  left: vw * 0.105,
-                                  // left: 42,
-                                  child: Icon(
-                                    Icons.add,
-                                    color: hexaColor('#FFDEBD'),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Text(
-                              'AGREGAR FOTOS \nDEL COMERCIO',
-                              style: TextStyle(
-                                fontSize: 12,
-                                height: 1.8,
-                                letterSpacing: 5,
-                                color: hexaColor('#BEA07D'),
+                                  Positioned(
+                                    left: vw * 0.105,
+                                    // left: 42,
+                                    child: Icon(
+                                      Icons.add,
+                                      color: hexaColor('#FFDEBD'),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
+                              Text(
+                                'AGREGAR FOTOS \nDEL COMERCIO',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  height: 1.8,
+                                  letterSpacing: 5,
+                                  color: hexaColor('#BEA07D'),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
+                    ],
+                  );
+                }
               },
             ),
           ),
@@ -371,7 +458,7 @@ class _IfSwichFormularioState extends State<_IfSwichFormulario> {
 class _CustomButton extends StatelessWidget {
   final bool ifEnable;
   final String text;
-  final ValueChanged<String> onGetLatLan;
+  final VoidCallback onGetLatLan;
   _CustomButton({
     @required this.text,
     this.onGetLatLan,
@@ -424,91 +511,7 @@ class _CustomButton extends StatelessWidget {
             ],
           ),
         ),
-        onTap: !this.ifEnable
-            ? null
-            : () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AnnotatedRegion<SystemUiOverlayStyle>(
-                      value: SystemUiOverlayStyle(
-                        statusBarColor: rgbColor(0, 0, 0, 0),
-                        statusBarIconBrightness: Brightness.light,
-                        systemNavigationBarIconBrightness: Brightness.light,
-                        systemNavigationBarColor: hexaColor('#101010'),
-                      ),
-                      child: AlertDialog(
-                        backgroundColor: hexaColor('#303030'),
-                        title: Text(
-                          'Importante',
-                          style: TextStyle(
-                            color: hexaColor('#A3A3A3'),
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              child: Text(
-                                'Para obtener la ubicación en Latitud y Longitud, debe estar en el lugar del comercio que quiere publicar',
-                                style: TextStyle(
-                                  color: hexaColor('#A3A3A3'),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        actions: [
-                          OutlinedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: ButtonStyle(
-                              overlayColor: MaterialStateProperty.all(
-                                  hexaColor('#FFFFFF', opacity: 0.2)),
-                              side: MaterialStateProperty.all(
-                                BorderSide(
-                                  style: BorderStyle.solid,
-                                  color: hexaColor('#BEA07D'),
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              'Mejor no',
-                              style: TextStyle(
-                                color: hexaColor('#A3A3A3'),
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  hexaColor('#BEA07D')),
-                              side: MaterialStateProperty.all(
-                                BorderSide(
-                                  style: BorderStyle.solid,
-                                  color: hexaColor('#BEA07D'),
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              this.onGetLatLan('Lat-Lan');
-                            },
-                            child: Text(
-                              'Obtener',
-                              style: TextStyle(
-                                color: hexaColor('#303030'),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
+        onTap: !this.ifEnable ? null : this.onGetLatLan,
       ),
     );
   }

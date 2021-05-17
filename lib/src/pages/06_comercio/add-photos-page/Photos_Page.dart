@@ -1,13 +1,11 @@
-import 'package:allapp/src/pages/06_comercio/add-photos-page/Image_Page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-
-import '../../../utils/Color.dart';
-import '../../../widgets/BackgroundGradient.dart';
-import '../../../widgets/PageImage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../utils/utils.dart';
+import '../../../widgets/PageImage.dart';
+import 'Image_Page.dart';
 
 class PhotosPage extends StatefulWidget {
   static final String pathName = '/PhotosPage';

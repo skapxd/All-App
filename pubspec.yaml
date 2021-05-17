@@ -39,7 +39,8 @@ dependencies:
 
   country_code_picker: ^2.0.1
   modal_bottom_sheet: ^2.0.0
-
+  mobile_number: ^1.0.4
+  
   flutter_bloc: ^7.0.0
   bloc: ^7.0.0
 
@@ -59,7 +60,15 @@ dependencies:
 
   flutter_staggered_grid_view: ^0.4.0
 
-  ninja_prime: ^2.0.0
+  permission_handler: ^7.1.0
+  location_permissions: ^3.0.0+1
+  
+  geolocator: ^7.0.3
+  google_maps_flutter: ^2.0.4
+
+  animate_do: ^2.0.0
+
+  # ninja_prime: ^2.0.0
 
 dev_dependencies:
   flutter_test:

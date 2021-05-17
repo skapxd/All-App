@@ -1,5 +1,6 @@
-import 'package:allapp/src/utils/Color.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
 
 class CustomText extends StatelessWidget {
   final String text;

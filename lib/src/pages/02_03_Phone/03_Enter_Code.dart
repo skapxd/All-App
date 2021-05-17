@@ -5,7 +5,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../data/auth/auth_Phone.dart';
 import '../../data/shared/pref.dart';
-import '../../utils/Color.dart';
+import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
 import '../../widgets/CustomText.dart';
 import '../../widgets/OutLineButton.dart';

@@ -14,3 +14,9 @@ class AddComercioIfEnableEditar extends ComercioEvent {
 
   AddComercioIfEnableEditar(this.ifEnable);
 }
+
+class AddAceptoTerminos extends ComercioEvent {
+  final bool aceptoTerminos;
+
+  AddAceptoTerminos(this.aceptoTerminos);
+}

@@ -1,8 +1,8 @@
-import '../../../utils/Color.dart';
-import '../../../widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../utils/utils.dart';
 
 class CrearProductosPage extends StatelessWidget {
   static final String pathName = '/CrearProductosPage';

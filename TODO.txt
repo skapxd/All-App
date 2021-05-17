@@ -1,0 +1,10 @@
+Comercio page: habilitar una opción que permita a 
+    las empresas ser certificadas por all app, 
+    pidiendo registro mercantil y cedula de ciudadanía
+
+Comercio/Crear-Productos: Crear un sistema que permita 
+    la creación de productos de una manera fácil y organizada
+
+Crear una pagina para autorizar a los domiciliario con un id de numero de teléfono
+ 
+    

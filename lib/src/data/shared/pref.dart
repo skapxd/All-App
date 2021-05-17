@@ -41,7 +41,7 @@ class Pref {
   ////////////////////////////////////////////////////////////////////
 
   // GET & SET -> Path de icon
-  String get iconPath => _pref.getString('iconPath');
+  String get iconPath => _pref.getString('iconPath') ?? '';
 
   set iconPath(String value) => _pref.setString('iconPath', value);
 
@@ -59,41 +59,41 @@ class Pref {
       _pref.setBool('ifVisibilidadDeTienda', value);
 
   // GET & SET -> Nombre de tienda
-  String get nombreDeTienda => _pref.getString('nombreDeTienda');
+  String get nombreDeTienda => _pref.getString('nombreDeTienda') ?? '';
 
   set nombreDeTienda(String value) => _pref.setString('nombreDeTienda', value);
 
   // GET & SET -> Telefono de tienda
-  String get telefotoDeTienda => _pref.getString('telefotoDeTienda');
+  String get telefotoDeTienda => _pref.getString('telefotoDeTienda') ?? '';
 
   set telefotoDeTienda(String value) =>
       _pref.setString('telefotoDeTienda', value);
 
   // GET & SET -> WhatsApp de tienda
-  String get whatsAppDeTienda => _pref.getString('whatsAppDeTienda');
+  String get whatsAppDeTienda => _pref.getString('whatsAppDeTienda') ?? '';
 
   set whatsAppDeTienda(String value) =>
       _pref.setString('whatsAppDeTienda', value);
 
   // GET & SET -> Telegram de tienda
-  String get telegramDeTienda => _pref.getString('telegramDeTienda');
+  String get telegramDeTienda => _pref.getString('telegramDeTienda') ?? '';
 
   set telegramDeTienda(String value) =>
       _pref.setString('telegramDeTienda', value);
 
   // GET & SET -> Direccion de tienda
-  String get direccionDeTienda => _pref.getString('direccionDeTienda');
+  String get direccionDeTienda => _pref.getString('direccionDeTienda') ?? '';
 
   set direccionDeTienda(String value) =>
       _pref.setString('direccionDeTienda', value);
 
   // GET & SET -> Lat-Lan de tienda
-  String get latLanDeTienda => _pref.getString('latLanDeTienda');
+  String get latLanDeTienda => _pref.getString('latLanDeTienda') ?? '';
 
   set latLanDeTienda(String value) => _pref.setString('latLanDeTienda', value);
 
   // GET & SET -> Ver informacion de la tienda
-  bool get ifVerInfoDeTienda => _pref.getBool('ifVerInfoDeTienda');
+  bool get ifVerInfoDeTienda => _pref.getBool('ifVerInfoDeTienda') ?? true;
 
   set ifVerInfoDeTienda(bool value) =>
       _pref.setBool('ifVerInfoDeTienda', value);

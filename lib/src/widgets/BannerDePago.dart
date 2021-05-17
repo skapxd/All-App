@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../utils/Color.dart';
+import '../utils/utils.dart';
 
 class BannerDePago extends StatelessWidget {
   @override

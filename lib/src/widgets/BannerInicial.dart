@@ -1,5 +1,6 @@
-import '../utils/Color.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
 
 class BannerInicial extends StatelessWidget {
   @override
