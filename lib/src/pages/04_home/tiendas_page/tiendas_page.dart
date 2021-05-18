@@ -1,3 +1,6 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../widgets/GetGeoPosition.dart';
 
 import '../../../utils/utils.dart';
@@ -75,7 +78,9 @@ class _TiendasState extends State<Tiendas>
     return CustomBackgroundGradient(
       child: SafeArea(
         child: GetGeoPosition(
-          successChild: () {
+          successChild: (address) {
+            final a = BlocProvider.of<MiUbicacionBloc>(context).state.address;
+
             return CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [

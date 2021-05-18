@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:mobile_number/mobile_number.dart';
 
 import '../../data/auth/auth_Phone.dart';
 import '../../data/shared/pref.dart';

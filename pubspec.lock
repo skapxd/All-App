@@ -299,10 +299,12 @@ packages:
   location_permissions:
     dependency: "direct main"
     description:
-      name: location_permissions
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0+1"
+      path: "packages/location_permissions"
+      ref: HEAD
+      resolved-ref: d4407aaf7c7a2a3cffb449c62ba93f1db788caf7
+      url: "https://github.com/skapxd/flutter-permission-plugins.git"
+    source: git
+    version: "4.0.0"
   mask_text_input_formatter:
     dependency: "direct main"
     description:
@@ -331,13 +333,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
-  mobile_number:
-    dependency: "direct main"
-    description:
-      name: mobile_number
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   modal_bottom_sheet:
     dependency: "direct main"
     description:
@@ -639,4 +634,4 @@ packages:
     version: "5.1.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=1.24.0-7.0"

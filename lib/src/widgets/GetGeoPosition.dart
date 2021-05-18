@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'CustomText.dart';
 class GetGeoPosition extends StatefulWidget {
   final Widget loadingChildStatusGPS;
   final Widget loadingChildGeoLocation;
-  final Widget Function() successChild;
+  final Widget Function(String address) successChild;
   final void Function() onResume;
 
   const GetGeoPosition({
@@ -86,7 +87,8 @@ class _GetGeoPositionState extends State<GetGeoPosition>
           );
         } else {
           if (address != null) {
-            return widget.successChild();
+            print(address);
+            return widget.successChild(address);
           } else {
             return FutureBuilder(
               future: BlocProvider.of<MiUbicacionBloc>(context).getPosition(),
@@ -106,10 +108,21 @@ class _GetGeoPositionState extends State<GetGeoPosition>
                       ) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.done:
-                            BlocProvider.of<MiUbicacionBloc>(context).add(
-                                AddAddress(
-                                    snapshot.data.results[0].formattedAddress));
-                            return widget.successChild();
+                            final addressTemp = snapshot
+                                .data.results[0].formattedAddress
+                                .split(',');
+
+                            addressTemp.removeAt(0);
+
+                            String address2 = addressTemp.reversed
+                                .join('/')
+                                .replaceAll(' ', '_')
+                                .toLowerCase();
+
+                            BlocProvider.of<MiUbicacionBloc>(context)
+                                .add(AddAddress(address2));
+
+                            return widget.successChild(address2);
                             break;
 
                           case ConnectionState.none:
@@ -138,15 +151,6 @@ class _GetGeoPositionState extends State<GetGeoPosition>
         }
       },
     );
-
-    // return BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
-    //   builder: (context, state) {
-    //     if (state.address != null) {
-    //       return widget.successChild();
-    //     } else {
-    //     }
-    //   },
-    // );
   }
 
   Future<ConvertGeoLocationToAddress> converGeoLocationToAddress({
@@ -163,7 +167,7 @@ class _GetGeoPositionState extends State<GetGeoPosition>
       final respTemp = await googleAPI.get('/json', queryParameters: {
         'key': 'AIzaSyAvrhAPN1yEHRSB_EFLVsfFUJyXe8gMEAs',
         // 'latlng': '$lat,$lng'
-        'latlng': '6.024797, -75.436158'
+        'latlng': '6.023576, -75.440516'
       });
 
       final resp = jsonEncode(respTemp.data);
