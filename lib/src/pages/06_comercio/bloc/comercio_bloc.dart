@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:allapp/src/data/shared/pref.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/shared/pref.dart';
 
 part 'comercio_event.dart';
 part 'comercio_state.dart';

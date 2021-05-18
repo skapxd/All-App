@@ -11,7 +11,7 @@ class CustomText extends StatelessWidget {
   final double width;
   final TextAlign textAlign;
 
-  final defaultTextStayle = TextStyle(
+  static final defaultTextStayle = TextStyle(
     color: hexaColor('#BEA07D'),
     fontWeight: FontWeight.w400,
     letterSpacing: 12,
@@ -37,7 +37,7 @@ class CustomText extends StatelessWidget {
       padding: this.padding,
       child: Text(
         this.text,
-        style: this.style ?? this.defaultTextStayle,
+        style: this.style ?? defaultTextStayle,
         textAlign: this.textAlign,
       ),
     );

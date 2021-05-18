@@ -1,12 +1,15 @@
 import 'dart:async';
 
-import 'package:allapp/src/data/bloc/mapa/mapa_bloc.dart';
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/widgets/CustonFloatingActionButton.dart';
+import 'package:allapp/src/utils/utils.dart';
+import 'package:allapp/src/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
+
+import '../../../data/bloc/mapa/mapa_bloc.dart';
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../widgets/CustonFloatingActionButton.dart';
 
 class ComercioMapaPage extends StatefulWidget {
   static final String pathName = '/ComercioMapaPage';
@@ -54,78 +57,81 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    // final Stream<LP.ServiceStatus> statusStream =
-    //     LP.LocationPermissions().serviceStatus;
+    final Stream<LP.ServiceStatus> statusStream =
+        LP.LocationPermissions().serviceStatus;
 
     return Scaffold(
+      backgroundColor: hexaColor('#232323'),
       body: Container(
         height: vh,
         width: vw,
         child: Stack(
           children: [
-            // StreamBuilder(
-            //   stream: statusStream,
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.data == LP.ServiceStatus.disabled) {
-            //       // showCustomDialog(context);
-            //       return Container(
-            //         child: Center(
-            //           child: Text('Porfavor habilite el GPS para continuar'),
-            //         ),
-            //       );
-            //     } else {
-            //       return Container(
-            //         child: Center(
-            //           child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
-            //             builder: (context, state) {
-            //               if (!state.ifLocationExist)
-            //                 return Text('Ubicando...');
+            StreamBuilder(
+              stream: statusStream,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == LP.ServiceStatus.disabled) {
+                  // showCustomDialog(context);
+                  return Center(
+                    child: CustomText(
+                      'Porfavor habilite el GPS para continuar',
+                      style: CustomText.defaultTextStayle
+                          .copyWith(letterSpacing: 0),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    child: Center(
+                      child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
+                        builder: (context, state) {
+                          if (!state.ifLocationExist)
+                            return Text('Ubicando...');
 
-            //               final camaraPosition = CameraPosition(
-            //                 target: state.ubicacion,
-            //               );
-            //               // return Container();
-            //               return GoogleMap(
-            //                 myLocationButtonEnabled: false,
-            //                 myLocationEnabled: true,
-            //                 zoomControlsEnabled: false,
-            //                 initialCameraPosition: camaraPosition,
-            //                 onMapCreated: (controller) {
-            //                   BlocProvider.of<MapaBloc>(context)
-            //                       .initMapComercio(controller);
-            //                 },
-            //               );
-            //             },
-            //           ),
-            //         ),
-            //       );
-            //     }
-            //   },
-            // ),
-            Container(
-              child: Center(
-                child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
-                  builder: (context, state) {
-                    if (!state.ifLocationExist) return Text('Ubicando...');
-
-                    final camaraPosition = CameraPosition(
-                      target: state.ubicacion,
-                    );
-                    // return Container();
-                    return GoogleMap(
-                      myLocationButtonEnabled: false,
-                      myLocationEnabled: true,
-                      zoomControlsEnabled: false,
-                      initialCameraPosition: camaraPosition,
-                      onMapCreated: (controller) {
-                        BlocProvider.of<MapaBloc>(context)
-                            .initMapComercio(controller);
-                      },
-                    );
-                  },
-                ),
-              ),
+                          final camaraPosition = CameraPosition(
+                            target: state.latLng,
+                          );
+                          // return Container();
+                          return GoogleMap(
+                            myLocationButtonEnabled: false,
+                            myLocationEnabled: true,
+                            zoomControlsEnabled: false,
+                            initialCameraPosition: camaraPosition,
+                            onMapCreated: (controller) {
+                              BlocProvider.of<MapaBloc>(context)
+                                  .initMapComercio(controller);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
+            // Container(
+            //   child: Center(
+            //     child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
+            //       builder: (context, state) {
+            //         if (!state.ifLocationExist) return Text('Ubicando...');
+
+            //         final camaraPosition = CameraPosition(
+            //           target: state.latLng,
+            //         );
+            //         // return Container();
+            //         return GoogleMap(
+            //           myLocationButtonEnabled: false,
+            //           myLocationEnabled: true,
+            //           zoomControlsEnabled: false,
+            //           initialCameraPosition: camaraPosition,
+            //           onMapCreated: (controller) {
+            //             BlocProvider.of<MapaBloc>(context)
+            //                 .initMapComercio(controller);
+            //           },
+            //         );
+            //       },
+            //     ),
+            //   ),
+            // ),
             Positioned(
               bottom: 10,
               right: 10,
@@ -135,7 +141,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
                   final miUbicacionBloc =
                       BlocProvider.of<MiUbicacionBloc>(context);
 
-                  final destino = miUbicacionBloc.state.ubicacion;
+                  final destino = miUbicacionBloc.state.latLng;
                   mapaBloc.moverCamaraComercio(destino);
                 },
               ),

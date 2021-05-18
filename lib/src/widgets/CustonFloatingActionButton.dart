@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:allapp/src/data/bloc/mapa/mapa_bloc.dart';
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustonFloatingActionButton extends StatelessWidget {
   final VoidCallback onTap;

@@ -1,3 +1,5 @@
+import '../../../widgets/GetGeoPosition.dart';
+
 import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,7 +16,8 @@ class Tiendas extends StatefulWidget {
   _TiendasState createState() => _TiendasState();
 }
 
-class _TiendasState extends State<Tiendas> with TickerProviderStateMixin {
+class _TiendasState extends State<Tiendas>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 
   final tabText = [
@@ -58,7 +61,6 @@ class _TiendasState extends State<Tiendas> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = new TabController(length: 12, vsync: this);
   }
@@ -72,47 +74,55 @@ class _TiendasState extends State<Tiendas> with TickerProviderStateMixin {
 
     return CustomBackgroundGradient(
       child: SafeArea(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: [
-            BuscadorYPerfil(
-              tabController: _tabController,
-            ),
-            CustomTapBar(
-              tabController: _tabController,
-              tabText: tabText,
-              onTap: (value) {
-                setState(() {});
-              },
-            ),
-            _tabController.index != 0
-                ? SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  )
-                : Todo(),
-            _tabController.index != 1
-                ? SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  )
-                : Supermercado()
-          ],
+        child: GetGeoPosition(
+          successChild: () {
+            return CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: [
+                BuscadorYPerfil(
+                  tabController: _tabController,
+                ),
+                CustomTapBar(
+                  tabController: _tabController,
+                  tabText: tabText,
+                  onTap: (value) {
+                    setState(() {});
+                  },
+                ),
+                _tabController.index != 0
+                    ? SliverList(
+                        delegate: SliverChildListDelegate(
+                          [],
+                        ),
+                      )
+                    : Todo(),
+                _tabController.index != 1
+                    ? SliverList(
+                        delegate: SliverChildListDelegate(
+                          [],
+                        ),
+                      )
+                    : Supermercado()
+              ],
+            );
+          },
         ),
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class CustomTapBar extends StatelessWidget {
-  const CustomTapBar(
-      {Key key,
-      @required TabController tabController,
-      @required this.tabText,
-      @required this.onTap})
-      : _tabController = tabController,
+  const CustomTapBar({
+    Key key,
+    @required TabController tabController,
+    @required this.tabText,
+    @required this.onTap,
+  })  : _tabController = tabController,
         super(key: key);
 
   final TabController _tabController;
@@ -141,12 +151,10 @@ class CustomTapBar extends StatelessWidget {
                 isScrollable: true,
                 physics: BouncingScrollPhysics(),
                 indicator: MD2Indicator(
-                    //it begins here
-                    indicatorHeight: 4,
-                    indicatorColor: hexaColor('#E6D29F'),
-                    indicatorSize: MD2IndicatorSize
-                        .normal //3 different modes tiny-normal-full
-                    ),
+                  indicatorHeight: 4,
+                  indicatorColor: hexaColor('#E6D29F'),
+                  indicatorSize: MD2IndicatorSize.normal,
+                ),
                 tabs: tabText,
               ),
               Container(

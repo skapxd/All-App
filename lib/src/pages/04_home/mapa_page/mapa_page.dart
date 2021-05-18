@@ -1,10 +1,13 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/bloc/mapa/mapa_bloc.dart';
-import 'package:allapp/src/widgets/CustonFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
+
+import '../../../data/bloc/mapa/mapa_bloc.dart';
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/CustomText.dart';
+import '../../../widgets/CustonFloatingActionButton.dart';
 
 class MapaPage extends StatefulWidget {
   @override
@@ -38,6 +41,7 @@ class _MapaPageState extends State<MapaPage>
         LP.LocationPermissions().serviceStatus;
 
     return Container(
+      color: hexaColor('#232323'),
       height: vh,
       width: vw,
       child: Stack(
@@ -46,9 +50,11 @@ class _MapaPageState extends State<MapaPage>
             stream: statusStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == LP.ServiceStatus.disabled) {
-                return Container(
-                  child: Center(
-                    child: Text('Porfavor habilite el GPS para continuar'),
+                return Center(
+                  child: CustomText(
+                    'Porfavor habilite el GPS para continuar',
+                    style:
+                        CustomText.defaultTextStayle.copyWith(letterSpacing: 0),
                   ),
                 );
               } else {
@@ -59,7 +65,7 @@ class _MapaPageState extends State<MapaPage>
                         if (!state.ifLocationExist) return Text('Ubicando...');
 
                         final camaraPosition = CameraPosition(
-                          target: state.ubicacion,
+                          target: state.latLng,
                         );
                         // return Container();
                         return GoogleMap(
@@ -114,7 +120,7 @@ class _MapaPageState extends State<MapaPage>
                 final miUbicacionBloc =
                     BlocProvider.of<MiUbicacionBloc>(context);
 
-                final destino = miUbicacionBloc.state.ubicacion;
+                final destino = miUbicacionBloc.state.latLng;
                 mapaBloc.moverCamaraHome(destino);
               },
             ),

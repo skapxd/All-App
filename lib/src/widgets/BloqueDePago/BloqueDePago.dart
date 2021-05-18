@@ -83,18 +83,18 @@ class BloqueDePago extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
-                    horizontal: vw * 0.05,
-                    vertical: vw * 0.045,
+                    horizontal: vw * 0.03,
+                    vertical: vw * 0.05,
                   ),
-
                   // margin: EdgeInsets.,
                   decoration: BoxDecoration(
+                    // color: Colors.black,
                     border: Border.all(
                       color: hexaColor('#BEA07D'),
                     ),
                   ),
                   child: Container(
-                    margin: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(6),
                     alignment: Alignment.center,
                     child: Text(
                       'Ver más',

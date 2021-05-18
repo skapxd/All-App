@@ -3,8 +3,9 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:allapp/src/theme/map_style.dart';
 import 'package:meta/meta.dart';
+
+import '../../../theme/map_style.dart';
 
 part 'mapa_event.dart';
 part 'mapa_state.dart';

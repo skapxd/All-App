@@ -1,9 +1,9 @@
-import '../../utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../models/images.dart';
+import '../../utils/utils.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';
 import '../BloqueDePago/BloqueDePago.dart';
@@ -11,28 +11,6 @@ import '../RowShop.dart';
 import '../ValorarTiendas.dart';
 
 class Todo extends StatelessWidget {
-  Future<ListModelImageUrls> http() async {
-    try {
-      // var response =
-      //     await Dio().get('https://ipinfo.io/json?token=2859130d42a1bb');
-      // print(response);
-
-      var unplash = Dio(BaseOptions(baseUrl: 'https://api.unsplash.com'));
-      var response2 = await unplash.get('/photos', queryParameters: {
-        'client_id': 'RbLda7kQtHjEVR52HO9a8BVHtOMEsWQ-4xdrxIF49yM',
-      });
-
-      // final hola = json.encode(response2.data);
-      // print(response2.data);
-      return ListModelImageUrls.fromJsonList(response2.data);
-    } catch (e) {
-      return ListModelImageUrls.fromJsonList([]);
-
-      // return
-      // print(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
@@ -45,32 +23,8 @@ class Todo extends StatelessWidget {
           FutureBuilder(
             future: http(),
             builder: (context, AsyncSnapshot<ListModelImageUrls> snapshot) {
-              // print(snapshot);
-
-              if (snapshot.data == null) {
-                return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
-                  nombre: 'RECOMENDADOS POR ALL APP',
-                );
-              }
-
               switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
-                    nombre: 'RECOMENDADOS POR ALL APP',
-                  );
-                  break;
-                case ConnectionState.waiting:
-                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
-                    nombre: 'RECOMENDADOS POR ALL APP',
-                  );
-                  break;
-                case ConnectionState.active:
-                  return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
-                    nombre: 'RECOMENDADOS POR ALL APP',
-                  );
-                  break;
                 case ConnectionState.done:
-                  // TODO: Handle this case.
                   return FilaDeSubCategoriaDeTiendas(
                     subCategoria: 'RECOMENDADOS POR ALL APP',
                     itemCount: snapshot.data.items.length,
@@ -79,6 +33,9 @@ class Todo extends StatelessWidget {
                   );
                   break;
 
+                case ConnectionState.active:
+                case ConnectionState.none:
+                case ConnectionState.waiting:
                 default:
                   return PlaceHolderOfFilaDeSubCategoriaDeTiendas(
                     nombre: 'RECOMENDADOS POR ALL APP',
@@ -149,6 +106,19 @@ class Todo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<ListModelImageUrls> http() async {
+    try {
+      var unplash = Dio(BaseOptions(baseUrl: 'https://api.unsplash.com'));
+      var response2 = await unplash.get('/photos', queryParameters: {
+        'client_id': 'RbLda7kQtHjEVR52HO9a8BVHtOMEsWQ-4xdrxIF49yM',
+      });
+
+      return ListModelImageUrls.fromJsonList(response2.data);
+    } catch (e) {
+      return ListModelImageUrls.fromJsonList([]);
+    }
   }
 }
 

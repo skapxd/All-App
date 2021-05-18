@@ -28,6 +28,18 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     this._positionSuscriptio?.cancel();
   }
 
+  Future<LatLng> getPosition() async {
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+      // distanceFilter: 10,
+      // timeLimit: Duration(milliseconds: 300));
+    );
+
+    final latLng = LatLng(position.latitude, position.longitude);
+
+    return latLng;
+  }
+
   @override
   Stream<MiUbicacionState> mapEventToState(
     MiUbicacionEvent event,
@@ -35,8 +47,10 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     if (event is AddUbicacion) {
       yield state.copyWith(
         existeUbicacion: true,
-        ubicacion: event.position,
+        latLng: event.position,
       );
+    } else if (event is AddAddress) {
+      yield state.copyWith(address: event.address);
     }
   }
 }

@@ -8,3 +8,9 @@ class AddUbicacion extends MiUbicacionEvent {
 
   AddUbicacion(this.position);
 }
+
+class AddAddress extends MiUbicacionEvent {
+  final String address;
+
+  AddAddress(this.address);
+}

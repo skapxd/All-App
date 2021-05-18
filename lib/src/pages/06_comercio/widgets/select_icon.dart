@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../utils/utils.dart';
 
 class SelecteIcon extends StatefulWidget {
   final bool ifEnable;

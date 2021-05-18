@@ -1,6 +1,3 @@
-import 'package:allapp/src/pages/06_comercio/mapa_page/mapa_page.dart';
-
-import '../../utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,10 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../data/shared/pref.dart';
+import '../../utils/utils.dart';
 import '../../widgets/OutLineButton.dart';
 import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
 import 'crear-productos-page/crear_producto.dart';
+import 'mapa_page/mapa_page.dart';
 import 'widgets/select_icon.dart';
 
 class ComercioPage extends StatefulWidget {
@@ -69,8 +68,11 @@ Se asumirá que usted está de acuerdo si decide continuar
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarColor: hexaColor('#101010'),
           ),
+          // sized: true,
+          sized: false,
           child: AlertDialog(
-            backgroundColor: hexaColor('#303030'),
+            backgroundColor: hexaColor('#232323'),
+            // backgroundColor: hexaColor('#303030'),
             title: Text(
               'Importante',
               style: TextStyle(
@@ -125,9 +127,17 @@ Se asumirá que usted está de acuerdo si decide continuar
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarIconBrightness: Brightness.light,
         systemNavigationBarColor: hexaColor('#303030'),
+        // systemNavigationBarColor: hexaColor('#303030'),
       ),
+      sized: true,
       child: Scaffold(
+        // backgroundColor: hexaColor('#232323'),
+        backgroundColor: hexaColor('#303030'),
         appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: hexaColor('#303030'),
+          brightness: Brightness.dark,
           actions: [
             InkWell(
               highlightColor: rgbColor(0, 0, 0, 0),
@@ -168,12 +178,7 @@ Se asumirá que usted está de acuerdo si decide continuar
               ),
             ),
           ),
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: hexaColor('#303030'),
         ),
-        // backgroundColor: hexaColor('#000000'),
-        backgroundColor: hexaColor('#303030'),
         body: Container(
           width: vw,
           child: SingleChildScrollView(
@@ -505,7 +510,7 @@ class _CustomButton extends StatelessWidget {
                 ),
               ),
               Container(
-                width: vw * 0.55,
+                // width: vw * 0.55,
                 child: Text(
                   this.text,
                   overflow: TextOverflow.ellipsis,
