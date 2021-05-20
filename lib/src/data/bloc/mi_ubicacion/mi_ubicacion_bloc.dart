@@ -87,7 +87,13 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
         print('$addressList');
 
-        add(AddAddress(addressList));
+        final address = Address(
+          city: addressList[2],
+          country: addressList[0],
+          department: addressList[1],
+        );
+
+        add(AddAddress(address));
       } catch (e) {
         print(e);
         return;

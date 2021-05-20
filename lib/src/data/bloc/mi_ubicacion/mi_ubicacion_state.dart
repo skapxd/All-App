@@ -4,7 +4,8 @@ part of 'mi_ubicacion_bloc.dart';
 class MiUbicacionState {
   final LatLng latLng;
   final LatLng initPosition;
-  final List<String> address;
+  final Address address;
+  // final List<String> address;
   final bool siguiendo;
   final bool ifLocationExist;
 
@@ -19,8 +20,9 @@ class MiUbicacionState {
   MiUbicacionState copyWith({
     LatLng latLng,
     bool siguiendo,
+    Address address,
     LatLng initPosition,
-    List<String> address,
+    // List<String> address,
     bool existeUbicacion,
   }) =>
       new MiUbicacionState(
@@ -30,4 +32,16 @@ class MiUbicacionState {
         initPosition: initPosition ?? this.initPosition,
         ifLocationExist: existeUbicacion ?? this.ifLocationExist,
       );
+}
+
+class Address {
+  final String city;
+  final String country;
+  final String department;
+
+  Address({
+    @required this.city,
+    @required this.country,
+    @required this.department,
+  });
 }

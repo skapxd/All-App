@@ -76,7 +76,7 @@ class _HomeState extends State<Home>
 
     Pref().lastPage = Home.pathName;
 
-    final address = _miUbicacionBloc.state.address;
+    // final address = _miUbicacionBloc.state.address;
 
     // print(address);
 

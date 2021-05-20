@@ -10,7 +10,8 @@ class AddUbicacion extends MiUbicacionEvent {
 }
 
 class AddAddress extends MiUbicacionEvent {
-  final List<String> address;
+  final Address address;
+  // final List<String> address;
 
   AddAddress(this.address);
 }
