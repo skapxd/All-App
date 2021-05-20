@@ -22,10 +22,11 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
     if (event is AddComercioIcon) {
       yield ComercioState(icon: event.image);
     } else if (event is AddAceptoTerminos) {
-      yield ComercioState(aceptoTerminos: event.aceptoTerminos);
+      yield state.copyWith(aceptoTerminos: event.aceptoTerminos);
+    } else if (event is AddComercioIfEnableEditar) {
+      print('terminos =====> ${event.ifEnable}');
+
+      yield state.copyWith(ifEnable: event.ifEnable);
     }
-    // else if (event is AddPafeIndex) {
-    //   yield state.copyWith(pageIndex: event.pageIndex);
-    // }
   }
 }

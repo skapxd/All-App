@@ -1,14 +1,9 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../widgets/GetGeoPosition.dart';
-
-import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 import '../../../data/shared/pref.dart';
+import '../../../utils/utils.dart';
 import '../../../widgets/BackgroundGradient.dart';
 import '../../../widgets/Menu/Menu.dart';
 import '../../../widgets/ruburos/Supermercado.dart';
@@ -77,40 +72,34 @@ class _TiendasState extends State<Tiendas>
 
     return CustomBackgroundGradient(
       child: SafeArea(
-        child: GetGeoPosition(
-          successChild: (address) {
-            final a = BlocProvider.of<MiUbicacionBloc>(context).state.address;
-
-            return CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: [
-                BuscadorYPerfil(
-                  tabController: _tabController,
-                ),
-                CustomTapBar(
-                  tabController: _tabController,
-                  tabText: tabText,
-                  onTap: (value) {
-                    setState(() {});
-                  },
-                ),
-                _tabController.index != 0
-                    ? SliverList(
-                        delegate: SliverChildListDelegate(
-                          [],
-                        ),
-                      )
-                    : Todo(),
-                _tabController.index != 1
-                    ? SliverList(
-                        delegate: SliverChildListDelegate(
-                          [],
-                        ),
-                      )
-                    : Supermercado()
-              ],
-            );
-          },
+        child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            BuscadorYPerfil(
+              tabController: _tabController,
+            ),
+            CustomTapBar(
+              tabController: _tabController,
+              tabText: tabText,
+              onTap: (value) {
+                setState(() {});
+              },
+            ),
+            _tabController.index != 0
+                ? SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  )
+                : Todo(),
+            _tabController.index != 1
+                ? SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  )
+                : Supermercado()
+          ],
         ),
       ),
     );

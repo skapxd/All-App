@@ -17,6 +17,8 @@ import 'bloc/phone_bloc.dart';
 class EnterPhone extends StatelessWidget {
   static final String pathName = '/EnterPhone';
 
+  final Pref _pref = Pref();
+
   @override
   Widget build(BuildContext context) {
     // View Width
@@ -24,9 +26,9 @@ class EnterPhone extends StatelessWidget {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    String country = '+57';
+    // String country = '+57';
 
-    String phone = '';
+    // String phone = '';
 
     return _Bg(
       child: SingleChildScrollView(
@@ -54,7 +56,7 @@ class EnterPhone extends StatelessWidget {
                   CountryCodePicker(
                     backgroundColor: hexaColor('#000000', opacity: 0),
                     barrierColor: hexaColor('#000000', opacity: 0.4),
-                    onChanged: (value) => country = value.dialCode,
+                    onChanged: (value) => _pref.prefix = value.dialCode,
                     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                     initialSelection: 'CO',
                     favorite: ['+57', 'CO'],
@@ -70,12 +72,14 @@ class EnterPhone extends StatelessWidget {
                   ),
                   _TextField(
                     onChange: (value) {
-                      phone = value.replaceAll(' ', '');
+                      _pref.phone = value.replaceAll(' ', '');
+
+                      print(_pref.prefix + _pref.phone);
 
                       BlocProvider.of<PhoneBloc>(context)
-                          .add(AddPhone(country + phone));
+                          .add(AddPhone(_pref.prefix + _pref.phone));
 
-                      int length = phone.length;
+                      int length = _pref.phone.length;
 
                       if (length == 10) {
                         FocusScope.of(context).unfocus();

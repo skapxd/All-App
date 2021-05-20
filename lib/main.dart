@@ -32,13 +32,8 @@ void main() async {
   final pref = Pref();
   await pref.initPref();
 
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
+  runApp(
+    MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => new PhoneBloc()),
         BlocProvider(create: (_) => new MenuBloc()),
@@ -47,44 +42,66 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => new MapaBloc()),
         BlocProvider(create: (_) => new HomeBloc()),
       ],
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Color(0x00000000),
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: Color(0xff232323),
-        ),
-        sized: false,
-        child: MaterialApp(
-          color: Color(0xffffffff),
-          debugShowCheckedModeBanner: false,
-          title: 'AllApp',
-          theme: ThemeData(
-            scrollbarTheme: ScrollbarThemeData(),
-            fontFamily: 'Montserrat',
-            textSelectionTheme: TextSelectionThemeData(
-              selectionColor: hexaColor('#FFFFFF'),
-              cursorColor: hexaColor('#FFFFFF'),
-              selectionHandleColor: hexaColor('#FFFFFF'),
-            ),
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  MiUbicacionBloc miUbicacionBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Color(0x00000000),
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Color(0xff232323),
+      ),
+      sized: false,
+      child: MaterialApp(
+        color: Color(0xffffffff),
+        debugShowCheckedModeBanner: false,
+        title: 'AllApp',
+        theme: ThemeData(
+          scrollbarTheme: ScrollbarThemeData(),
+          fontFamily: 'Montserrat',
+          textSelectionTheme: TextSelectionThemeData(
+            selectionColor: hexaColor('#FFFFFF'),
+            cursorColor: hexaColor('#FFFFFF'),
+            selectionHandleColor: hexaColor('#FFFFFF'),
           ),
-          initialRoute: Pref().lastPage,
-          // initialRoute: EnterPhone.pathName,
-          routes: {
-            WelcomePage.pathName: (_) => WelcomePage(),
-            EnterPhone.pathName: (_) => EnterPhone(),
-            EnterCode.pathName: (_) => EnterCode(),
-            Home.pathName: (_) => Home(),
-            SliverPage.pathName: (_) => SliverPage(),
-            PageImage.pathName: (_) => PageImage(),
-            FavoritosPage.pathName: (_) => FavoritosPage(),
-            ComercioPage.pathName: (_) => ComercioPage(),
-            CrearProductosPage.pathName: (_) => CrearProductosPage(),
-            PhotosPage.pathName: (_) => PhotosPage(),
-            AddPageImage.pathName: (_) => AddPageImage(),
-            ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
-          },
         ),
+        initialRoute: Pref().lastPage,
+        // initialRoute: EnterPhone.pathName,
+        routes: {
+          WelcomePage.pathName: (_) => WelcomePage(),
+          EnterPhone.pathName: (_) => EnterPhone(),
+          EnterCode.pathName: (_) => EnterCode(),
+          Home.pathName: (_) => Home(),
+          SliverPage.pathName: (_) => SliverPage(),
+          PageImage.pathName: (_) => PageImage(),
+          FavoritosPage.pathName: (_) => FavoritosPage(),
+          ComercioPage.pathName: (_) => ComercioPage(),
+          CrearProductosPage.pathName: (_) => CrearProductosPage(),
+          PhotosPage.pathName: (_) => PhotosPage(),
+          AddPageImage.pathName: (_) => AddPageImage(),
+          ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
+        },
       ),
     );
   }

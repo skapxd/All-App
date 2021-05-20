@@ -26,6 +26,11 @@ class Pref {
 
   set lastPage(String value) => _pref.setString('lastPage', value);
 
+  // GET & SET -> Prefijo de pais
+  String get prefix => _pref.getString('prefix') ?? '+57';
+
+  set prefix(String value) => _pref.setString('prefix', value);
+
   // GET & SET -> Numero de telefono
   String get phone => _pref.getString('phone') ?? '';
 

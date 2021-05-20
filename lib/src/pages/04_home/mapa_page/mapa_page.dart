@@ -16,16 +16,20 @@ class MapaPage extends StatefulWidget {
 
 class _MapaPageState extends State<MapaPage>
     with AutomaticKeepAliveClientMixin {
+  MiUbicacionBloc miUbicacionBloc;
+
   @override
   void initState() {
-    BlocProvider.of<MiUbicacionBloc>(context).iniciarSeguimiento();
+    miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
+    miUbicacionBloc.iniciarSeguimiento();
 
     super.initState();
   }
 
   @override
   void dispose() {
-    BlocProvider.of<MiUbicacionBloc>(context).cancelarSeguimiento();
+    miUbicacionBloc.cancelarSeguimiento();
 
     super.dispose();
   }
@@ -37,9 +41,6 @@ class _MapaPageState extends State<MapaPage>
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    final Stream<LP.ServiceStatus> statusStream =
-        LP.LocationPermissions().serviceStatus;
-
     return Container(
       color: hexaColor('#232323'),
       height: vh,
@@ -47,7 +48,7 @@ class _MapaPageState extends State<MapaPage>
       child: Stack(
         children: [
           StreamBuilder(
-            stream: statusStream,
+            stream: miUbicacionBloc.statusStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == LP.ServiceStatus.disabled) {
                 return Center(

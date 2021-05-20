@@ -10,7 +10,13 @@ class AddUbicacion extends MiUbicacionEvent {
 }
 
 class AddAddress extends MiUbicacionEvent {
-  final String address;
+  final List<String> address;
 
   AddAddress(this.address);
+}
+
+class AddInitPosition extends MiUbicacionEvent {
+  final LatLng initPosition;
+
+  AddInitPosition(this.initPosition);
 }

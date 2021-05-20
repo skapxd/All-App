@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:allapp/src/utils/utils.dart';
-import 'package:allapp/src/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,6 +5,8 @@ import 'package:location_permissions/location_permissions.dart' as LP;
 
 import '../../../data/bloc/mapa/mapa_bloc.dart';
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/CustomText.dart';
 import '../../../widgets/CustonFloatingActionButton.dart';
 
 class ComercioMapaPage extends StatefulWidget {
@@ -21,32 +19,26 @@ class ComercioMapaPage extends StatefulWidget {
 class _ComercioMapaPageState extends State<ComercioMapaPage>
 // with AutomaticKeepAliveClientMixin
 {
-  // Stream<LP.ServiceStatus> statusStream;
-  Stream<bool> locationEventStream;
+  MiUbicacionBloc miUbicacionBloc;
 
   @override
   void didChangeDependencies() {
-    BlocProvider.of<MiUbicacionBloc>(context).iniciarSeguimiento();
-    locationEventStream = LP.LocationPermissions()
-        .serviceStatus
-        .map((s) => s == LP.ServiceStatus.enabled ? true : false);
+    miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
+    miUbicacionBloc.iniciarSeguimiento();
+
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
-    // BlocProvider.of<MiUbicacionBloc>(context).iniciarSeguimiento();
-    // locationEventStream = LP.LocationPermissions()
-    //     .serviceStatus
-    //     .map((s) => s == LP.ServiceStatus.enabled ? true : false);
-    // statusStream = LP.LocationPermissions().serviceStatus;
     super.initState();
   }
 
   @override
   void dispose() {
+    miUbicacionBloc.cancelarSeguimiento();
     super.dispose();
-    // BlocProvider.of<MiUbicacionBloc>(context).cancelarSeguimiento();
   }
 
   @override
@@ -57,9 +49,6 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    final Stream<LP.ServiceStatus> statusStream =
-        LP.LocationPermissions().serviceStatus;
-
     return Scaffold(
       backgroundColor: hexaColor('#232323'),
       body: Container(
@@ -68,7 +57,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
         child: Stack(
           children: [
             StreamBuilder(
-              stream: statusStream,
+              stream: miUbicacionBloc.statusStream,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == LP.ServiceStatus.disabled) {
                   // showCustomDialog(context);
@@ -89,9 +78,11 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
 
                           final camaraPosition = CameraPosition(
                             target: state.latLng,
+                            zoom: 17,
                           );
                           // return Container();
                           return GoogleMap(
+                            // indoorViewEnabled: false,
                             myLocationButtonEnabled: false,
                             myLocationEnabled: true,
                             zoomControlsEnabled: false,

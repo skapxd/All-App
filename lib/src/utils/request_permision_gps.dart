@@ -7,7 +7,9 @@ void accesoGps({
 
   switch (status) {
     case PermissionStatus.granted:
-      onGranted();
+      if (onGranted != null) {
+        onGranted();
+      }
       // Navigator.pushReplacementNamed(context, MapaPage.pathName);
       break;
 

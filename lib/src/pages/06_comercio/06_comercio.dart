@@ -1,3 +1,5 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/data/db/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -121,6 +123,9 @@ Se asumirá que usted está de acuerdo si decide continuar
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
+    final comercioBloc = BlocProvider.of<ComercioBloc>(context);
+    final miUbicacion = BlocProvider.of<MiUbicacionBloc>(context);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: rgbColor(0, 0, 0, 0),
@@ -213,8 +218,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                         initialIfEnable: _pref.ifHabilitarEdicion,
                         onChanged: (value) {
                           _pref.ifHabilitarEdicion = value;
-                          BlocProvider.of<ComercioBloc>(context)
-                              .add(AddComercioIfEnableEditar(value));
+                          comercioBloc.add(AddComercioIfEnableEditar(value));
                         },
                       ),
                       _IfSwichFormulario(
@@ -222,6 +226,19 @@ Se asumirá que usted está de acuerdo si decide continuar
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
                           _pref.ifVisibilidadDeTienda = value;
+                          DBFirestore().addStore(
+                            categories: 'todo',
+                            visibilidad: value,
+                            latLng: _pref.latLanDeTienda,
+                            phoneIdStore: _pref.telefotoDeTienda,
+                            nameStore: _pref.nombreDeTienda,
+                            cityPath: miUbicacion.state.address,
+                            telegram: _pref.telegramDeTienda,
+                            phoneCall: _pref.telefotoDeTienda,
+                            direccion: _pref.direccionDeTienda,
+                            phoneWhatsApp: _pref.whatsAppDeTienda,
+                            urlImage: _pref.iconPath,
+                          );
                         },
                       ),
                       Form(
