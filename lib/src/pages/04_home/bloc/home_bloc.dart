@@ -15,6 +15,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async* {
     if (event is AddPageIndex) {
       yield state.copyWith(pageIndex: event.pageIndex);
+    } else if (event is AddTapBarViewIndex) {
+      print('Print =====> ${event.tapBarViewIndex}');
+      yield state.copyWith(tapBarViewIndex: event.tapBarViewIndex);
     }
   }
 }

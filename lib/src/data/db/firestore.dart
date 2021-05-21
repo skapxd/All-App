@@ -1,6 +1,9 @@
 import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/models/address_model.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../models/store_model.dart';
 
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,7 +23,7 @@ class DBFirestore {
   void addStore({
     String latLng,
     String phoneIdStore,
-    Address cityPath,
+    AddressModel cityPath,
     // List<String> cityPath,
     String urlImage,
     String telegram,
@@ -50,7 +53,7 @@ class DBFirestore {
 
   void updateStoreRating({
     String message,
-    Address cityPath,
+    AddressModel cityPath,
     String phoneIdStore,
     String phoneIdClient,
     String dateTiem,
@@ -81,17 +84,40 @@ class DBFirestore {
     });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getListStore({
-    Address cityPath,
-    String categories,
+  Future<List<StoreModel>> getListStore({
+    @required AddressModel cityPath,
+    @required String categories,
   }) async {
+    //
+
+    // final path =
+    //     '/country/colombia/departament/antioquia/city/la_ceja/categories/todo/store';
+
     final path =
         'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
 
+    print(path);
+
     final store = await _firestore.collection(path).get();
 
-    store.docs.map((e) {
-      final f = StoreModel();
-    });
+    print('========> List Store model  ');
+
+    final List<StoreModel> listStoremodel = store.docs.map((e) {
+      final f = StoreModel(
+        latLng: e['latLng'],
+        urlImage: e['urlImage'],
+        telegram: e['telegram'],
+        nameStore: e['nameStore'],
+        phoneCall: e['phoneCall'],
+        direccion: e['direccion'],
+        visibilidad: e['visibilidad'],
+        phoneWhatsApp: e['phoneWhatsApp'],
+      );
+      return f;
+    }).toList();
+
+    print('this is list of Store model =====> $listStoremodel');
+
+    return listStoremodel;
   }
 }

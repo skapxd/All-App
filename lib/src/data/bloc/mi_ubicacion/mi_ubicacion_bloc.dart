@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:allapp/src/data/shared/pref.dart';
+import 'package:allapp/src/models/address_model.dart';
+import 'package:allapp/src/models/address_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
@@ -85,9 +87,9 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
         // final addressToString =
         //     addressList.join('/').replaceAll(' ', '_').toLowerCase();
 
-        print('$addressList');
+        // print('$addressList');
 
-        final address = Address(
+        final address = AddressModel(
           city: addressList[2],
           country: addressList[0],
           department: addressList[1],

@@ -8,3 +8,9 @@ class AddPageIndex extends HomeEvent {
 
   AddPageIndex(this.pageIndex);
 }
+
+class AddTapBarViewIndex extends HomeEvent {
+  final int tapBarViewIndex;
+
+  AddTapBarViewIndex(this.tapBarViewIndex);
+}

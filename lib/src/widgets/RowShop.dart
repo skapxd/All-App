@@ -2,26 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../models/images.dart';
+import '../models/store_model.dart';
 import '../utils/utils.dart';
 
-class Business {
-  final String name;
-  final String url;
-
-  Business(this.name, this.url);
-}
-
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
-  final ListModelImageUrls nameBusiness;
-  final String subCategoria;
-  final int itemCount;
+  // final ListModelImageUrls nameBusiness;
+  final List<StoreModel> listStoreModel;
+  final String titleRow;
   final String ruburo;
+  // final String titleRow;
   FilaDeSubCategoriaDeTiendas({
-    @required this.nameBusiness,
-    @required this.subCategoria,
-    @required this.itemCount,
+    @required this.listStoreModel,
+    @required this.titleRow,
     @required this.ruburo,
+    // @required this.titleRow,
   });
   @override
   Widget build(BuildContext context) {
@@ -33,7 +27,7 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
         children: [
           ListTile(
             title: Text(
-              this.subCategoria.toUpperCase(),
+              this.titleRow.toUpperCase(),
               style: TextStyle(
                 color: hexaColor('#BEA07D'),
                 letterSpacing: 3,
@@ -48,8 +42,8 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
             ),
           ),
           FilaDeTiendas(
-            nameBusiness: this.nameBusiness,
-            itemCount: this.itemCount,
+            // nameBusiness: this.nameBusiness,
+            listStoreModel: listStoreModel,
             ruburo: this.ruburo,
           ),
         ],
@@ -59,13 +53,12 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
 }
 
 class FilaDeTiendas extends StatelessWidget {
-  final ListModelImageUrls nameBusiness;
+  final List<StoreModel> listStoreModel;
   final String ruburo;
-  final int itemCount;
+  // final int itemCount;
 
   FilaDeTiendas({
-    @required this.nameBusiness,
-    @required this.itemCount,
+    @required this.listStoreModel,
     @required this.ruburo,
   });
   @override
@@ -78,7 +71,7 @@ class FilaDeTiendas extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
-        itemCount: this.itemCount,
+        itemCount: this.listStoreModel.length,
         itemBuilder: (context, index) {
           // final nameTemp = nameBusiness[index].name;
 
@@ -95,7 +88,7 @@ class FilaDeTiendas extends StatelessWidget {
           //   name = '$firstPartName\n$secondPartName';
           // }
 
-          List<String> name = this.nameBusiness.items[index].thumb.split('');
+          List<String> name = this.listStoreModel[index].nameStore.split('');
 
           if (name.length > 12) {
             name.insert(12, '\n');
@@ -119,7 +112,7 @@ class FilaDeTiendas extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _ImageBusiness(
-                  url: this.nameBusiness.items[index].thumb,
+                  url: this.listStoreModel[index].urlImage,
                   ruburo: this.ruburo,
                 ),
                 Container(
@@ -145,7 +138,7 @@ class FilaDeTiendas extends StatelessWidget {
                     ),
                     SizedBox(width: 3),
                     SvgPicture.asset(
-                      'assets/icons/full-star.svg.svg',
+                      'assets/icons/full-star.svg',
                       height: 7,
                     ),
                   ],
@@ -213,7 +206,7 @@ class _ImageBusiness extends StatelessWidget {
           borderRadius: BorderRadius.circular(vw * 0.05),
         ),
         child: SvgPicture.asset(
-          'assets/ruburos/$ruburo.svg',
+          'assets/ruburos/${ruburo}.svg',
         ),
       );
     }

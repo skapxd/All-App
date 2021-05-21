@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
@@ -8,6 +9,7 @@ import '../../../widgets/BackgroundGradient.dart';
 import '../../../widgets/Menu/Menu.dart';
 import '../../../widgets/ruburos/Supermercado.dart';
 import '../../../widgets/ruburos/Todo.dart';
+import '../bloc/home_bloc.dart';
 
 class Tiendas extends StatefulWidget {
   @override
@@ -65,6 +67,10 @@ class _TiendasState extends State<Tiendas>
 
   @override
   Widget build(BuildContext context) {
+    //
+
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
+
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -82,23 +88,28 @@ class _TiendasState extends State<Tiendas>
               tabController: _tabController,
               tabText: tabText,
               onTap: (value) {
-                setState(() {});
+                // setState(() {});
+                homeBloc.add(AddTapBarViewIndex(value));
               },
             ),
-            _tabController.index != 0
-                ? SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  )
-                : Todo(),
-            _tabController.index != 1
-                ? SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  )
-                : Supermercado()
+            // _tabController.index != 0
+            //     ? SliverList(
+            //         delegate: SliverChildListDelegate(
+            //           [],
+            //         ),
+            //       )
+            //     : Todo(),
+
+            Supermercado(
+              categories: 'todo',
+            )
+            // _tabController.index != 1
+            //     ? SliverList(
+            //         delegate: SliverChildListDelegate(
+            //           [],
+            //         ),
+            //       )
+            //     : Supermercado()
           ],
         ),
       ),
