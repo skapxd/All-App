@@ -1,9 +1,9 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/models/address_model.dart';
-import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meta/meta.dart';
 
+import '../../models/address_model.dart';
 import '../../models/store_model.dart';
+import '../bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

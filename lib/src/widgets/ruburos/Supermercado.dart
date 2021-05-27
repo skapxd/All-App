@@ -1,9 +1,9 @@
-import 'package:allapp/src/models/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../data/db/firestore.dart';
+import '../../models/store_model.dart';
 import '../../pages/04_home/bloc/home_bloc.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';
@@ -36,11 +36,12 @@ class _SupermercadoState extends State<Supermercado>
             builder: (context, state) {
               //
 
-              print('Supermercado ======> MiUbicacionBloc ${state.address}');
-
               if (state.address == null) {
-                return Placeholder();
+                return _PlaceHolder();
               }
+
+              print(
+                  'Supermercado ======> MiUbicacionBloc ${state.address.country}');
 
               return FutureBuilder(
                 future: DBFirestore().getListStore(
@@ -53,7 +54,8 @@ class _SupermercadoState extends State<Supermercado>
                   //
                   final listStoreModel = snapshot.data;
 
-                  print('Supermercado ======> FutureBuilder $listStoreModel');
+                  print(
+                      'Supermercado ======> FutureBuilder ${listStoreModel[0].direccion}');
 
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
@@ -118,7 +120,7 @@ class _PlaceHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.red,
     );
   }
 }

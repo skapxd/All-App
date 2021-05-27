@@ -1,9 +1,9 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import 'bloc/home_bloc.dart';

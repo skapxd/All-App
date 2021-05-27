@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/models/address_model.dart';
-import 'package:allapp/src/models/address_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,6 +9,8 @@ import 'package:location_permissions/location_permissions.dart' as LP;
 import 'package:meta/meta.dart';
 
 import '../../../models/ConverGeoLocationToAdress.dart';
+import '../../../models/address_model.dart';
+import '../../shared/pref.dart';
 
 part 'mi_ubicacion_event.dart';
 part 'mi_ubicacion_state.dart';

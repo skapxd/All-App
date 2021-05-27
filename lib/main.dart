@@ -107,6 +107,9 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+// TODO: Crear cache para las tiendas
+// https://medium.com/flutter-community/cache-manager-with-flutter-5a5db0d3a3e6
+
 // flutter build appbundle --target-platform android-arm,android-arm64,android-x64
 // Construir apk   flutter build apk --release
 

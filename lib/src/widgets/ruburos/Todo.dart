@@ -1,12 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../BannerDePago.dart';
-import '../BannerInicial.dart';
-import '../BloqueDePago/BloqueDePago.dart';
-import '../RowShop.dart';
-import '../ValorarTiendas.dart';
 
 class Todo extends StatelessWidget {
   @override
