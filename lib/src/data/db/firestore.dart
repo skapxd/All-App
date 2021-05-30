@@ -3,25 +3,23 @@ import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
-
 import '../../models/address_model.dart';
-import '../../models/store_model.dart';
+// import '../../models/store_model.dart';
 import '../bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _pref = Pref();
 
+  int count = 0;
 
-    final now = DateTime.now();
-
+  final now = DateTime.now();
 
   void addUser({
     String phone,
     String token,
     String name,
   }) {
-    
-
     _firestore.collection('Users').doc('$phone').set({
       'phone': '$phone',
       'token': '$token',
@@ -102,46 +100,110 @@ class DBFirestore {
     // final path =
     //     '/country/colombia/departament/antioquia/city/la_ceja/categories/todo/store';
 
+    final now = DateTime.now();
+
     final path =
         'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
 
-    final getCache = ApiPref().getStoreCache(path: path);
+    CacheStoreModel cache;
 
-    if (getCache == null || getCache.expire.) {
-      // 
+    try {
+      // cache = cacheStoreModelFromJson(_pref.cacheStore);
 
-      print(getCache);
+      final cacheTemp = _pref.getAnyData(path: path);
 
-      print(path);
-
-      final store = await _firestore.collection(path).get();
-
-      print('========> List Store model  ');
-
-      final List<StoreModel> listStoremodel =
-          store.docs.map((queryDocumentSnapshot) {
-        //
-
-        final _storeModelTemp = StoreModel(
-          latLng: queryDocumentSnapshot['latLng'],
-          urlImage: queryDocumentSnapshot['urlImage'],
-          telegram: queryDocumentSnapshot['telegram'],
-          nameStore: queryDocumentSnapshot['nameStore'],
-          phoneCall: queryDocumentSnapshot['phoneCall'],
-          direccion: queryDocumentSnapshot['direccion'],
-          visibilidad: queryDocumentSnapshot['visibilidad'],
-          phoneWhatsApp: queryDocumentSnapshot['phoneWhatsApp'],
-        );
-
-        return _storeModelTemp;
-      }).toList();
-
-      print('this is list of Store model =====> $listStoremodel');
-
-      final setCache = ApiPref().setStoreCache(cacheStoreModel: CacheStoreModel(expire: expire, path: path, listoOfStore: listoOfStore))
-
-      
-      // return listStoremodel;
+      cache = cacheStoreModelFromJson(cacheTemp);
+    } catch (e) {
+      cache = null;
     }
+
+    // Si el cache no existe lo crea y lo guarda
+    if (cache == null) {
+      //
+
+      print('cache is null');
+
+      return _listStoreModel(path: path);
+    }
+
+    final expire = DateTime.parse(cache.expire);
+
+    // Si el cache existe pero esta vencido
+    if (expire.isBefore(now)) {
+      //
+      print('cache is not null but expired $cache');
+
+      return _listStoreModel(path: path);
+    }
+
+    print('cache vigente');
+
+    final data = _pref.getAnyData(path: path);
+
+    try {
+      final cache2 = cacheStoreModelFromJson(data);
+
+      return cache2.storeModel;
+    } catch (e) {
+      //
+
+      print('Firestore - getListStore - Error: $e');
+    }
+  }
+
+  Future<List<StoreModel>> _listStoreModel({
+    @required String path,
+  }) async {
+    final store = await getDataOfFireStore(path: path);
+
+    final List<StoreModel> listStoremodel =
+        store.docs.map((queryDocumentSnapshot) {
+      //
+
+      final _storeModelTemp = StoreModel(
+        latLng: queryDocumentSnapshot['latLng'],
+        urlImage: queryDocumentSnapshot['urlImage'],
+        telegram: queryDocumentSnapshot['telegram'],
+        nameStore: queryDocumentSnapshot['nameStore'],
+        phoneCall: queryDocumentSnapshot['phoneCall'],
+        direccion: queryDocumentSnapshot['direccion'],
+        visibilidad: queryDocumentSnapshot['visibilidad'],
+        phoneWhatsApp: queryDocumentSnapshot['phoneWhatsApp'],
+      );
+
+      return _storeModelTemp;
+    }).toList();
+
+    print(listStoremodel);
+
+    final cacheTemp = CacheStoreModel(
+      expire:
+          DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
+              .toString(),
+      path: path,
+      storeModel: listStoremodel,
+    );
+
+    _pref.cacheStore = cacheTemp;
+
+    //////////////////////////////////////////////
+
+    final data = _pref.getAnyData(path: path);
+
+    try {
+      final cache2 = cacheStoreModelFromJson(data);
+
+      return cache2.storeModel;
+    } catch (e) {
+      print('Firestore - _listStoreModel - Error: $e');
+    }
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataOfFireStore({
+    @required String path,
+  }) async {
+    print('Veces que se ha hecho una peticion a FireStore');
+
+    return _firestore.collection(path).get();
   }
 }

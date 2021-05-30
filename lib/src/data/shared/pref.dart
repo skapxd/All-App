@@ -3,19 +3,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/01_wellcome/01_wellcome.dart';
 
-class ApiPref {
-  final Pref _pref = Pref();
+// class ApiPref {
+//   final Pref _pref = Pref();
 
-  CacheStoreModel getStoreCache({String path}) {
-    return _pref.getStoreCache(path);
-  }
+//   CacheStoreModel getStoreCache({String path}) {
+//     final cache = cacheStoreModelFromJson(_pref.cacheStore);
+//     return cache;
+//   }
 
-  void setStoreCache({CacheStoreModel cacheStoreModel}) {
-    _pref.setStoreCache = cacheStoreModel;
-  }
-}
+//   void setStoreCache({CacheStoreModel cacheStoreModel}) {
+//     final cache = cacheStoreModelToJson(cacheStoreModel);
+//     _pref.cacheStore = cache;
+//   }
+// }
 
-@Deprecated('ApiPref')
+// @Deprecated('ApiPref')
 class Pref {
   static final Pref _instance = new Pref._internal();
 
@@ -35,6 +37,17 @@ class Pref {
   /// Pref de app
   ////////////////////////////////////////////////////////////////////
 
+  /// Get any data
+  String getAnyData({String path}) {
+    String data;
+    try {
+      data = _pref.get(path);
+    } catch (e) {
+      data = 'error';
+    }
+    return data;
+  }
+
   // GET & SET -> Ultima pagina
   String get lastPage {
     if (phone == null) {
@@ -45,16 +58,11 @@ class Pref {
   }
 
   // GET & SET -> Cache store
-  CacheStoreModel getStoreCache(String value) {
-    final _cache = _pref.getString(value);
+  // String get cacheStore => _pref.getString('hola');
 
-    return cacheStoreModelFromJson(_cache);
-  }
-
-  set setStoreCache(CacheStoreModel value) {
-    final _cache = cacheStoreModelToJson(value);
-
-    _pref.setString(value.path, _cache);
+  set cacheStore(CacheStoreModel cacheStoreModel) {
+    final cache = cacheStoreModelToJson(cacheStoreModel);
+    _pref.setString(cacheStoreModel.path, cache);
   }
 
   set lastPage(String value) => _pref.setString('lastPage', value);

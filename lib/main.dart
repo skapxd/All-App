@@ -57,7 +57,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     super.initState();

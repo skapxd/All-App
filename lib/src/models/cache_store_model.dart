@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final cacheStoreModel = cacheStoreModelFromJson(jsonString);
+
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -11,69 +15,69 @@ class CacheStoreModel {
   CacheStoreModel({
     @required this.expire,
     @required this.path,
-    @required this.listoOfStore,
+    @required this.storeModel,
   });
 
   final String expire;
   final String path;
-  final List<ListoOfStore> listoOfStore;
+  final List<StoreModel> storeModel;
 
   factory CacheStoreModel.fromJson(Map<String, dynamic> json) =>
       CacheStoreModel(
         expire: json["expire"],
         path: json["path"],
-        listoOfStore: List<ListoOfStore>.from(
-            json["listoOfStore"].map((x) => ListoOfStore.fromJson(x))),
+        storeModel: List<StoreModel>.from(
+            json["StoreModel"].map((x) => StoreModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "expire": expire,
         "path": path,
-        "listoOfStore": List<dynamic>.from(listoOfStore.map((x) => x.toJson())),
+        "StoreModel": List<dynamic>.from(storeModel.map((x) => x.toJson())),
       };
 }
 
-class ListoOfStore {
-  ListoOfStore({
+class StoreModel {
+  StoreModel({
     @required this.direccion,
-    @required this.lat,
+    @required this.latLng,
     @required this.nameStore,
+    @required this.phoneCall,
     @required this.phoneWhatsApp,
     @required this.telegram,
     @required this.urlImage,
     @required this.visibilidad,
-    @required this.phoneCall,
   });
 
   final String direccion;
-  final String lat;
+  final String latLng;
   final String nameStore;
+  final String phoneCall;
   final String phoneWhatsApp;
   final String telegram;
   final String urlImage;
   final bool visibilidad;
-  final String phoneCall;
 
-  factory ListoOfStore.fromJson(Map<String, dynamic> json) => ListoOfStore(
+  factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
         direccion: json["direccion"],
-        lat: json["lat"],
+        latLng: json["latLng"],
         nameStore: json["nameStore"],
+        phoneCall: json["phoneCall"],
         phoneWhatsApp: json["phoneWhatsApp"],
         telegram: json["telegram"],
         urlImage: json["urlImage"],
         visibilidad: json["visibilidad"],
-        phoneCall: json["phoneCall"],
       );
 
   Map<String, dynamic> toJson() => {
         "direccion": direccion,
-        "lat": lat,
+        "latLng": latLng,
         "nameStore": nameStore,
+        "phoneCall": phoneCall,
         "phoneWhatsApp": phoneWhatsApp,
         "telegram": telegram,
         "urlImage": urlImage,
         "visibilidad": visibilidad,
-        "phoneCall": phoneCall,
       };
 }
 
@@ -81,18 +85,25 @@ class ListoOfStore {
 // {
 //     "expire": "123",
 //     "path": "123",
-//     "listoOfStore": [
+//     "StoreModel": [
 //             {
-//             "direccion" : "123",
-//             "lat" : "123",
-//             "nameStore" : "123",
-//             "phoneWhatsApp" : "123",
+//             "latLng" : "123",
+//             "urlImage" : "123",
 //             "telegram" : "123",
 //             "nameStore" : "123",
-//             "urlImage" : "123",
-//             "nameStore" : "123",
+//             "phoneCall" : "123",
+//             "direccion" : "123",
 //             "visibilidad" : true,
-//             "phoneCall" : "123"
+//             "phoneWhatsApp" : "123",
 //         }
 //     ]
 // }
+
+// direccion
+// latLng
+// nameStore
+// phoneCall
+// phoneWhatsApp
+// telegram
+// urlImage
+// visibilidad

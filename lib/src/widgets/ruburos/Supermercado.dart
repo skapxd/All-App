@@ -1,9 +1,9 @@
+import 'package:allapp/src/data/db/firestore.dart';
+import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../data/db/firestore.dart';
-import '../../models/store_model.dart';
 import '../../pages/04_home/bloc/home_bloc.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';
@@ -43,27 +43,31 @@ class _SupermercadoState extends State<Supermercado>
               print(
                   'Supermercado ======> MiUbicacionBloc ${state.address.country}');
 
+              print('Supermercado ======> Categori ${widget.categories}');
+
               return FutureBuilder(
                 future: DBFirestore().getListStore(
                   cityPath: state.address,
                   categories: this.widget.categories,
                 ),
                 // ignore: missing_return
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<StoreModel>> snapshot) {
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<StoreModel>> snapshot,
+                ) {
                   //
-                  final listStoreModel = snapshot.data;
-
-                  print(
-                      'Supermercado ======> FutureBuilder ${listStoreModel[0].direccion}');
 
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                    case ConnectionState.waiting:
                     case ConnectionState.active:
+                    case ConnectionState.waiting:
                       return _PlaceHolder();
 
                     case ConnectionState.done:
+                      final listStoreModel = snapshot.data;
+
+                      print(listStoreModel);
+
                       return BlocBuilder<HomeBloc, HomeState>(
                         builder: (context, state) {
                           //
