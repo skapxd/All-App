@@ -1,5 +1,8 @@
+import 'package:allapp/src/data/shared/pref.dart';
+import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+
 
 import '../../models/address_model.dart';
 import '../../models/store_model.dart';
@@ -8,11 +11,17 @@ import '../bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
+    final now = DateTime.now();
+
+
   void addUser({
     String phone,
     String token,
     String name,
   }) {
+    
+
     _firestore.collection('Users').doc('$phone').set({
       'phone': '$phone',
       'token': '$token',
@@ -96,28 +105,43 @@ class DBFirestore {
     final path =
         'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
 
-    print(path);
+    final getCache = ApiPref().getStoreCache(path: path);
 
-    final store = await _firestore.collection(path).get();
+    if (getCache == null || getCache.expire.) {
+      // 
 
-    print('========> List Store model  ');
+      print(getCache);
 
-    final List<StoreModel> listStoremodel = store.docs.map((e) {
-      final f = StoreModel(
-        latLng: e['latLng'],
-        urlImage: e['urlImage'],
-        telegram: e['telegram'],
-        nameStore: e['nameStore'],
-        phoneCall: e['phoneCall'],
-        direccion: e['direccion'],
-        visibilidad: e['visibilidad'],
-        phoneWhatsApp: e['phoneWhatsApp'],
-      );
-      return f;
-    }).toList();
+      print(path);
 
-    print('this is list of Store model =====> $listStoremodel');
+      final store = await _firestore.collection(path).get();
 
-    return listStoremodel;
+      print('========> List Store model  ');
+
+      final List<StoreModel> listStoremodel =
+          store.docs.map((queryDocumentSnapshot) {
+        //
+
+        final _storeModelTemp = StoreModel(
+          latLng: queryDocumentSnapshot['latLng'],
+          urlImage: queryDocumentSnapshot['urlImage'],
+          telegram: queryDocumentSnapshot['telegram'],
+          nameStore: queryDocumentSnapshot['nameStore'],
+          phoneCall: queryDocumentSnapshot['phoneCall'],
+          direccion: queryDocumentSnapshot['direccion'],
+          visibilidad: queryDocumentSnapshot['visibilidad'],
+          phoneWhatsApp: queryDocumentSnapshot['phoneWhatsApp'],
+        );
+
+        return _storeModelTemp;
+      }).toList();
+
+      print('this is list of Store model =====> $listStoremodel');
+
+      final setCache = ApiPref().setStoreCache(cacheStoreModel: CacheStoreModel(expire: expire, path: path, listoOfStore: listoOfStore))
+
+      
+      // return listStoremodel;
+    }
   }
 }

@@ -1,7 +1,21 @@
+import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/01_wellcome/01_wellcome.dart';
 
+class ApiPref {
+  final Pref _pref = Pref();
+
+  CacheStoreModel getStoreCache({String path}) {
+    return _pref.getStoreCache(path);
+  }
+
+  void setStoreCache({CacheStoreModel cacheStoreModel}) {
+    _pref.setStoreCache = cacheStoreModel;
+  }
+}
+
+@Deprecated('ApiPref')
 class Pref {
   static final Pref _instance = new Pref._internal();
 
@@ -22,7 +36,26 @@ class Pref {
   ////////////////////////////////////////////////////////////////////
 
   // GET & SET -> Ultima pagina
-  String get lastPage => _pref.getString('lastPage') ?? WelcomePage.pathName;
+  String get lastPage {
+    if (phone == null) {
+      return WelcomePage.pathName;
+    }
+
+    return _pref.getString('lastPage') ?? WelcomePage.pathName;
+  }
+
+  // GET & SET -> Cache store
+  CacheStoreModel getStoreCache(String value) {
+    final _cache = _pref.getString(value);
+
+    return cacheStoreModelFromJson(_cache);
+  }
+
+  set setStoreCache(CacheStoreModel value) {
+    final _cache = cacheStoreModelToJson(value);
+
+    _pref.setString(value.path, _cache);
+  }
 
   set lastPage(String value) => _pref.setString('lastPage', value);
 
