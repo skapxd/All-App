@@ -59,9 +59,7 @@ Se asumirá que usted está de acuerdo si decide continuar
   showCustomDialog(BuildContext context) {
     showDialog(
       context: context,
-      useRootNavigator: false,
       routeSettings: RouteSettings(),
-      barrierDismissible: false,
       builder: (context) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -70,7 +68,6 @@ Se asumirá que usted está de acuerdo si decide continuar
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarColor: hexaColor('#101010'),
           ),
-          // sized: true,
           sized: false,
           child: AlertDialog(
             backgroundColor: hexaColor('#232323'),
@@ -142,7 +139,6 @@ Se asumirá que usted está de acuerdo si decide continuar
           elevation: 0,
           centerTitle: true,
           backgroundColor: hexaColor('#303030'),
-          brightness: Brightness.dark,
           actions: [
             InkWell(
               highlightColor: rgbColor(0, 0, 0, 0),
@@ -208,6 +204,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                         height: vw * 0.1,
                       ),
                       SelecteIcon(
+                        category: 'todo',
                         ifEnable: _pref.ifHabilitarEdicion,
                       ),
                       SizedBox(
@@ -226,11 +223,14 @@ Se asumirá que usted está de acuerdo si decide continuar
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
                           _pref.ifVisibilidadDeTienda = value;
+                          // comercioBloc.add(AddToggleViewStore(value));
+
                           DBFirestore().addStore(
                             categories: 'todo',
                             visibilidad: value,
                             latLng: _pref.latLanDeTienda,
-                            phoneIdStore: _pref.telefotoDeTienda,
+                            phoneIdStore: _pref.phone,
+                            // phoneIdStore: _pref.telefotoDeTienda,
                             nameStore: _pref.nombreDeTienda,
                             cityPath: miUbicacion.state.address,
                             telegram: _pref.telegramDeTienda,

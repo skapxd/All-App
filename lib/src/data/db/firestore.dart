@@ -28,33 +28,33 @@ class DBFirestore {
   }
 
   void addStore({
-    String latLng,
-    String phoneIdStore,
-    AddressModel cityPath,
-    // List<String> cityPath,
-    String urlImage,
-    String telegram,
-    String direccion,
-    bool visibilidad,
-    String phoneCall,
-    String nameStore,
-    String categories,
-    String phoneWhatsApp,
+    @required AddressModel cityPath,
+    @required String categories,
+    @required bool visibilidad,
+    @required String latLng,
+    @required String phoneIdStore,
+    @required String urlImage,
+    @required String telegram,
+    @required String direccion,
+    @required String phoneCall,
+    @required String nameStore,
+    @required String phoneWhatsApp,
   }) {
-    _firestore
-        .collection(
-          'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store',
-        )
-        .doc('$phoneIdStore')
-        .set({
-      'latLng': '$latLng',
-      'urlImage': '$urlImage',
-      'telegram': '$telegram',
-      'direccion': '$direccion',
-      'phoneCall': '$phoneCall',
-      'nameStore': '$nameStore',
-      'visibilidad': visibilidad,
-      'phoneWhatsApp': '$phoneWhatsApp',
+    final _path =
+        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+
+    print(_path);
+    print(phoneIdStore);
+
+    _firestore.collection(_path).doc('$phoneIdStore').set({
+      'latLng': '${latLng ?? ''} ',
+      'urlImage': '${urlImage ?? ''} ',
+      'telegram': '${telegram ?? ''} ',
+      'direccion': '${direccion ?? ''} ',
+      'phoneCall': '${phoneCall ?? ''} ',
+      'nameStore': '${nameStore ?? ''} ',
+      'visibilidad': visibilidad ?? false,
+      'phoneWhatsApp': '${phoneWhatsApp ?? ''}',
     }, SetOptions(merge: true));
   }
 
@@ -176,10 +176,12 @@ class DBFirestore {
 
     print(listStoremodel);
 
+    final expire =
+        DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
+            .toString();
+
     final cacheTemp = CacheStoreModel(
-      expire:
-          DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
-              .toString(),
+      expire: expire,
       path: path,
       storeModel: listStoremodel,
     );

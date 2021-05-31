@@ -20,3 +20,9 @@ class AddAceptoTerminos extends ComercioEvent {
 
   AddAceptoTerminos(this.aceptoTerminos);
 }
+
+class AddToggleViewStore extends ComercioEvent {
+  final bool ifView;
+
+  AddToggleViewStore(this.ifView);
+}

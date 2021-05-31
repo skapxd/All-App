@@ -27,6 +27,8 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
       print('terminos =====> ${event.ifEnable}');
 
       yield state.copyWith(ifEnable: event.ifEnable);
+    } else if (event is AddToggleViewStore) {
+      yield state.copyWith(ifView: event.ifView);
     }
   }
 }

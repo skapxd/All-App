@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/data/shared/pref.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../data/storage/storage.dart';
@@ -16,8 +19,13 @@ class AddPageImage extends StatefulWidget {
 }
 
 class _AddPageImageState extends State<AddPageImage> {
+  //
+
   final picker = ImagePicker();
+
   File _image;
+
+  final _pref = Pref();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -38,6 +46,8 @@ class _AddPageImageState extends State<AddPageImage> {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
+    final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: hexaColor('#D5D5D5'),
@@ -50,8 +60,11 @@ class _AddPageImageState extends State<AddPageImage> {
           print(_image.path);
           print(_image.absolute);
           print(_image.uri);
-          FirebaseStorage().uploadFile(
-            _image.path,
+          FirebaseStorage().uploadLogo(
+            phone: _pref.phone,
+            filePath: _image.path,
+            categories: 'todo',
+            cityPath: _miUbicacion.address,
             onSuccess: () => Navigator.pop(context),
           );
         },

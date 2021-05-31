@@ -77,6 +77,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'AllApp',
         theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            brightness: Brightness.dark,
+          ),
           scrollbarTheme: ScrollbarThemeData(),
           fontFamily: 'Montserrat',
           textSelectionTheme: TextSelectionThemeData(
