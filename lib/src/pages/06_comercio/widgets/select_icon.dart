@@ -43,14 +43,15 @@ class _SelecteIconState extends State<SelecteIcon> {
     print('SelecteIcon - _image: $_image');
 
     final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await picker.getImage(source: ImageSource.gallery, maxWidth: 120);
 
     if (pickedFile != null) {
-      print('SelecteIcon - pickedFile is != null');
       try {
         setState(() {
           //
-          print('SelecteIcon - setState');
+
+          _image = File(pickedFile.path);
 
           FirebaseStorage()
               .uploadLogo(
