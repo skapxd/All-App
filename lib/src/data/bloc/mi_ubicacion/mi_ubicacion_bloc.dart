@@ -29,6 +29,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
   Future<void> initPosition() async {
     //
+    print('MiUbicacionBloc - initPosition - start');
 
     final permissionGpsEnable = await Geolocator.isLocationServiceEnabled();
 
@@ -46,7 +47,8 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
       final latLng = LatLng(initPosition.latitude, initPosition.longitude);
 
-      print('${latLng.latitude}, ${latLng.longitude}');
+      print(
+          'MiUbicacionBloc - initPosition - lat:${latLng.latitude} lng:${latLng.longitude}');
 
       _pref.latLanDeTienda = '${latLng.latitude}, ${latLng.longitude}';
 

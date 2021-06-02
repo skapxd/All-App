@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/data/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../data/shared/pref.dart';
+import '../../../data/storage/storage.dart';
 import '../../../utils/utils.dart';
 
 class SelecteIcon extends StatefulWidget {
-  final void Function(String path) onSelectedImage;
+  ///Recibe 2 argumentos, ( String localPath, String cloudPath )
+  final void Function(String localPath, String cloudPath) onSelectedImage;
   final bool ifEnable;
   final String category;
 
@@ -26,42 +27,64 @@ class SelecteIcon extends StatefulWidget {
 }
 
 class _SelecteIconState extends State<SelecteIcon> {
-  final picker = ImagePicker();
-  File _image;
+  //
+
   final _pref = Pref();
+
+  final picker = ImagePicker();
+
+  File _image;
 
   Future getImage(
     BuildContext context,
   ) async {
+    //
+
+    print('SelecteIcon - _image: $_image');
+
     final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      print(pickedFile);
+      print('SelecteIcon - pickedFile is != null');
       try {
         setState(() {
           //
+          print('SelecteIcon - setState');
 
-          _image = File(pickedFile.path);
-
-          FirebaseStorage().uploadLogo(
+          FirebaseStorage()
+              .uploadLogo(
             phone: _pref.phone,
             filePath: _image.path,
             categories: widget.category,
             cityPath: _miUbicacion.address,
-            onSuccess: (path) => widget.onSelectedImage(path),
-          );
+            onSuccess: (path) => widget.onSelectedImage(
+              pickedFile.path,
+              path,
+            ),
+          )
+              .then((value) {
+            setState(() {
+              _image = File(pickedFile.path);
+            });
+          });
         });
       } catch (e) {
         //
         print('SelecteIcon - error: $e');
       }
     } else {
+      print('SelecteIcon - pickedFile is == null');
+
       print('SelecteIcon - No image selected.');
     }
   }
 
   Widget imageIcon(double vw, double vh) {
+    //
+
+    _image = _pref.iconLocalPath != null ? File(_pref.iconLocalPath) : null;
+
     if (_image != null) {
       return Container(
         height: vw * 0.25,

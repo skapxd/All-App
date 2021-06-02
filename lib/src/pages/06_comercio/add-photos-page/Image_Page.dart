@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/shared/pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../data/shared/pref.dart';
 import '../../../data/storage/storage.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/BackgroundGradient.dart';

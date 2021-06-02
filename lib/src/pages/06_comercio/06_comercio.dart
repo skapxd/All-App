@@ -25,7 +25,9 @@ class ComercioPage extends StatefulWidget {
 
 class _ComercioPageState extends State<ComercioPage> {
   final String importante =
-      '''La información escrita en los campos de texto se guarda automáticamente al escribir
+      '''El logo se guarda automaticamente al seleccionarlo, si no cambia es porque no tiene acceso a internet
+      
+La información escrita en los campos de texto se guarda automáticamente al escribir
 
 Usted puede deshabilitar la edición para no cambiar de forma accidental los datos escritos
 
@@ -192,8 +194,6 @@ Se asumirá que usted está de acuerdo si decide continuar
                 final _controllerWhatsAppTienda =
                     TextEditingController(text: _pref.whatsAppDeTienda);
 
-                print(state.aceptoTerminos);
-
                 if (state.aceptoTerminos) {
                   return Container();
                 } else {
@@ -204,9 +204,18 @@ Se asumirá que usted está de acuerdo si decide continuar
                         height: vw * 0.1,
                       ),
                       SelecteIcon(
-                        onSelectedImage: (path) {
-                          _pref.iconPath = path;
-                          // print('ComercioPage - SelecteIcon: $path');
+                        onSelectedImage: (String localPath, String cloudPath) {
+                          _pref.iconCludPath = cloudPath;
+                          _pref.iconLocalPath = localPath;
+                          DBFirestore().updateStoreIcon(
+                            categories: 'todo',
+                            phoneIdStore: _pref.phone,
+                            cityPath: miUbicacion.state.address,
+                            urlImage: cloudPath,
+                          );
+                          print(
+                            'ComercioPage - SelecteIcon: ${_pref.iconCludPath}',
+                          );
                         },
                         category: 'todo',
                         ifEnable: _pref.ifHabilitarEdicion,
@@ -240,7 +249,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                             phoneCall: _pref.telefotoDeTienda,
                             direccion: _pref.direccionDeTienda,
                             phoneWhatsApp: _pref.whatsAppDeTienda,
-                            urlImage: _pref.iconPath,
+                            urlImage: _pref.iconCludPath,
                           );
                         },
                       ),

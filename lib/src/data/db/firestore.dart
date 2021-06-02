@@ -1,11 +1,11 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/address_model.dart';
+import '../../models/cache_store_model.dart';
 // import '../../models/store_model.dart';
 import '../bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../shared/pref.dart';
 
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -55,6 +55,22 @@ class DBFirestore {
       'nameStore': '${nameStore ?? ''}',
       'visibilidad': visibilidad ?? false,
       'phoneWhatsApp': '${phoneWhatsApp ?? ''}',
+    }, SetOptions(merge: true));
+  }
+
+  void updateStoreIcon({
+    @required AddressModel cityPath,
+    @required String categories,
+    @required String phoneIdStore,
+    @required String urlImage,
+  }) {
+    //
+
+    final _path =
+        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+
+    _firestore.collection(_path).doc('$phoneIdStore').set({
+      'urlImage': '${urlImage ?? ''}',
     }, SetOptions(merge: true));
   }
 

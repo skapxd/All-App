@@ -1,8 +1,8 @@
-import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../models/cache_store_model.dart';
 import '../utils/utils.dart';
 
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {

@@ -2,8 +2,9 @@
 //
 //     final cacheStoreModel = cacheStoreModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
+
+import 'package:meta/meta.dart';
 
 CacheStoreModel cacheStoreModelFromJson(String str) =>
     CacheStoreModel.fromJson(json.decode(str));

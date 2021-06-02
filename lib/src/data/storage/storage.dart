@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:allapp/src/models/address_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../models/address_model.dart';
 
 class FirebaseStorage {
   firebase_storage.FirebaseStorage storage =
@@ -13,11 +14,12 @@ class FirebaseStorage {
       firebase_storage.FirebaseStorage.instance.ref('/notes.txt');
 
   Future<void> uploadLogo({
+    /// void Function( String cloudPath )
+    void Function(String cloudPath) onSuccess,
     String filePath,
     @required String phone,
     @required String categories,
     @required AddressModel cityPath,
-    void Function(String path) onSuccess,
   }) async {
     File file = File(filePath);
 

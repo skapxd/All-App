@@ -1,6 +1,6 @@
-import 'package:allapp/src/models/cache_store_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/cache_store_model.dart';
 import '../../pages/01_wellcome/01_wellcome.dart';
 
 // class ApiPref {
@@ -86,10 +86,15 @@ class Pref {
   /// Pref de tienda
   ////////////////////////////////////////////////////////////////////
 
-  // GET & SET -> Path de icon
-  String get iconPath => _pref.getString('iconPath') ?? '';
+  // GET & SET -> Path de icon en la nube
+  String get iconCludPath => _pref.getString('iconCludPath') ?? '';
 
-  set iconPath(String value) => _pref.setString('iconPath', value);
+  set iconCludPath(String value) => _pref.setString('iconCludPath', value);
+
+  // GET & SET -> Path de icon en lcoal
+  String get iconLocalPath => _pref.getString('iconLocalPath');
+
+  set iconLocalPath(String value) => _pref.setString('iconLocalPath', value);
 
   // GET & SET -> Habilitar edicion
   bool get ifHabilitarEdicion => _pref.getBool('ifHabilitarEdicion') ?? true;

@@ -34,7 +34,9 @@ class _HomeState extends State<Home>
 
     if (state == AppLifecycleState.resumed) {
       if (await Permission.location.isGranted) {
-        setState(() {});
+        setState(() {
+          _miUbicacionBloc.initPosition();
+        });
       }
     }
   }
