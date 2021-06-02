@@ -166,6 +166,7 @@ class _ImageBusiness extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
+    print('FilaDeSubCategoriaDeTiendas - _ImageBusiness: $url');
     if (url != '') {
       return Container(
         // padding: EdgeInsets.all(vw * 0.013),

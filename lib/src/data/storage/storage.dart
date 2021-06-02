@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:allapp/src/models/address_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
 class FirebaseStorage {
@@ -11,12 +12,12 @@ class FirebaseStorage {
   firebase_storage.Reference ref =
       firebase_storage.FirebaseStorage.instance.ref('/notes.txt');
 
-  Future<String> uploadLogo({
+  Future<void> uploadLogo({
     String filePath,
-    VoidCallback onSuccess,
-    @required AddressModel cityPath,
+    @required String phone,
     @required String categories,
-    @required phone,
+    @required AddressModel cityPath,
+    void Function(String path) onSuccess,
   }) async {
     File file = File(filePath);
 
@@ -26,13 +27,21 @@ class FirebaseStorage {
     try {
       // firebase_storage.FirebaseStorage.instance
       // .ref('uploads/file-to-upload.png')
-      storage.ref(_path).putFile(file);
+      final e = SettableMetadata(contentType: '.jpg');
+      storage.ref(_path).putFile(file, e);
 
-      final urlDownload = await storage.ref(_path).getDownloadURL();
+      // final urlDownload = await storage.ref(_path).getMetadata();
+      final getDownloadUrl = await storage.ref(_path).getDownloadURL();
+      // print('FirebaseStorage - urlDownload: ${urlDownload.fullPath}');
+      final uri = Uri.tryParse(getDownloadUrl);
+      final url = uri.origin + uri.path + '?alt=media';
+      // final urlfinal = url
 
-      onSuccess();
+      // print('FirebaseStorage - uri: $url');
 
-      return urlDownload;
+      onSuccess(url);
+
+      // return urlDownload;
     } catch (err) {
       print('FirebaseStorage - uploadLogo - $err');
       // e.g, e.code == 'canceled'

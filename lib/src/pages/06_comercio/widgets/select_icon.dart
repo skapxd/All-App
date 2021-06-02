@@ -11,12 +11,14 @@ import 'package:image_picker/image_picker.dart';
 import '../../../utils/utils.dart';
 
 class SelecteIcon extends StatefulWidget {
+  final void Function(String path) onSelectedImage;
   final bool ifEnable;
   final String category;
 
   SelecteIcon({
     @required this.category,
     this.ifEnable = true,
+    this.onSelectedImage,
   });
 
   @override
@@ -35,21 +37,27 @@ class _SelecteIconState extends State<SelecteIcon> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() async {
+      print(pickedFile);
+      try {
+        setState(() {
+          //
+
+          _image = File(pickedFile.path);
+
+          FirebaseStorage().uploadLogo(
+            phone: _pref.phone,
+            filePath: _image.path,
+            categories: widget.category,
+            cityPath: _miUbicacion.address,
+            onSuccess: (path) => widget.onSelectedImage(path),
+          );
+        });
+      } catch (e) {
         //
-
-        _image = File(pickedFile.path);
-
-        _pref.iconPath = await FirebaseStorage().uploadLogo(
-          phone: _pref.phone,
-          filePath: _image.path,
-          categories: widget.category,
-          cityPath: _miUbicacion.address,
-          onSuccess: () => Navigator.pop(context),
-        );
-      });
+        print('SelecteIcon - error: $e');
+      }
     } else {
-      print('No image selected.');
+      print('SelecteIcon - No image selected.');
     }
   }
 

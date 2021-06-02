@@ -65,7 +65,7 @@ class _AddPageImageState extends State<AddPageImage> {
             filePath: _image.path,
             categories: 'todo',
             cityPath: _miUbicacion.address,
-            onSuccess: () => Navigator.pop(context),
+            // onSuccess: () => Navigator.pop(context),
           );
         },
       ),
@@ -91,3 +91,6 @@ class _AddPageImageState extends State<AddPageImage> {
     );
   }
 }
+
+// https://firebasestorage.googleapis.com/v0/b/multi-entregas-je.appspot.com/o/country%2Fcolombia%2Fdepartament%2Fantioquia%2Fcity%2Fla_ceja%2Fcategories%2Ftodo%2Fstore%2F%2B573143750280?alt=media&token=774762fd-ea91-4261-b214-a695b2d44b0c
+// https://firebasestorage.googleapis.com/v0/b/multi-entregas-je.appspot.com/o/country%2Fcolombia%2Fdepartament%2Fantioquia%2Fcity%2Fla_ceja%2Fcategories%2Ftodo%2Fstore%2F%2B573143750280?alt=media&token=14a1bf50-8c34-4aa6-9673-851403965581

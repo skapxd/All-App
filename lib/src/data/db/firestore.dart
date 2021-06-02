@@ -47,12 +47,12 @@ class DBFirestore {
     print(phoneIdStore);
 
     _firestore.collection(_path).doc('$phoneIdStore').set({
-      'latLng': '${latLng ?? ''} ',
-      'urlImage': '${urlImage ?? ''} ',
-      'telegram': '${telegram ?? ''} ',
-      'direccion': '${direccion ?? ''} ',
-      'phoneCall': '${phoneCall ?? ''} ',
-      'nameStore': '${nameStore ?? ''} ',
+      'latLng': '${latLng ?? ''}',
+      'urlImage': '${urlImage ?? ''}',
+      'telegram': '${telegram ?? ''}',
+      'direccion': '${direccion ?? ''}',
+      'phoneCall': '${phoneCall ?? ''}',
+      'nameStore': '${nameStore ?? ''}',
       'visibilidad': visibilidad ?? false,
       'phoneWhatsApp': '${phoneWhatsApp ?? ''}',
     }, SetOptions(merge: true));

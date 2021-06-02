@@ -45,8 +45,8 @@ if (keystorePropertiesFile.exists()) {
         applicationId "app.allapp.allapp"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 27
-        versionName "0.27.0"
+        versionCode 29
+        versionName "0.29.0"
         multiDexEnabled true
     }
 

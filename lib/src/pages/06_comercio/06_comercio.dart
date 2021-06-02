@@ -204,6 +204,10 @@ Se asumirá que usted está de acuerdo si decide continuar
                         height: vw * 0.1,
                       ),
                       SelecteIcon(
+                        onSelectedImage: (path) {
+                          _pref.iconPath = path;
+                          // print('ComercioPage - SelecteIcon: $path');
+                        },
                         category: 'todo',
                         ifEnable: _pref.ifHabilitarEdicion,
                       ),
@@ -230,7 +234,6 @@ Se asumirá que usted está de acuerdo si decide continuar
                             visibilidad: value,
                             latLng: _pref.latLanDeTienda,
                             phoneIdStore: _pref.phone,
-                            // phoneIdStore: _pref.telefotoDeTienda,
                             nameStore: _pref.nombreDeTienda,
                             cityPath: miUbicacion.state.address,
                             telegram: _pref.telegramDeTienda,
