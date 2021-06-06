@@ -1,3 +1,4 @@
+import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,7 +41,7 @@ class CrearProductosPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: hexaColor('#303030'),
       ),
-      backgroundColor: hexaColor('#303030'),
+      // backgroundColor: hexaColor('#303030'),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: rgbColor(0, 0, 0, 0),
@@ -48,7 +49,24 @@ class CrearProductosPage extends StatelessWidget {
           systemNavigationBarIconBrightness: Brightness.light,
           systemNavigationBarColor: hexaColor('#303030'),
         ),
-        child: Container(),
+        child: ExpandChild(
+          child: Column(
+            children: <Widget>[
+              OutlineButton(
+                child: Text('Button1'),
+                onPressed: () => print('Pressed button1'),
+              ),
+              OutlineButton(
+                child: Text('Button2'),
+                onPressed: () => print('Pressed button2'),
+              ),
+              OutlineButton(
+                child: Text('Button3'),
+                onPressed: () => print('Pressed button3'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -44,7 +44,7 @@ class _SelecteIconState extends State<SelecteIcon> {
 
     final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
     final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, maxWidth: 120);
+        await picker.getImage(source: ImageSource.gallery, maxWidth: 120,);
 
     if (pickedFile != null) {
       try {

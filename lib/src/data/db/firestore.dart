@@ -58,6 +58,17 @@ class DBFirestore {
     }, SetOptions(merge: true));
   }
 
+  void removeStore({
+    @required AddressModel cityPath,
+    @required String categories,
+    @required String phoneIdStore,
+  }) {
+    final _path =
+        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+
+    _firestore.collection(_path).doc('$phoneIdStore').delete();
+  }
+
   void updateStoreIcon({
     @required AddressModel cityPath,
     @required String categories,

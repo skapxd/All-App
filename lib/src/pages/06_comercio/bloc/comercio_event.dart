@@ -26,3 +26,15 @@ class AddToggleViewStore extends ComercioEvent {
 
   AddToggleViewStore(this.ifView);
 }
+
+class AddNombreTipoDeTienda extends ComercioEvent {
+  final String nombreTipoDeTienda;
+
+  AddNombreTipoDeTienda(this.nombreTipoDeTienda);
+}
+
+class AddPathTipoDeTienda extends ComercioEvent {
+  final String pathTipoDeTienda;
+
+  AddPathTipoDeTienda(this.pathTipoDeTienda);
+}

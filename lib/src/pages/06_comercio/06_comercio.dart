@@ -14,7 +14,10 @@ import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
 import 'crear-productos-page/crear_producto.dart';
 import 'mapa_page/mapa_page.dart';
+import 'widgets/custom_buttom.dart';
+import 'widgets/if_swich_formulario.dart';
 import 'widgets/select_icon.dart';
+import 'widgets/tipos_de_tiendas.dart';
 
 class ComercioPage extends StatefulWidget {
   static final String pathName = '/ComercioPage';
@@ -25,13 +28,17 @@ class ComercioPage extends StatefulWidget {
 
 class _ComercioPageState extends State<ComercioPage> {
   final String importante =
-      '''El logo se guarda automaticamente al seleccionarlo, si no cambia es porque no tiene acceso a internet
-      
-La información escrita en los campos de texto se guarda automáticamente al escribir
+      '''El logo se guarda automáticamente al seleccionarlo, si no cambia es porque no tiene acceso a internet
+
+El resto de información se guardara en la nube cuando decida hacer publica su tienda
+
+Si desea modificar algún elemento del formulario deberá desactivar la visibilidad de la tienda y volverla a activar
+
+La Tienda será visible en su teléfono en un tiempo aproximado de 30min
 
 Usted puede deshabilitar la edición para no cambiar de forma accidental los datos escritos
 
-también puede cambiar la visibilidad de la tienda en cualquier momento
+También puede cambiar la visibilidad de la tienda en cualquier momento
 
 All App permite que múltiples tiendas tengan el mismo nombre, si su tienda está registrada en cámara y comercio All App puede certificar su tienda
 
@@ -41,7 +48,7 @@ Si usted no cuenta con contactos de domiciliarios de confianza, usted puede util
 
 Si usted utiliza los contactos que All App ofrece, All App no se hace responsable del rendimiento, responsabilidad, efectividad o cuentas pendientes que tenga con el domiciliario
 
-En el caso de que algun domiciliario le llegase a quedar mal por cualquier motivo usted podrá puntuarlo y All App se encargara de hacer visible su reseña a todas las demás tiendas, las reseñas negativas (o positivas) impacta inmediatamente en la reputación del domiciliario  
+En el caso de que algún domiciliario le llegase a quedar mal por cualquier motivo usted podrá puntuarlo y All App se encargara de hacer visible su reseña a todas las demás tiendas, las reseñas negativas (o positivas) impacta inmediatamente en la reputación del domiciliario  
 
 All App se reserva el derecho a cambiar estos términos en cualquier momento, por favor léalos periódicamente
 
@@ -97,7 +104,7 @@ Se asumirá que usted está de acuerdo si decide continuar
               ),
             ),
             actions: [
-              _IfSwichFormulario(
+              IfSwichFormulario(
                 initialIfEnable: !_pref.ifVerInfoDeTienda,
                 text: 'Aceptar términos',
                 onChanged: (value) {
@@ -208,7 +215,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                           _pref.iconCludPath = cloudPath;
                           _pref.iconLocalPath = localPath;
                           DBFirestore().updateStoreIcon(
-                            categories: 'todo',
+                            categories: _pref.nombreTipoDeTienda,
                             phoneIdStore: _pref.phone,
                             cityPath: miUbicacion.state.address,
                             urlImage: cloudPath,
@@ -223,7 +230,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                       SizedBox(
                         height: vw * 0.1,
                       ),
-                      _IfSwichFormulario(
+                      IfSwichFormulario(
                         text: 'Habilitar edición',
                         initialIfEnable: _pref.ifHabilitarEdicion,
                         onChanged: (value) {
@@ -231,7 +238,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                           comercioBloc.add(AddComercioIfEnableEditar(value));
                         },
                       ),
-                      _IfSwichFormulario(
+                      IfSwichFormulario(
                         text: 'Visibilidad de la tienda',
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
@@ -239,7 +246,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                           // comercioBloc.add(AddToggleViewStore(value));
 
                           DBFirestore().addStore(
-                            categories: 'todo',
+                            categories: _pref.nombreTipoDeTienda,
                             visibilidad: value,
                             latLng: _pref.latLanDeTienda,
                             phoneIdStore: _pref.phone,
@@ -268,6 +275,25 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 onChange: (value) {
                                   _pref.nombreDeTienda = value;
                                   print(value);
+                                },
+                              ),
+                              CustomButton(
+                                iconPath: _pref.pathTipoDeTienda ??
+                                    state.pathTipoDeTienda ??
+                                    'assets/icons/settings-shop-2.svg',
+                                text: _pref.nombreTipoDeTienda ??
+                                    state.nombreTipoDeTienda ??
+                                    'Tipo de tienda',
+                                ifEnable: _pref.ifHabilitarEdicion,
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: rgbColor(0, 0, 0, 0),
+                                    builder: (BuildContext context) {
+                                      return TipoDeTienda();
+                                    },
+                                  );
                                 },
                               ),
                               _CustomTextInput(
@@ -345,14 +371,17 @@ Se asumirá que usted está de acuerdo si decide continuar
                           ),
                         ),
                       ),
-                      _CustomButton(
+                      CustomButton(
                         text: 'Ubicación',
+                        iconPath: 'assets/icons/lat-lan.svg',
                         ifEnable: _pref.ifHabilitarEdicion,
-                        onGetLatLan: () {
+                        onTap: () {
                           accesoGps(
                             onGranted: () {
                               Navigator.pushNamed(
-                                  context, ComercioMapaPage.pathName);
+                                context,
+                                ComercioMapaPage.pathName,
+                              );
                             },
                           );
                         },
@@ -429,129 +458,6 @@ Se asumirá que usted está de acuerdo si decide continuar
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _IfSwichFormulario extends StatefulWidget {
-  final ValueChanged<bool> onChanged;
-  final String text;
-  final bool initialIfEnable;
-  const _IfSwichFormulario({
-    Key key,
-    this.text,
-    this.onChanged,
-    this.initialIfEnable,
-  }) : super(key: key);
-
-  @override
-  _IfSwichFormularioState createState() => _IfSwichFormularioState();
-}
-
-class _IfSwichFormularioState extends State<_IfSwichFormulario> {
-  bool state;
-
-  @override
-  void initState() {
-    super.initState();
-
-    state = widget.initialIfEnable ?? true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-    return Container(
-      width: vw * 0.7,
-      margin: EdgeInsets.only(bottom: vw * 0.08),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            widget.text,
-            style: TextStyle(
-              color: hexaColor('#D6D6D6', opacity: 0.4),
-            ),
-          ),
-          CupertinoSwitch(
-            activeColor: hexaColor('#BEA07D'),
-            onChanged: (bool value) {
-              if (widget.onChanged != null) {
-                widget.onChanged(value);
-              }
-              setState(() {
-                this.state = value;
-              });
-            },
-            value: this.state,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CustomButton extends StatelessWidget {
-  final bool ifEnable;
-  final String text;
-  final VoidCallback onGetLatLan;
-  _CustomButton({
-    @required this.text,
-    this.onGetLatLan,
-    this.ifEnable = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
-    return Container(
-      margin: EdgeInsets.only(bottom: vw * 0.08),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(vw),
-        child: Container(
-          width: vw * 0.7,
-          height: vw * 0.12,
-          decoration: BoxDecoration(
-            // color: Colors.red,
-            border: Border.all(
-              width: 1,
-              color: ifEnable ? hexaColor('#D6D6D6') : hexaColor('#303030'),
-            ),
-            borderRadius: BorderRadius.circular(vw),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 7, horizontal: 7),
-          // margin: EdgeInsets.only(bottom: vw * 0.03),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/lat-lan.svg',
-                  // height: 5,
-                ),
-              ),
-              Container(
-                // width: vw * 0.55,
-                child: Text(
-                  this.text,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: hexaColor('#D6D6D6', opacity: 0.4),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        onTap: !this.ifEnable ? null : this.onGetLatLan,
       ),
     );
   }
