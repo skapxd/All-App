@@ -85,11 +85,6 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
           return g;
         }).toList();
 
-        // final addressToString =
-        //     addressList.join('/').replaceAll(' ', '_').toLowerCase();
-
-        // print('$addressList');
-
         final address = AddressModel(
           city: addressList[2],
           country: addressList[0],
@@ -98,7 +93,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
         add(AddAddress(address));
       } catch (e) {
-        print(e);
+        print('MiUbicacionBloc - initPosition - error: $e');
         return;
       }
     }

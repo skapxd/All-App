@@ -9,18 +9,20 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
   // final ListModelImageUrls nameBusiness;
   final List<StoreModel> listStoreModel;
   final String titleRow;
-  final String ruburo;
+  final String categories;
   // final String titleRow;
   FilaDeSubCategoriaDeTiendas({
     @required this.listStoreModel,
     @required this.titleRow,
-    @required this.ruburo,
+    @required this.categories,
     // @required this.titleRow,
   });
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
+
+    print('FilaDeSubCategoriaDeTiendas - categories: $categories');
 
     return Container(
       margin: EdgeInsets.only(top: vw * 0.02),
@@ -45,7 +47,7 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
           FilaDeTiendas(
             // nameBusiness: this.nameBusiness,
             listStoreModel: listStoreModel,
-            ruburo: this.ruburo,
+            ruburo: this.categories,
           ),
         ],
       ),

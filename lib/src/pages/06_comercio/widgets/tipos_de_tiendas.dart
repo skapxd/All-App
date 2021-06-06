@@ -8,7 +8,7 @@ import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
 import '../bloc/comercio_bloc.dart';
 
-class TipoDeTienda extends StatelessWidget {
+class ModalButtomTipoDeTienda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ListItems();

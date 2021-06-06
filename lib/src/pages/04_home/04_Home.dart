@@ -78,10 +78,6 @@ class _HomeState extends State<Home>
 
     Pref().lastPage = Home.pathName;
 
-    // final address = _miUbicacionBloc.state.address;
-
-    // print(address);
-
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         Future.delayed(Duration.zero, () {

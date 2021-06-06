@@ -74,7 +74,7 @@ class EnterPhone extends StatelessWidget {
                     onChange: (value) {
                       _pref.phone = value.replaceAll(' ', '');
 
-                      print(_pref.prefix + _pref.phone);
+                      print('EnterPhone: ${_pref.prefix + _pref.phone}');
 
                       BlocProvider.of<PhoneBloc>(context)
                           .add(AddPhone(_pref.prefix + _pref.phone));

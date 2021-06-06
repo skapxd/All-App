@@ -57,9 +57,9 @@ class _AddPageImageState extends State<AddPageImage> {
           color: hexaColor('#232323'),
         ),
         onPressed: () {
-          print(_image.path);
-          print(_image.absolute);
-          print(_image.uri);
+          print('AddPageImage _image.path: ${_image.path}');
+          print('AddPageImage _image.absolute: ${_image.absolute}');
+          print('AddPageImage _image.uri: ${_image.uri}');
           FirebaseStorage().uploadLogo(
             phone: _pref.phone,
             filePath: _image.path,

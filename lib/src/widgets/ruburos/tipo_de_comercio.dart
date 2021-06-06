@@ -11,18 +11,18 @@ import '../BloqueDePago/BloqueDePago.dart';
 import '../RowShop.dart';
 import '../ValorarTiendas.dart';
 
-class Supermercado extends StatefulWidget {
+class HomeTipoDeComercio extends StatefulWidget {
   final String categories;
 
-  const Supermercado({
+  const HomeTipoDeComercio({
     @required this.categories,
   });
 
   @override
-  _SupermercadoState createState() => _SupermercadoState();
+  _HomeTipoDeComercioState createState() => _HomeTipoDeComercioState();
 }
 
-class _SupermercadoState extends State<Supermercado>
+class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,9 @@ class _SupermercadoState extends State<Supermercado>
               }
 
               print(
-                  'Supermercado ======> MiUbicacionBloc ${state.address.country}');
+                  'HomeTipoDeComercio ======> MiUbicacionBloc ${state.address.country}');
 
-              print('Supermercado ======> Categori ${widget.categories}');
+              print('HomeTipoDeComercio ======> Categori ${widget.categories}');
 
               return FutureBuilder(
                 future: DBFirestore().getListStore(
@@ -64,15 +64,19 @@ class _SupermercadoState extends State<Supermercado>
                       return _PlaceHolder();
 
                     case ConnectionState.done:
-                      final listStoreModel = snapshot.data;
+                      final List<StoreModel> listStoreModel = snapshot.data;
 
                       print(listStoreModel);
+
+                      // print(
+                      //   'HomeTipoDeComercio - ${listStoreModel}',
+                      // );
 
                       return BlocBuilder<HomeBloc, HomeState>(
                         builder: (context, state) {
                           //
 
-                          if (state.tapBarViewIndex != 1) {
+                          if (listStoreModel.isEmpty) {
                             return Container();
                           }
 
@@ -82,23 +86,23 @@ class _SupermercadoState extends State<Supermercado>
                               FilaDeSubCategoriaDeTiendas(
                                 titleRow: 'RECOMENDADOS POR ALL APP',
                                 listStoreModel: listStoreModel,
-                                ruburo: 'todo',
+                                categories: widget.categories,
                               ),
                               FilaDeSubCategoriaDeTiendas(
                                 listStoreModel: listStoreModel,
                                 titleRow: 'Mejor calificados',
-                                ruburo: 'todo',
+                                categories: widget.categories,
                               ),
                               FilaDeSubCategoriaDeTiendas(
                                 titleRow: 'más usados esta semana',
                                 listStoreModel: listStoreModel,
-                                ruburo: 'todo',
+                                categories: widget.categories,
                               ),
                               BannerDePago(),
                               FilaDeSubCategoriaDeTiendas(
                                 listStoreModel: listStoreModel,
                                 titleRow: 'nuevas tiendas',
-                                ruburo: 'todo',
+                                categories: widget.categories,
                               ),
                               ValorarTiendas(),
                               BloqueDePago(),

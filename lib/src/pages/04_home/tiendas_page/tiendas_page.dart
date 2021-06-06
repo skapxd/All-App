@@ -7,7 +7,7 @@ import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/BackgroundGradient.dart';
 import '../../../widgets/Menu/Menu.dart';
-import '../../../widgets/ruburos/Supermercado.dart';
+import '../../../widgets/ruburos/tipo_de_comercio.dart';
 import '../bloc/home_bloc.dart';
 
 class Tiendas extends StatefulWidget {
@@ -87,28 +87,156 @@ class _TiendasState extends State<Tiendas>
               tabController: _tabController,
               tabText: tabText,
               onTap: (value) {
-                // setState(() {});
+                setState(() {});
                 homeBloc.add(AddTapBarViewIndex(value));
               },
             ),
-            // _tabController.index != 0
-            //     ? SliverList(
-            //         delegate: SliverChildListDelegate(
-            //           [],
-            //         ),
-            //       )
-            //     : Todo(),
 
-            Supermercado(
-              categories: 'todo',
-            )
-            // _tabController.index != 1
-            //     ? SliverList(
-            //         delegate: SliverChildListDelegate(
-            //           [],
-            //         ),
-            //       )
-            //     : Supermercado()
+            // SliverToBoxAdapter(
+            //   // child: Container(
+            //   //   width: vw,
+            //   //   height: vh / 2,
+            //   //   child: PageView(
+            //   //     scrollDirection: Axis.horizontal,
+            //   //     children: [
+            //   //       Container(
+            //   //         height: vh / 2,
+            //   //         width: vw,
+            //   //         color: Colors.pink,
+            //   //       ),
+            //   //       // Container(
+            //   //       //   height: vh,
+            //   //       //   width: vw,
+            //   //       //   color: Colors.pink,
+            //   //       // )
+            //   //     ],
+            //   //   ),
+            //   // ),
+            //   child: Column(
+            //     children: [
+            //       PageView(
+            //         physics: NeverScrollableScrollPhysics(),
+            //         // allowImplicitScrolling: false,
+            //         pageSnapping: false,
+            //         scrollDirection: Axis.horizontal,
+            //         children: [
+            //           Container(
+            //             height: vh,
+            //             width: vw,
+            //             color: Colors.pink,
+            //           ),
+            //           Container(
+            //             height: vh,
+            //             width: vw,
+            //             color: Colors.pink,
+            //           )
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // )
+
+            // BlocBuilder<SubjectBloc, SubjectState>(
+            //   builder: (context, state) {
+            //     return Container();
+            //   },
+            // )
+
+            _tabController.index == 0
+                ? HomeTipoDeComercio(categories: 'todo')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 1
+                ? HomeTipoDeComercio(categories: 'supermercado')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 2
+                ? HomeTipoDeComercio(categories: 'comida rápida')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 3
+                ? HomeTipoDeComercio(categories: 'drogueria')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 4
+                ? HomeTipoDeComercio(categories: 'ferreteria')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 5
+                ? HomeTipoDeComercio(categories: 'restaurantes')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 6
+                ? HomeTipoDeComercio(categories: 'calzado')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 7
+                ? HomeTipoDeComercio(categories: 'cosmetiscos')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 8
+                ? HomeTipoDeComercio(categories: 'electrónicos')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 9
+                ? HomeTipoDeComercio(categories: 'licor')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 10
+                ? HomeTipoDeComercio(categories: 'carniceria')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
+
+            _tabController.index == 11
+                ? HomeTipoDeComercio(categories: 'minimercado')
+                : SliverList(
+                    delegate: SliverChildListDelegate(
+                      [],
+                    ),
+                  ),
           ],
         ),
       ),

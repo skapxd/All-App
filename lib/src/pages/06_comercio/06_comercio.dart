@@ -274,7 +274,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 margin: EdgeInsets.only(bottom: vw * 0.03),
                                 onChange: (value) {
                                   _pref.nombreDeTienda = value;
-                                  print(value);
+                                  print('ComercioPage $value');
                                 },
                               ),
                               CustomButton(
@@ -291,7 +291,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                     context: context,
                                     backgroundColor: rgbColor(0, 0, 0, 0),
                                     builder: (BuildContext context) {
-                                      return TipoDeTienda();
+                                      return ModalButtomTipoDeTienda();
                                     },
                                   );
                                 },
@@ -352,7 +352,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 margin: EdgeInsets.only(bottom: vw * 0.08),
                                 onChange: (value) {
                                   _pref.telegramDeTienda = value;
-                                  print(value);
+                                  print('ComercioPage $value');
                                 },
                               ),
                               _CustomTextInput(
@@ -363,7 +363,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 margin: EdgeInsets.only(bottom: vw * 0.08),
                                 onChange: (value) {
                                   _pref.direccionDeTienda = value;
-                                  print(value);
+                                  print('ComercioPage $value');
                                 },
                                 iconPath: 'assets/icons/lat-lan.svg',
                               ),

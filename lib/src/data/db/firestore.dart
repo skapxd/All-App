@@ -43,8 +43,8 @@ class DBFirestore {
     final _path =
         'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
 
-    print(_path);
-    print(phoneIdStore);
+    print('DBFirestore - _path: $_path');
+    print('DBFirestore - phoneIdStore: $phoneIdStore');
 
     _firestore.collection(_path).doc('$phoneIdStore').set({
       'latLng': '${latLng ?? ''}',
@@ -148,7 +148,7 @@ class DBFirestore {
     if (cache == null) {
       //
 
-      print('cache is null');
+      print('cache es null');
 
       return _listStoreModel(path: path);
     }
@@ -158,7 +158,7 @@ class DBFirestore {
     // Si el cache existe pero esta vencido
     if (expire.isBefore(now)) {
       //
-      print('cache is not null but expired $cache');
+      print('cache no es nulo pero expiro ${cache.storeModel[0].nameStore}');
 
       return _listStoreModel(path: path);
     }
@@ -201,11 +201,12 @@ class DBFirestore {
       return _storeModelTemp;
     }).toList();
 
-    print(listStoremodel);
+    print('DBFirestore - listStoremodel: ${listStoremodel.length}');
 
-    final expire =
-        DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
-            .toString();
+    final expire = DateTime(
+            now.year, now.month, now.day, now.hour, (now.minute))
+        // DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
+        .toString();
 
     final cacheTemp = CacheStoreModel(
       expire: expire,
