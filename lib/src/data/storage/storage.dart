@@ -34,7 +34,7 @@ class FirebaseStorage {
 
     final _path = 'country/${cityPath.country}/$phone/logo';
 
-    print('FirebaseStorage - uploadLogo -  2 randomName: $randomName');
+    print('FirebaseStorage - uploadLogo -  2  path: $_path');
 
     try {
       // firebase_storage.FirebaseStorage.instance
@@ -73,3 +73,5 @@ class FirebaseStorage {
   //   return storage.ref(_path).getDownloadURL();
   // }
 }
+
+// https://www.google.com/maps/place/5%C2%B056'19.9%22N+76%C2%B022'15.4%22W/@5.9388733,-76.3731267,17z/data=!3m1!4b1!4m9!1m2!2m1!1smap+lat:37.4219784+lng:-122.0840297!3m5!1s0x0:0x0!7e2!8m2!3d5.9388676!4d-76.3709382

@@ -53,7 +53,7 @@ class DBFirestore {
     _firestore.collection(_path).doc('$phoneIdStore').set({
       'city': '${cityPath.city}',
       'country': '${cityPath.country}',
-      'categories': '$categories',
+      'categories': categories,
       'latLng': '${latLng ?? ''}',
       'urlImage': '${urlImage ?? ''}',
       'telegram': '${telegram ?? ''}',
@@ -85,8 +85,7 @@ class DBFirestore {
   }) {
     //
 
-    final _path =
-        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+    final _path = 'country/${cityPath.country}/store';
 
     _firestore.collection(_path).doc('$phoneIdStore').set({
       'urlImage': '${urlImage ?? ''}',
@@ -126,26 +125,22 @@ class DBFirestore {
     });
   }
 
-  Future<List<StoreModel>> getListStore({
+  Future<List<StoreModel>> getListCategoriesStore({
     @required AddressModel cityPath,
     @required String categories,
   }) async {
     //
 
-    // final path =
-    //     '/country/colombia/departament/antioquia/city/la_ceja/categories/todo/store';
-
     final now = DateTime.now();
 
-    final path =
-        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+    final path = 'country/${cityPath.country}/store';
 
     CacheStoreModel cache;
 
-    print('DBFirestore - getListStore - path: $path');
+    print('DBFirestore - getListCategoriesStore - path: $path');
 
     try {
-      // cache = cacheStoreModelFromJson(_pref.cacheStore);
+      //
 
       final cacheTemp = _pref.getAnyData(path: path);
 
@@ -158,7 +153,7 @@ class DBFirestore {
     if (cache == null) {
       //
 
-      print('DBFirestore - getListStore - cache es null');
+      print('DBFirestore - getListCategoriesStore - cache es null');
 
       return _listStoreModel(
         path: path,
@@ -169,7 +164,8 @@ class DBFirestore {
 
     final expire = DateTime.parse(cache.expire);
 
-    print('DBFirestore - getListStore - cache.expire: ${cache.expire}');
+    print(
+        'DBFirestore - getListCategoriesStore - cache.expire: ${cache.expire}');
 
     // Si el cache existe pero esta vencido
     if (expire.isBefore(now)) {
@@ -177,7 +173,8 @@ class DBFirestore {
 
       // print('etc');
       print(
-          'DBFirestore - getListStore - cache no es nulo pero expiro ${cache.expire}');
+        'DBFirestore - getListCategoriesStore - cache no es nulo pero expiro ${cache.expire}',
+      );
 
       return _listStoreModel(
         path: path,
@@ -186,7 +183,7 @@ class DBFirestore {
       );
     }
 
-    print('DBFirestore - getListStore - cache vigente');
+    print('DBFirestore - getListCategoriesStore - cache vigente');
 
     final data = _pref.getAnyData(path: path);
 
@@ -197,7 +194,7 @@ class DBFirestore {
     } catch (e) {
       //
 
-      print('Firestore - getListStore - Error: $e');
+      print('Firestore - getListCategoriesStore - Error: $e');
     }
   }
 
@@ -206,10 +203,25 @@ class DBFirestore {
     @required AddressModel cityPath,
     @required String categories,
   }) async {
-    final store = await getDataOfFireStore(
-      categories: categories,
-      cityPath: cityPath,
-    );
+    //
+
+    QuerySnapshot<Map<String, dynamic>> store;
+
+    if (categories != 'todo') {
+      //
+
+      store = await getDataFilterStoreOfFireStore(
+        categories: categories,
+        cityPath: cityPath,
+      );
+    } else {
+      //
+
+      store = await getDataAllCategoriesStoreOfFireStore(
+        categories: categories,
+        cityPath: cityPath,
+      );
+    }
 
     final List<StoreModel> listStoremodel =
         store.docs.map((queryDocumentSnapshot) {
@@ -257,7 +269,7 @@ class DBFirestore {
     }
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getDataOfFireStore({
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataFilterStoreOfFireStore({
     @required AddressModel cityPath,
     @required String categories,
   }) async {
@@ -285,7 +297,41 @@ class DBFirestore {
         )
         .get();
 
-    print('DBFirestore - getDataOfFireStore - data: ${data.docs}');
+    print('DBFirestore - getDataFilterStoreOfFireStore - data: ${data.docs}');
+
+    // print('Firestore - getDataOfFireStore - path: $path');
+
+    return data;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>>
+      getDataAllCategoriesStoreOfFireStore({
+    @required AddressModel cityPath,
+    @required String categories,
+  }) async {
+    print(
+      'DBFirestore - getDataOfFireStore - Veces que se ha hecho una peticion a FireStore',
+    );
+
+    final data = await _firestore
+        .collection('country/${cityPath.country}/store')
+        .where(
+          'country',
+          isEqualTo: '${cityPath.country}',
+        )
+        .where(
+          'departament',
+          isEqualTo: '${cityPath.department}',
+        )
+        .where(
+          'city',
+          isEqualTo: '${cityPath.city}',
+        )
+        .get();
+
+    print(
+      'DBFirestore - getDataAllCategoriesStoreOfFireStore - data: ${data.docs}',
+    );
 
     // print('Firestore - getDataOfFireStore - path: $path');
 

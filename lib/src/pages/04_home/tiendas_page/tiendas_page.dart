@@ -80,9 +80,12 @@ class _TiendasState extends State<Tiendas>
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: [
+            //
+
             BuscadorYPerfil(
               tabController: _tabController,
             ),
+
             CustomTapBar(
               tabController: _tabController,
               tabText: tabText,
@@ -91,56 +94,6 @@ class _TiendasState extends State<Tiendas>
                 homeBloc.add(AddTapBarViewIndex(value));
               },
             ),
-
-            // SliverToBoxAdapter(
-            //   // child: Container(
-            //   //   width: vw,
-            //   //   height: vh / 2,
-            //   //   child: PageView(
-            //   //     scrollDirection: Axis.horizontal,
-            //   //     children: [
-            //   //       Container(
-            //   //         height: vh / 2,
-            //   //         width: vw,
-            //   //         color: Colors.pink,
-            //   //       ),
-            //   //       // Container(
-            //   //       //   height: vh,
-            //   //       //   width: vw,
-            //   //       //   color: Colors.pink,
-            //   //       // )
-            //   //     ],
-            //   //   ),
-            //   // ),
-            //   child: Column(
-            //     children: [
-            //       PageView(
-            //         physics: NeverScrollableScrollPhysics(),
-            //         // allowImplicitScrolling: false,
-            //         pageSnapping: false,
-            //         scrollDirection: Axis.horizontal,
-            //         children: [
-            //           Container(
-            //             height: vh,
-            //             width: vw,
-            //             color: Colors.pink,
-            //           ),
-            //           Container(
-            //             height: vh,
-            //             width: vw,
-            //             color: Colors.pink,
-            //           )
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // )
-
-            // BlocBuilder<SubjectBloc, SubjectState>(
-            //   builder: (context, state) {
-            //     return Container();
-            //   },
-            // )
 
             _tabController.index == 0
                 ? HomeTipoDeComercio(categories: 'todo')
@@ -221,7 +174,6 @@ class _TiendasState extends State<Tiendas>
                       [],
                     ),
                   ),
-
             _tabController.index == 10
                 ? HomeTipoDeComercio(categories: 'carniceria')
                 : SliverList(

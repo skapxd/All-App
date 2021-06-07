@@ -41,12 +41,12 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
               }
 
               print(
-                  'HomeTipoDeComercio ======> MiUbicacionBloc ${state.address.country}');
+                  'HomeTipoDeComercio - MiUbicacionBloc ${state.address.country}');
 
-              print('HomeTipoDeComercio ======> Categori ${widget.categories}');
+              print('HomeTipoDeComercio - Categori ${widget.categories}');
 
               return FutureBuilder(
-                future: DBFirestore().getListStore(
+                future: DBFirestore().getListCategoriesStore(
                   cityPath: state.address,
                   categories: this.widget.categories,
                 ),
@@ -66,7 +66,9 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
                     case ConnectionState.done:
                       final List<StoreModel> listStoreModel = snapshot.data;
 
-                      print(listStoreModel);
+                      print(
+                        'HomeTipoDeComercio - listStoreModel: $listStoreModel',
+                      );
 
                       // print(
                       //   'HomeTipoDeComercio - ${listStoreModel}',

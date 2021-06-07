@@ -116,7 +116,14 @@ class _Item extends StatelessWidget {
     final vh = MediaQuery.of(context).size.height;
 
     if (this.storeModel.visibilidad == false) {
-      return Container();
+      return Container(
+        margin: index == 0
+            ? EdgeInsets.only(
+                left: vw * 0.05,
+                top: vw * 0.02,
+              )
+            : EdgeInsets.only(),
+      );
     }
 
     return Container(

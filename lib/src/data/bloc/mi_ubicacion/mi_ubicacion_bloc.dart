@@ -91,6 +91,10 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
           department: addressList[1],
         );
 
+        print(
+          'MiUbicacionBloc - initPosition - Address: ${address.country}/${address.department}/${address.city}',
+        );
+
         add(AddAddress(address));
       } catch (e) {
         print('MiUbicacionBloc - initPosition - error: $e');

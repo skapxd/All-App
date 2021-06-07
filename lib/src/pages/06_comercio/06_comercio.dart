@@ -533,6 +533,12 @@ class _CustomTextInput extends StatelessWidget {
               height: 5,
             ),
           ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: hexaColor('#303030'),
+            ),
+            borderRadius: BorderRadius.circular(vw * .1),
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: hexaColor('#D6D6D6'),
