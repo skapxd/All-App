@@ -76,9 +76,9 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
                         builder: (context, state) {
                           //
 
-                          if (listStoreModel.isEmpty) {
-                            return Container();
-                          }
+                          // if (listStoreModel.isEmpty) {
+                          //   return Container();
+                          // }
 
                           return Column(
                             children: [

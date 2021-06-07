@@ -76,20 +76,7 @@ class FilaDeTiendas extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         itemCount: this.listStoreModel.length,
         itemBuilder: (context, index) {
-          // final nameTemp = nameBusiness[index].name;
-
-          // final length = nameTemp.length;
-          // final listOfText = nameTemp.split(' ');
-          // final spaceChart = listOfText[0];
-          // String name = nameTemp;
-
-          // if (spaceChart.length > 7 && spaceChart.length < 11) {
-          //   name = nameTemp.replaceFirst(' ', '\n');
-          // } else if (spaceChart.length > 11) {
-          //   final firstPartName = spaceChart.substring(0, 11);
-          //   final secondPartName = spaceChart.substring(11, spaceChart.length);
-          //   name = '$firstPartName\n$secondPartName';
-          // }
+          //
 
           List<String> name = this.listStoreModel[index].nameStore.split('');
 
@@ -97,59 +84,90 @@ class FilaDeTiendas extends StatelessWidget {
             name.insert(12, '\n');
           }
 
-          return Container(
-            margin: index == 0
-                ? EdgeInsets.only(
-                    left: vw * 0.05,
-                    top: vw * 0.02,
-                    right: vw * 0.04,
-                  )
-                : EdgeInsets.only(
-                    top: vw * 0.02,
-                    right: vw * 0.04,
-                  ),
-            width: vw * 0.24,
-            // color: Colors.red,
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _ImageBusiness(
-                  url: this.listStoreModel[index].urlImage,
-                  ruburo: this.ruburo,
-                ),
-                Container(
-                  // color: Colors.white,
-                  // height: vw * 0.1,
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(top: vw * 0.01),
-                  child: Text(
-                    name.join(''),
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: hexaColor('#8C8C8C'),
-                      fontSize: vw * 0.03,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '4.5',
-                      style:
-                          TextStyle(color: hexaColor('#DDDDDD'), fontSize: 10),
-                    ),
-                    SizedBox(width: 3),
-                    SvgPicture.asset(
-                      'assets/icons/full-star.svg',
-                      height: 7,
-                    ),
-                  ],
-                )
-              ],
-            ),
+          return _Item(
+            storeModel: listStoreModel[index],
+            ruburo: ruburo,
+            name: name,
+            index: index,
           );
         },
+      ),
+    );
+  }
+}
+
+class _Item extends StatelessWidget {
+  const _Item({
+    Key key,
+    @required this.name,
+    @required this.index,
+    @required this.ruburo,
+    @required this.storeModel,
+  }) : super(key: key);
+
+  final String ruburo;
+  final int index;
+  final List<String> name;
+  final StoreModel storeModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final vw = MediaQuery.of(context).size.width;
+    final vh = MediaQuery.of(context).size.height;
+
+    if (this.storeModel.visibilidad == false) {
+      return Container();
+    }
+
+    return Container(
+      margin: index == 0
+          ? EdgeInsets.only(
+              left: vw * 0.05,
+              top: vw * 0.02,
+              right: vw * 0.04,
+            )
+          : EdgeInsets.only(
+              top: vw * 0.02,
+              right: vw * 0.04,
+            ),
+      width: vw * 0.24,
+      // color: Colors.red,
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _ImageBusiness(
+            url: this.storeModel.urlImage,
+            ruburo: this.ruburo,
+          ),
+          Container(
+            // color: Colors.white,
+            // height: vw * 0.1,
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(top: vw * 0.01),
+            child: Text(
+              name.join(''),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: hexaColor('#8C8C8C'),
+                fontSize: vw * 0.03,
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Text(
+                '4.5',
+                style: TextStyle(color: hexaColor('#DDDDDD'), fontSize: 10),
+              ),
+              SizedBox(width: 3),
+              SvgPicture.asset(
+                'assets/icons/full-star.svg',
+                height: 7,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -187,6 +205,13 @@ class _ImageBusiness extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(vw * 0.05),
           child: FadeInImage.memoryNetwork(
+            imageErrorBuilder: (context, error, stackTrace) {
+              return Container(
+                height: vw * 0.25,
+                width: vw * 0.25,
+                color: Colors.pink,
+              );
+            },
             placeholder: kTransparentImage,
             image: this.url,
             height: vw * 0.25,

@@ -43,8 +43,10 @@ class _SelecteIconState extends State<SelecteIcon> {
     print('SelecteIcon - _image: $_image');
 
     final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
-    final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, maxWidth: 120,);
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+    );
 
     if (pickedFile != null) {
       try {
@@ -59,9 +61,9 @@ class _SelecteIconState extends State<SelecteIcon> {
             filePath: _image.path,
             categories: widget.category,
             cityPath: _miUbicacion.address,
-            onSuccess: (path) => widget.onSelectedImage(
+            onSuccess: (url) => widget.onSelectedImage(
               pickedFile.path,
-              path,
+              url,
             ),
           )
               .then((value) {

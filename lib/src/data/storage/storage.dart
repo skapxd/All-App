@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 
 import '../../models/address_model.dart';
@@ -9,9 +11,6 @@ import '../../models/address_model.dart';
 class FirebaseStorage {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
-
-  firebase_storage.Reference ref =
-      firebase_storage.FirebaseStorage.instance.ref('/notes.txt');
 
   Future<void> uploadLogo({
     /// void Function( String cloudPath )
@@ -23,29 +22,40 @@ class FirebaseStorage {
   }) async {
     File file = File(filePath);
 
-    final _path =
-        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store/$phone';
+    final random = Random().nextInt(1000000);
+
+    final randomName = random;
+
+    // final today = DateTime.now();
+    print('FirebaseStorage - uploadLogo -  1 randomName: $randomName');
+
+    // final _path =
+    //     'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store/$phone/logo';
+
+    final _path = 'country/${cityPath.country}/$phone/logo';
+
+    print('FirebaseStorage - uploadLogo -  2 randomName: $randomName');
 
     try {
       // firebase_storage.FirebaseStorage.instance
       // .ref('uploads/file-to-upload.png')
-      final e = SettableMetadata(contentType: '.jpg');
-      storage.ref(_path).putFile(file, e);
+      // final e = SettableMetadata(
+      //   contentType: '.jpg',
+      // );
+      storage.ref(_path).putFile(file);
 
-      // final urlDownload = await storage.ref(_path).getMetadata();
+      print('FirebaseStorage - uploadLogo - el logo se subio con exito');
+
       final getDownloadUrl = await storage.ref(_path).getDownloadURL();
-      // print('FirebaseStorage - urlDownload: ${urlDownload.fullPath}');
-      final uri = Uri.tryParse(getDownloadUrl);
-      final url = uri.origin + uri.path + '?alt=media';
-      // final urlfinal = url
+      // final uri = Uri.tryParse(getDownloadUrl);
+      // final url = uri.origin + uri.path + '?alt=media';
 
-      // print('FirebaseStorage - uri: $url');
-
-      onSuccess(url);
+      onSuccess(getDownloadUrl);
+      // onSuccess('url');
 
       // return urlDownload;
     } catch (err) {
-      print('FirebaseStorage - uploadLogo - $err');
+      print('FirebaseStorage - uploadLogo - error: $err');
       // e.g, e.code == 'canceled'
     }
   }

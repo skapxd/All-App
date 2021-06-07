@@ -40,13 +40,20 @@ class DBFirestore {
     @required String nameStore,
     @required String phoneWhatsApp,
   }) {
-    final _path =
-        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+    //
+
+    // final _path =
+    //     'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+
+    final _path = 'country/${cityPath.country}/store';
 
     print('DBFirestore - _path: $_path');
     print('DBFirestore - phoneIdStore: $phoneIdStore');
 
     _firestore.collection(_path).doc('$phoneIdStore').set({
+      'city': '${cityPath.city}',
+      'country': '${cityPath.country}',
+      'categories': '$categories',
       'latLng': '${latLng ?? ''}',
       'urlImage': '${urlImage ?? ''}',
       'telegram': '${telegram ?? ''}',
@@ -54,6 +61,7 @@ class DBFirestore {
       'phoneCall': '${phoneCall ?? ''}',
       'nameStore': '${nameStore ?? ''}',
       'visibilidad': visibilidad ?? false,
+      'departament': '${cityPath.department}',
       'phoneWhatsApp': '${phoneWhatsApp ?? ''}',
     }, SetOptions(merge: true));
   }
@@ -134,6 +142,8 @@ class DBFirestore {
 
     CacheStoreModel cache;
 
+    print('DBFirestore - getListStore - path: $path');
+
     try {
       // cache = cacheStoreModelFromJson(_pref.cacheStore);
 
@@ -148,22 +158,35 @@ class DBFirestore {
     if (cache == null) {
       //
 
-      print('cache es null');
+      print('DBFirestore - getListStore - cache es null');
 
-      return _listStoreModel(path: path);
+      return _listStoreModel(
+        path: path,
+        categories: categories,
+        cityPath: cityPath,
+      );
     }
 
     final expire = DateTime.parse(cache.expire);
 
+    print('DBFirestore - getListStore - cache.expire: ${cache.expire}');
+
     // Si el cache existe pero esta vencido
     if (expire.isBefore(now)) {
       //
-      print('cache no es nulo pero expiro ${cache.storeModel[0].nameStore}');
 
-      return _listStoreModel(path: path);
+      // print('etc');
+      print(
+          'DBFirestore - getListStore - cache no es nulo pero expiro ${cache.expire}');
+
+      return _listStoreModel(
+        path: path,
+        categories: categories,
+        cityPath: cityPath,
+      );
     }
 
-    print('cache vigente');
+    print('DBFirestore - getListStore - cache vigente');
 
     final data = _pref.getAnyData(path: path);
 
@@ -180,8 +203,13 @@ class DBFirestore {
 
   Future<List<StoreModel>> _listStoreModel({
     @required String path,
+    @required AddressModel cityPath,
+    @required String categories,
   }) async {
-    final store = await getDataOfFireStore(path: path);
+    final store = await getDataOfFireStore(
+      categories: categories,
+      cityPath: cityPath,
+    );
 
     final List<StoreModel> listStoremodel =
         store.docs.map((queryDocumentSnapshot) {
@@ -230,10 +258,37 @@ class DBFirestore {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getDataOfFireStore({
-    @required String path,
+    @required AddressModel cityPath,
+    @required String categories,
   }) async {
-    print('Veces que se ha hecho una peticion a FireStore');
+    print(
+      'DBFirestore - getDataOfFireStore - Veces que se ha hecho una peticion a FireStore',
+    );
 
-    return _firestore.collection(path).get();
+    final data = await _firestore
+        .collection('country/${cityPath.country}/store')
+        .where(
+          'country',
+          isEqualTo: '${cityPath.country}',
+        )
+        .where(
+          'departament',
+          isEqualTo: '${cityPath.department}',
+        )
+        .where(
+          'city',
+          isEqualTo: '${cityPath.city}',
+        )
+        .where(
+          'categories',
+          isEqualTo: '$categories',
+        )
+        .get();
+
+    print('DBFirestore - getDataOfFireStore - data: ${data.docs}');
+
+    // print('Firestore - getDataOfFireStore - path: $path');
+
+    return data;
   }
 }
