@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,6 @@ import '../../utils/utils.dart';
 import '../../widgets/OutLineButton.dart';
 import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
-import 'crear-productos-page/crear_producto.dart';
 import 'mapa_page/mapa_page.dart';
 import 'widgets/custom_buttom.dart';
 import 'widgets/if_swich_formulario.dart';
@@ -278,6 +278,10 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 },
                               ),
                               CustomButton(
+                                ifData: _pref.pathTipoDeTienda != null ||
+                                        state.pathTipoDeTienda != null
+                                    ? true
+                                    : false,
                                 iconPath: _pref.pathTipoDeTienda ??
                                     state.pathTipoDeTienda ??
                                     'assets/icons/settings-shop-2.svg',
@@ -372,6 +376,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                         ),
                       ),
                       CustomButton(
+                        ifData: _pref.ifHabilitarEdicion != null ? true : false,
                         text: 'Ubicación',
                         iconPath: 'assets/icons/lat-lan.svg',
                         ifEnable: _pref.ifHabilitarEdicion,
@@ -395,10 +400,10 @@ Se asumirá que usted está de acuerdo si decide continuar
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            CrearProductosPage.pathName,
+                            ProductosPage.pathName,
                           );
                         },
-                        text: 'CREAR PRODUCTOS',
+                        text: 'PRODUCTOS',
                         width: vw * 0.7,
                       ),
                       Container(

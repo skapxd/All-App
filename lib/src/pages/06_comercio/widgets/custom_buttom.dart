@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 
 class CustomButton extends StatelessWidget {
   final bool ifEnable;
+  final bool ifData;
   final String iconPath;
   final String text;
   final VoidCallback onTap;
   CustomButton({
     @required this.text,
+    @required this.ifData,
     @required this.iconPath,
     this.onTap,
     this.ifEnable = true,
@@ -29,7 +31,6 @@ class CustomButton extends StatelessWidget {
           width: vw * 0.7,
           height: vw * 0.12,
           decoration: BoxDecoration(
-            // color: Colors.red,
             border: Border.all(
               width: 1,
               color: ifEnable ? hexaColor('#D6D6D6') : hexaColor('#303030'),
@@ -37,26 +38,25 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(vw),
           ),
           padding: EdgeInsets.symmetric(vertical: 7, horizontal: 3),
-          // margin: EdgeInsets.only(bottom: vw * 0.03),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                // color: Colors.pink,
                 width: 45,
                 margin: EdgeInsets.symmetric(vertical: 3),
                 child: SvgPicture.asset(
                   this.iconPath,
-                  // height: 40,
                 ),
               ),
               Container(
                 // width: vw * 0.55,
                 child: Text(
-                  this.text,
+                  '${this.text[0].toUpperCase()}${this.text.substring(1)}',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: hexaColor('#D6D6D6', opacity: 0.4),
+                    color: ifData
+                        ? hexaColor('#D6D6D6')
+                        : hexaColor('#D6D6D6', opacity: 0.4),
                   ),
                 ),
               )

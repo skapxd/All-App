@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,6 @@ import 'src/pages/06_comercio/06_comercio.dart';
 import 'src/pages/06_comercio/add-photos-page/Image_Page.dart';
 import 'src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'src/pages/06_comercio/bloc/comercio_bloc.dart';
-import 'src/pages/06_comercio/crear-productos-page/crear_producto.dart';
 import 'src/pages/06_comercio/mapa_page/mapa_page.dart';
 import 'src/utils/utils.dart';
 import 'src/widgets/Menu/bloc/menu_bloc.dart';
@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
           PageImage.pathName: (_) => PageImage(),
           FavoritosPage.pathName: (_) => FavoritosPage(),
           ComercioPage.pathName: (_) => ComercioPage(),
-          CrearProductosPage.pathName: (_) => CrearProductosPage(),
+          ProductosPage.pathName: (_) => ProductosPage(),
           PhotosPage.pathName: (_) => PhotosPage(),
           AddPageImage.pathName: (_) => AddPageImage(),
           ComercioMapaPage.pathName: (_) => ComercioMapaPage(),

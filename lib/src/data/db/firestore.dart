@@ -15,6 +15,34 @@ class DBFirestore {
 
   final now = DateTime.now();
 
+  Future<List> getCategory({
+    @required String categories,
+  }) async {
+    //
+
+    final _path = 'categories';
+
+    final data = await _firestore.collection(_path).doc('$categories').get();
+
+    print('DBFirestore - getCategory - data ${data.data()}');
+
+    final listCategories = data.data()['names'] as List;
+
+    print('DBFirestore - getCategory - listCategories $listCategories');
+
+    return listCategories;
+  }
+
+  void addFuture({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+  }) {
+    _firestore
+        .collection('Users')
+        .doc('$phoneIdStore')
+        .set({}, SetOptions(merge: true));
+  }
+
   void addUser({
     String phone,
     String token,
@@ -71,8 +99,10 @@ class DBFirestore {
     @required String categories,
     @required String phoneIdStore,
   }) {
-    final _path =
-        'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+    //   final _path =
+    //       'country/${cityPath.country}/departament/${cityPath.department}/city/${cityPath.city}/categories/$categories/store';
+
+    final _path = 'country/${cityPath.country}/store';
 
     _firestore.collection(_path).doc('$phoneIdStore').delete();
   }
@@ -100,7 +130,9 @@ class DBFirestore {
     String dateTiem,
     int numberOfStar,
   }) {
-    _firestore.collection('$cityPath/$phoneIdStore').doc('$phoneIdClient').set({
+    final _path = 'country/${cityPath.country}/store';
+
+    _firestore.collection(_path).doc('$phoneIdClient').set({
       'message': '$message',
       'dateTime': '$dateTiem',
       'numberOfStar': numberOfStar,
@@ -108,19 +140,23 @@ class DBFirestore {
   }
 
   void updateStoreViewsCounts({
-    AddAddress cityPath,
+    AddressModel cityPath,
     String phoneIdStore,
   }) {
-    _firestore.collection('$cityPath').doc('$phoneIdStore').set({
+    final _path = 'country/${cityPath.country}/store';
+
+    _firestore.collection(_path).doc('$phoneIdStore').set({
       'countsViews': FieldValue.increment(1),
     });
   }
 
   void updateCategoriesViewsCount({
     String categories,
-    String cityPath,
+    AddressModel cityPath,
   }) {
-    _firestore.collection('$cityPath/categories').doc('$categories').set({
+    final _path = 'country/${cityPath.country}/store';
+
+    _firestore.collection(_path).doc('$categories').set({
       'countsViews': FieldValue.increment(1),
     });
   }

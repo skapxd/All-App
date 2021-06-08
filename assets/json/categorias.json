@@ -1,0 +1,31 @@
+{
+    "supermercado" : [
+        { "name" : "Super Ofertas"},
+        { "name" : "Los más populares"},
+        { "name" : "Frutas y verduras"},
+        { "name" : "Lácteos, huevos y refrigerados"},
+        { "name" : "Bebidas sin alcohol"},
+        { "name" : "Snacks y confitería"},
+        { "name" : "Cervezas y licores"},
+        { "name" : "Panadería y repostería"},
+        { "name" : "Limpieza del hogar"},
+        { "name" : "Pollo, carnes y pescado"},
+        { "name" : "Cuidado personal"},
+        { "name" : "Carnes frías"},
+        { "name" : "Cuidado del bebé"},
+        { "name" : "Mascotas"},
+        { "name" : "Farmacia"},
+        { "name" : "Cigarrillos, tabaco y riesgo reducido"},
+        { "name" : "Comidas preparadas"},
+        { "name" : "Congelados"},
+        { "name" : "Papelería y oficina"},
+        { "name" : "Vehículos y ferretería"},
+        { "name" : "Hogar y decoración"},
+        { "name" : "Celebración"},
+        { "name" : "Libros"},
+        { "name" : "Tecnología"},
+        { "name" : "Moda"},
+        { "name" : "Música e instrumentos"},
+        { "name" : "Deportes y tiempo libre"}
+    ]
+}

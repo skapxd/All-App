@@ -22,6 +22,12 @@ class CustomBackgroundGradient extends StatelessWidget {
       height: vh,
       width: vw,
       color: hexaColor('#232323'),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     image: AssetImage('assets/img/bg.png'),
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       child: child,
     );
   }
