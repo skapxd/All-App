@@ -8,7 +8,7 @@ import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/db/firestore.dart';
 import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
-import '../crear-producto-page/widget/single_categorie.dart';
+import 'widget/single_categorie.dart';
 import 'widget/modal_buttom_grupo_productos.dart';
 
 class GrupoProductosPage extends StatelessWidget {

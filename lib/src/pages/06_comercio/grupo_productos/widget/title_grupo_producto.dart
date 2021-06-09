@@ -33,7 +33,7 @@ class TitleGrupoProductos extends StatelessWidget {
           categories: this.name,
         );
         Navigator.pop(context);
-        print('_Item - this.name: ${this.name}');
+        print('TitleGrupoProductos - this.name: ${this.name}');
       },
     );
   }

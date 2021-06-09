@@ -71,7 +71,7 @@ class ItemProduct extends StatelessWidget {
                   return AlertDialog(
                     backgroundColor: hexaColor('#303030'),
                     title: Text(
-                      'Seguro de eliminar este grupo?¿',
+                      'Confirme la eliminación del producto',
                       style: TextStyle(
                         color: hexaColor('#DDDDDD'),
                       ),

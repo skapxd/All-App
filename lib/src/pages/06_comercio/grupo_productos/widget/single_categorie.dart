@@ -3,7 +3,7 @@ import 'dart:math';
 import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../data/db/firestore.dart';
 import '../../../../data/shared/pref.dart';
-import '../crear_producto_page.dart';
+import '../../crear-producto-page/crear_producto_page.dart';
 import '../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +55,7 @@ class SingleCategorie extends StatelessWidget {
                   return AlertDialog(
                     backgroundColor: hexaColor('#303030'),
                     title: Text(
-                      'Seguro de eliminar este grupo?¿',
+                      'Confirme la eliminación del grupo',
                       style: TextStyle(
                         color: hexaColor('#DDDDDD'),
                       ),
