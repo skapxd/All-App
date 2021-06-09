@@ -43,6 +43,46 @@ class DBFirestore {
         .set({}, SetOptions(merge: true));
   }
 
+  void addMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+    @required String categories,
+  }) {
+    //
+
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/categories/';
+
+    _firestore
+        .collection(_path)
+        .doc('$categories')
+        .set({}, SetOptions(merge: true));
+  }
+
+  void deleteMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+    @required String categories,
+  }) async {
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/categories/';
+
+    _firestore.collection(_path).doc('$categories').delete();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+  }) {
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/categories/';
+
+    final stream = _firestore
+        .collection(
+          _path,
+        )
+        .snapshots();
+
+    return stream;
+  }
+
   void addUser({
     String phone,
     String token,

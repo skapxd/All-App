@@ -1,12 +1,16 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import 'package:allapp/src/data/db/firestore.dart';
-import 'package:allapp/src/models/load_json_categories.dart';
+import 'package:allapp/src/data/shared/pref.dart';
+import 'package:allapp/src/pages/06_comercio/crear-producto-page/crear-producto-page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../utils/utils.dart';
+import 'dart:math';
 
-import 'package:flutter/services.dart' show rootBundle;
+import '../../../utils/utils.dart';
 
 class ProductosPage extends StatelessWidget {
   static final String pathName = '/CrearProductosPage';
@@ -17,6 +21,8 @@ class ProductosPage extends StatelessWidget {
     final double vw = MediaQuery.of(context).size.width;
     // View Height
     final double vh = MediaQuery.of(context).size.height;
+
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return Scaffold(
       appBar: AppBar(
@@ -58,29 +64,31 @@ class ProductosPage extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(
-                      top: index == 0 ? 70 : 20,
-                    ),
-                    child: ListTile(
-                      leading: Container(
-                        height: 50,
-                        width: 50,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: hexaColor('#BEA07D'),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/icons/box.svg',
-                          color: hexaColor('#FFDEBD'),
-                        ),
-                      ),
-                      title: Text('Hola'),
-                    ),
+              child: StreamBuilder(
+                stream: DBFirestore().getMyCategori(
+                  cityPath: miUbicacionBloc.address,
+                  phoneIdStore: Pref().phone,
+                ),
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+                ) {
+                  //
+
+                  if (snapshot.data == null) {
+                    return Container();
+                  }
+                  final data = snapshot.data.docs;
+
+                  return ListView.builder(
+                    itemCount: data.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return _SingleCategorie(
+                        index: index,
+                        data: data[index].id,
+                      );
+                    },
                   );
                 },
               ),
@@ -136,6 +144,142 @@ class ProductosPage extends StatelessWidget {
   }
 }
 
+class _SingleCategorie extends StatelessWidget {
+  final int index;
+  final String data;
+
+  final random = Random();
+  _SingleCategorie({
+    @required this.index,
+    @required this.data,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //
+
+    final r = random.nextInt(150) + 50;
+    final g = random.nextInt(150) + 50;
+    final b = random.nextInt(150) + 50;
+
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
+
+    return Container(
+      margin: EdgeInsets.only(
+        top: index == 0 ? 70 : 20,
+      ),
+      child: ListTile(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            CrearProductoPage.pathName,
+            arguments: data,
+          );
+          print(data);
+        },
+        trailing: Container(
+          child: IconButton(
+            icon: Icon(
+              Icons.delete_forever,
+              color: hexaColor('#DDDDDD'),
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    backgroundColor: hexaColor('#303030'),
+                    title: Text(
+                      'Seguro de eliminar este grupo?¿',
+                      style: TextStyle(
+                        color: hexaColor('#DDDDDD'),
+                      ),
+                    ),
+                    actions: [
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                            hexaColor('#DDDDDD', opacity: 0.1),
+                          ),
+                        ),
+                        onPressed: () {
+                          //
+
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Mejor no',
+                          style: TextStyle(
+                            color: hexaColor('#DDDDDD'),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            hexaColor('#DDDDDD'),
+                          ),
+                        ),
+                        onPressed: () {
+                          //
+
+                          Navigator.pop(context);
+
+                          DBFirestore().deleteMyCategori(
+                            phoneIdStore: Pref().phone,
+                            cityPath: miUbicacionBloc.address,
+                            categories: data,
+                          );
+                        },
+                        child: Text(
+                          'Borrar',
+                          style: TextStyle(
+                            color: hexaColor('#303030'),
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        leading: Container(
+          height: 50,
+          width: 50,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: rgbColor(r, g, b, 1),
+          ),
+
+          child: Center(
+            child: Text(
+              data[0],
+              style: TextStyle(
+                fontSize: 24,
+                color: hexaColor('#DDDDDD'),
+              ),
+            ),
+          ),
+          // child: SvgPicture.asset(
+          //   'assets/icons/box.svg',
+          //   color: hexaColor('#FFDEBD'),
+          // ),
+        ),
+        title: Text(
+          data,
+          style: TextStyle(
+            color: hexaColor('#DDDDDD'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _ModalButtomTipoDeTienda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -148,8 +292,7 @@ class _ListItems extends StatelessWidget {
   Widget build(BuildContext context) {
     final double vh = MediaQuery.of(context).size.height;
     final double vw = MediaQuery.of(context).size.width;
-
-    List categories;
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return FutureBuilder(
       future: DBFirestore().getCategory(categories: 'supermercado'),
@@ -158,9 +301,23 @@ class _ListItems extends StatelessWidget {
 
         final data = snapshot.data;
 
-        data.map((e) {
-          categories.add(e);
-        });
+        if (data == null) {
+          return Container(
+            height: vh * 0.8,
+            padding: EdgeInsets.only(
+              top: vw * 0.07,
+              left: vw * 0.07,
+              right: vw * 0.07,
+            ),
+            decoration: BoxDecoration(
+              color: hexaColor('#333333'),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(vw * 0.05),
+                topRight: Radius.circular(vw * 0.05),
+              ),
+            ),
+          );
+        }
 
         // print(data);
 
@@ -174,7 +331,7 @@ class _ListItems extends StatelessWidget {
             right: vw * 0.07,
           ),
           decoration: BoxDecoration(
-            color: hexaColor('#333333'),
+            color: hexaColor('#303030'),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(vw * 0.05),
               topRight: Radius.circular(vw * 0.05),
@@ -185,14 +342,14 @@ class _ListItems extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  'Eliga su tipo de comercio',
+                  'Elige un grupo de productos',
                   style: TextStyle(
                     color: hexaColor('#FFFFFF'),
                   ),
                 ),
               ),
               SizedBox(
-                height: vw * 0.01,
+                height: vw * 0.05,
               ),
               Expanded(
                 child: Container(
@@ -201,44 +358,136 @@ class _ListItems extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return _Item(
-                        // iconPath: data.supermercado[index].path,
                         name: data[index],
                       );
                     },
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: vw * 0.05,
+              ),
+              _CrearCategoria(vw: vw, miUbicacionBloc: miUbicacionBloc),
             ],
           ),
         );
       },
     );
   }
+}
 
-  // Future loadJsonCategories() async {
-  //   //
+class _CrearCategoria extends StatefulWidget {
+  const _CrearCategoria({
+    Key key,
+    @required this.vw,
+    @required this.miUbicacionBloc,
+  }) : super(key: key);
 
-  //   // final json = await rootBundle.loadString('assets/json/categorias.json');
+  final double vw;
+  final MiUbicacionState miUbicacionBloc;
 
-  //   // print('_ListItems - loadJsonCategories - json: $json');
+  @override
+  __CrearCategoriaState createState() => __CrearCategoriaState();
+}
 
-  //   // final data = loadJsonCategoriesFromJson(json);
+class __CrearCategoriaState extends State<_CrearCategoria> {
+  //
 
-  //   // print('_ListItems - loadJsonCategories - data: ${data.supermercado}');
+  String _nombreCategoria;
 
-  //   // final data = Firebase
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          child: Text(
+            'Si no encuentras un grupo de productos apropiado, puedes crearla',
+            style: TextStyle(
+              color: hexaColor('#FFFFFF'),
+            ),
+          ),
+        ),
+        TextField(
+          onChanged: (value) {
+            this._nombreCategoria = value;
+          },
+          style: TextStyle(color: Colors.white),
+          maxLength: 30,
+          autofocus: false,
+          decoration: InputDecoration(
+            counterStyle: TextStyle(
+              color: hexaColor('#CCCCCC'),
+            ),
+            disabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: hexaColor('#E6D29F'),
+              ),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: hexaColor('#E6D29F'),
+              ),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: hexaColor('#E6D29F'),
+              ),
+            ),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: hexaColor('#E6D29F'),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: widget.vw * 0.03,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  hexaColor('#DDDDDD'),
+                ),
+              ),
+              onPressed: () {
+                //
 
-  //   return data;
-  // }
+                print(this._nombreCategoria);
+
+                if (this._nombreCategoria != null &&
+                    this._nombreCategoria != '') {
+                  DBFirestore().addMyCategori(
+                    phoneIdStore: Pref().phone,
+                    cityPath: widget.miUbicacionBloc.address,
+                    categories: this._nombreCategoria,
+                  );
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(
+                'Guardar',
+                style: TextStyle(
+                  color: hexaColor('#303030'),
+                ),
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: widget.vw * 0.03,
+        ),
+      ],
+    );
+  }
 }
 
 class _Item extends StatelessWidget {
-  // final String iconPath;
   final String name;
-  // final _pref = Pref();
 
   _Item({
-    // @required this.iconPath,
     @required this.name,
     Key key,
   }) : super(key: key);
@@ -246,10 +495,7 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //
-
-    // final miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
-
-    // final comercioBloc = BlocProvider.of<ComercioBloc>(context);
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return ListTile(
       title: Text(
@@ -258,24 +504,14 @@ class _Item extends StatelessWidget {
           color: hexaColor('#DDDDDD'),
         ),
       ),
-      // leading: Container(
-      //   height: 25,
-      //   width: 25,
-      //   child: SvgPicture.asset(this.iconPath),
-      // ),
       onTap: () {
+        DBFirestore().addMyCategori(
+          phoneIdStore: Pref().phone,
+          cityPath: miUbicacionBloc.address,
+          categories: this.name,
+        );
         Navigator.pop(context);
-        // comercioBloc.add(AddNombreTipoDeTienda(this.name));
-        // comercioBloc.add(AddPathTipoDeTienda(this.iconPath));
-
-        // DBFirestore().removeStore(
-        //   categories: _pref.nombreTipoDeTienda,
-        //   phoneIdStore: _pref.phone,
-        //   cityPath: miUbicacion.address,
-        // );
-
-        // _pref.nombreTipoDeTienda = this.name.toLowerCase();
-        // _pref.pathTipoDeTienda = this.iconPath.toLowerCase();
+        print('_Item - this.name: ${this.name}');
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/06_comercio/crear-producto-page/crear-producto-page.dart';
 import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +104,7 @@ class _MyAppState extends State<MyApp> {
           PhotosPage.pathName: (_) => PhotosPage(),
           AddPageImage.pathName: (_) => AddPageImage(),
           ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
+          CrearProductoPage.pathName: (_) => CrearProductoPage(),
         },
       ),
     );
