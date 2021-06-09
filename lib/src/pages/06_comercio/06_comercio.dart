@@ -1,4 +1,4 @@
-import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
+import 'grupo_productos/grupo_productos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,8 +15,8 @@ import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
 import 'mapa_page/mapa_page.dart';
 import 'widgets/custom_buttom.dart';
-import 'widgets/if_swich_formulario.dart';
-import 'widgets/select_icon.dart';
+import 'widgets/if_swich_formulario_comercio.dart';
+import 'widgets/select_icon_comercio.dart';
 import 'widgets/tipos_de_tiendas.dart';
 
 class ComercioPage extends StatefulWidget {
@@ -104,7 +104,7 @@ Se asumirá que usted está de acuerdo si decide continuar
               ),
             ),
             actions: [
-              IfSwichFormulario(
+              IfSwichFormularioComercio(
                 initialIfEnable: !_pref.ifVerInfoDeTienda,
                 text: 'Aceptar términos',
                 onChanged: (value) {
@@ -210,7 +210,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                       SizedBox(
                         height: vw * 0.1,
                       ),
-                      SelecteIcon(
+                      SelecteIconComercio(
                         onSelectedImage: (String localPath, String cloudPath) {
                           _pref.iconCludPath = cloudPath;
                           _pref.iconLocalPath = localPath;
@@ -230,7 +230,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                       SizedBox(
                         height: vw * 0.1,
                       ),
-                      IfSwichFormulario(
+                      IfSwichFormularioComercio(
                         text: 'Habilitar edición',
                         initialIfEnable: _pref.ifHabilitarEdicion,
                         onChanged: (value) {
@@ -238,7 +238,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                           comercioBloc.add(AddComercioIfEnableEditar(value));
                         },
                       ),
-                      IfSwichFormulario(
+                      IfSwichFormularioComercio(
                         text: 'Visibilidad de la tienda',
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
@@ -400,7 +400,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            ProductosPage.pathName,
+                            GrupoProductosPage.pathName,
                           );
                         },
                         text: 'PRODUCTOS',

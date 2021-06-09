@@ -2,8 +2,9 @@
 //
 //     final loadJsonCategories = loadJsonCategoriesFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
+
+import 'package:meta/meta.dart';
 
 LoadJsonCategories loadJsonCategoriesFromJson(String str) =>
     LoadJsonCategories.fromJson(json.decode(str));

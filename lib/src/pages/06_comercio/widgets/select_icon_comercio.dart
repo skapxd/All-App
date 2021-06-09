@@ -10,23 +10,23 @@ import '../../../data/shared/pref.dart';
 import '../../../data/storage/storage.dart';
 import '../../../utils/utils.dart';
 
-class SelecteIcon extends StatefulWidget {
+class SelecteIconComercio extends StatefulWidget {
   ///Recibe 2 argumentos, ( String localPath, String cloudPath )
   final void Function(String localPath, String cloudPath) onSelectedImage;
   final bool ifEnable;
   final String category;
 
-  SelecteIcon({
+  SelecteIconComercio({
     @required this.category,
     this.ifEnable = true,
     this.onSelectedImage,
   });
 
   @override
-  _SelecteIconState createState() => _SelecteIconState();
+  _SelecteIconComercioState createState() => _SelecteIconComercioState();
 }
 
-class _SelecteIconState extends State<SelecteIcon> {
+class _SelecteIconComercioState extends State<SelecteIconComercio> {
   //
 
   final _pref = Pref();
@@ -55,7 +55,7 @@ class _SelecteIconState extends State<SelecteIcon> {
 
           _image = File(pickedFile.path);
 
-          FirebaseStorage()
+          DBFirebaseStorage()
               .uploadLogo(
             phone: _pref.phone,
             filePath: _image.path,

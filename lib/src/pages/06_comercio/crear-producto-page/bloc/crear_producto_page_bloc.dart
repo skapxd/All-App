@@ -6,13 +6,12 @@ import 'package:meta/meta.dart';
 part 'crear_producto_page_event.dart';
 part 'crear_producto_page_state.dart';
 
-class CrearProductoPageBloc
-    extends Bloc<CrearProductoPageEvent, CrearProductoPageState> {
-  CrearProductoPageBloc() : super(CrearProductoPageState());
+class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
+  CrearProductoBloc() : super(CrearProductoState());
 
   @override
-  Stream<CrearProductoPageState> mapEventToState(
-    CrearProductoPageEvent event,
+  Stream<CrearProductoState> mapEventToState(
+    CrearProductoEvent event,
   ) async* {
     if (event is AddPathImageProduct) {
       //

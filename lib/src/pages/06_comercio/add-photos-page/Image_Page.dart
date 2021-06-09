@@ -60,7 +60,7 @@ class _AddPageImageState extends State<AddPageImage> {
           print('AddPageImage _image.path: ${_image.path}');
           print('AddPageImage _image.absolute: ${_image.absolute}');
           print('AddPageImage _image.uri: ${_image.uri}');
-          FirebaseStorage().uploadLogo(
+          DBFirebaseStorage().uploadLogo(
             phone: _pref.phone,
             filePath: _image.path,
             categories: 'todo',

@@ -1,6 +1,7 @@
-import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../utils/utils.dart';
 
 class CustomButton extends StatelessWidget {
   final bool ifEnable;

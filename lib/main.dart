@@ -1,6 +1,3 @@
-import 'package:allapp/src/pages/06_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
-import 'package:allapp/src/pages/06_comercio/crear-producto-page/crear-producto-page.dart';
-import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +17,9 @@ import 'src/pages/06_comercio/06_comercio.dart';
 import 'src/pages/06_comercio/add-photos-page/Image_Page.dart';
 import 'src/pages/06_comercio/add-photos-page/Photos_Page.dart';
 import 'src/pages/06_comercio/bloc/comercio_bloc.dart';
+import 'src/pages/06_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
+import 'src/pages/06_comercio/crear-producto-page/crear_producto_page.dart';
+import 'src/pages/06_comercio/grupo_productos/grupo_productos.dart';
 import 'src/pages/06_comercio/mapa_page/mapa_page.dart';
 import 'src/utils/utils.dart';
 import 'src/widgets/Menu/bloc/menu_bloc.dart';
@@ -43,7 +43,7 @@ void main() async {
         BlocProvider(create: (_) => new MiUbicacionBloc()),
         BlocProvider(create: (_) => new MapaBloc()),
         BlocProvider(create: (_) => new HomeBloc()),
-        BlocProvider(create: (_) => new CrearProductoPageBloc()),
+        BlocProvider(create: (_) => new CrearProductoBloc()),
       ],
       child: MyApp(),
     ),
@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
           PageImage.pathName: (_) => PageImage(),
           FavoritosPage.pathName: (_) => FavoritosPage(),
           ComercioPage.pathName: (_) => ComercioPage(),
-          ProductosPage.pathName: (_) => ProductosPage(),
+          GrupoProductosPage.pathName: (_) => GrupoProductosPage(),
           PhotosPage.pathName: (_) => PhotosPage(),
           AddPageImage.pathName: (_) => AddPageImage(),
           ComercioMapaPage.pathName: (_) => ComercioMapaPage(),

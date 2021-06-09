@@ -3,8 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../../models/address_model.dart';
 import '../../models/cache_store_model.dart';
-// import '../../models/store_model.dart';
-import '../bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../shared/pref.dart';
 
 class DBFirestore {
@@ -69,12 +67,14 @@ class DBFirestore {
   }
 
   void addProducInMyCategori({
-    @required String phoneIdStore,
-    @required AddressModel cityPath,
+    String urlImageProducto,
+    @required String idProduct,
     @required String categories,
-    @required String productName,
-    @required String productPrice,
     @required String productQty,
+    @required String productName,
+    @required String phoneIdStore,
+    @required String productPrice,
+    @required AddressModel cityPath,
     @required bool productAvailability,
   }) {
     //
@@ -82,12 +82,83 @@ class DBFirestore {
     final _path =
         'country/${cityPath.country}/store/$phoneIdStore/categories/$categories/product/';
 
-    _firestore.collection(_path).doc('$productName').set({
-      "nombre": productName,
-      "precio": productPrice,
-      "cantidad": productQty,
-      "disponibilidad": productAvailability,
-    }, SetOptions(merge: true)).then((value) => 'Successfull');
+    Map<String, dynamic> dataUpload = {};
+
+    if (urlImageProducto != null) {
+      dataUpload.addAll({
+        "urlImageProducto": urlImageProducto,
+      });
+    }
+
+    if (productAvailability != null) {
+      // dataUpload["disponibilidad"] = productAvailability;
+      dataUpload.addAll({
+        "disponibilidad": productAvailability,
+      });
+    }
+
+    if (productName != null) {
+      // dataUpload["nombre"] = productName;
+      dataUpload.addAll({
+        "nombre": productName,
+      });
+    }
+
+    if (productPrice != null) {
+      // dataUpload["precio"] = productPrice;
+      dataUpload.addAll({
+        "precio": productPrice,
+      });
+    }
+
+    if (productQty != null) {
+      // dataUpload["cantidad"] = productQty;
+      dataUpload.addAll({
+        "cantidad": productQty,
+      });
+    }
+
+    print('DBFirestore - addProducInMyCategori - data: $dataUpload');
+
+    try {
+      _firestore.collection(_path).doc(idProduct).set(
+            dataUpload,
+            SetOptions(merge: true),
+          );
+    } catch (e) {
+      print('DBFirestore - addProducInMyCategori - error: $e');
+    }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getProducInMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+    @required String categories,
+  }) {
+    //
+
+    final _path =
+        'country/${cityPath.country}/store/$phoneIdStore/categories/$categories/product/';
+
+    final stream = _firestore.collection(_path).snapshots();
+
+    return stream;
+  }
+
+  void deleteProducInMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+    @required String categories,
+    @required String productName,
+  }) {
+    //
+
+    final _path =
+        'country/${cityPath.country}/store/$phoneIdStore/categories/$categories/product/';
+
+    _firestore.collection(_path).doc(productName).delete();
+
+    // return stream;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getMyCategori({

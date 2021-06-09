@@ -1,33 +1,33 @@
 part of 'crear_producto_page_bloc.dart';
 
 @immutable
-abstract class CrearProductoPageEvent {}
+abstract class CrearProductoEvent {}
 
-class AddPathImageProduct extends CrearProductoPageEvent {
+class AddPathImageProduct extends CrearProductoEvent {
   final String pathImageProduct;
 
   AddPathImageProduct(this.pathImageProduct);
 }
 
-class AddIfDisponibilidad extends CrearProductoPageEvent {
+class AddIfDisponibilidad extends CrearProductoEvent {
   final bool ifDisponibilidad;
 
   AddIfDisponibilidad(this.ifDisponibilidad);
 }
 
-class AddNonbre extends CrearProductoPageEvent {
+class AddNonbre extends CrearProductoEvent {
   final String nonbre;
 
   AddNonbre(this.nonbre);
 }
 
-class AddPrecio extends CrearProductoPageEvent {
+class AddPrecio extends CrearProductoEvent {
   final String precio;
 
   AddPrecio(this.precio);
 }
 
-class AddCantidad extends CrearProductoPageEvent {
+class AddCantidad extends CrearProductoEvent {
   final String cantidad;
 
   AddCantidad(this.cantidad);

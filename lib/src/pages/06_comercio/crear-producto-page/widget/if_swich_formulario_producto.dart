@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
+import '../../../../utils/utils.dart';
 
-class IfSwichFormulario extends StatefulWidget {
+class IfSwichFormularioProducto extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final String text;
   final bool initialIfEnable;
-  const IfSwichFormulario({
+  const IfSwichFormularioProducto({
     Key key,
     this.text,
     this.onChanged,
@@ -15,10 +14,11 @@ class IfSwichFormulario extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _IfSwichFormularioState createState() => _IfSwichFormularioState();
+  _IfSwichFormularioProductoState createState() =>
+      _IfSwichFormularioProductoState();
 }
 
-class _IfSwichFormularioState extends State<IfSwichFormulario> {
+class _IfSwichFormularioProductoState extends State<IfSwichFormularioProducto> {
   bool state;
 
   @override
@@ -43,7 +43,7 @@ class _IfSwichFormularioState extends State<IfSwichFormulario> {
           Text(
             widget.text,
             style: TextStyle(
-              color: hexaColor('#D6D6D6', opacity: 0.4),
+              color: hexaColor('#4F4F4F'),
             ),
           ),
           CupertinoSwitch(
