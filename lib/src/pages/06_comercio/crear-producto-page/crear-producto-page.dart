@@ -1,5 +1,5 @@
 import 'package:allapp/src/data/db/firestore.dart';
-import 'package:allapp/src/pages/06_comercio/widgets/if_swich_formulario.dart';
+import 'package:allapp/src/pages/06_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
 import 'package:allapp/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/shared/pref.dart';
-import '../../../data/storage/storage.dart';
 import '../../../utils/utils.dart';
 
 class CrearProductoPage extends StatelessWidget {
@@ -82,7 +79,9 @@ class CrearProductoPage extends StatelessWidget {
                     backgroundColor: rgbColor(0, 0, 0, 0),
                     barrierColor: rgbColor(0, 0, 0, 0),
                     builder: (BuildContext context) {
-                      return _ModalButtomTipoDeTienda();
+                      return _ModalButtomTipoDeTienda(
+                        categori: categorieName,
+                      );
                     },
                   );
                 },
@@ -123,18 +122,32 @@ class CrearProductoPage extends StatelessWidget {
 }
 
 class _ModalButtomTipoDeTienda extends StatelessWidget {
+  final String categori;
+
+  _ModalButtomTipoDeTienda({
+    @required this.categori,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return _ListItems();
+    return _ListItems(categori: this.categori);
   }
 }
 
 class _ListItems extends StatelessWidget {
+  final String categori;
+
+  _ListItems({
+    @required this.categori,
+  });
+
   @override
   Widget build(BuildContext context) {
     final double vh = MediaQuery.of(context).size.height;
     final double vw = MediaQuery.of(context).size.width;
-    // final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
+
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
+    final producto = BlocProvider.of<CrearProductoPageBloc>(context);
 
     return FutureBuilder(
       future: DBFirestore().getCategory(categories: 'supermercado'),
@@ -222,20 +235,88 @@ class _ListItems extends StatelessWidget {
                 ),
                 _IfSwichFormulario(
                   initialIfEnable: true,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    producto.add(AddIfDisponibilidad(value));
+                  },
                   text: 'Disponibilidad',
                 ),
-                SizedBox(
-                  height: vw * 0.05,
+                _CustomTextInput(
+                  margin: EdgeInsets.only(bottom: 20),
+                  onChange: (String value) {
+                    producto.add(AddNonbre(value));
+                  },
+                  text: 'Nombre',
                 ),
                 _CustomTextInput(
-                  onChange: (String value) {},
-                  // margin: EdgeInsets.only(bottom: vw * 0.03),
-                  text: 'Hola',
+                  margin: EdgeInsets.only(bottom: 20),
+                  onChange: (String value) {
+                    producto.add(AddPrecio(value));
+                  },
+                  keyboardType: TextInputType.number,
+                  text: 'Precio',
+                ),
+                _CustomTextInput(
+                  margin: EdgeInsets.only(bottom: 20),
+                  onChange: (String value) {
+                    producto.add(AddCantidad(value));
+                  },
+                  keyboardType: TextInputType.number,
+                  text: 'Cantidad',
                 ),
                 SizedBox(
                   height: vw * 0.05,
                 ),
+                InkWell(
+                  onTap: () {
+                    print('_ListItems - nonbre: ${producto.state.nonbre}');
+                    print(
+                        '_ListItems - ifDisponibilidad: ${producto.state.ifDisponibilidad}');
+                    print('_ListItems - precio: ${producto.state.precio}');
+                    print('_ListItems - cantidad: ${producto.state.cantidad}');
+                    print('_ListItems - cantidad: ${this.categori}');
+
+                    if (producto.state.nonbre != null ||
+                        producto.state.precio != null ||
+                        producto.state.cantidad != null) {
+                      //
+
+                      DBFirestore().addProducInMyCategori(
+                        categories: this.categori,
+                        cityPath: miUbicacionBloc.address,
+                        phoneIdStore: Pref().phone,
+                        productName: producto.state.nonbre,
+                        productAvailability: producto.state.ifDisponibilidad,
+                        productPrice: producto.state.precio,
+                        productQty: producto.state.cantidad,
+                      );
+
+                      Navigator.pop(context);
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(100),
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      gradient: LinearGradient(
+                        colors: [
+                          hexaColor('#E6D29F'),
+                          hexaColor('#E3B97F'),
+                        ],
+                      ),
+                      border: Border.all(
+                        color: hexaColor('#232323'),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'AÑADIR PRODUCTO',
+                        style: TextStyle(letterSpacing: 5),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -479,12 +560,16 @@ class _CustomTextInput extends StatelessWidget {
         initialValue: this.initialValue,
         keyboardType: this.keyboardType,
         onChanged: this.onChange,
-        // scrollPadding: EdgeInsets.symmetric(horizontal: 100),
 
+        // selectionHandleColor: hexaColor('#FFFFFF'),
+        // selectionColor: hexaColor('#FFFFFF'),
+
+        cursorColor: hexaColor('#303030'),
         style: TextStyle(
           color: hexaColor('#303030'),
         ),
         textAlignVertical: TextAlignVertical.center,
+
         decoration: InputDecoration(
           counterStyle: TextStyle(
             color: hexaColor('#CCCCCC'),
@@ -492,7 +577,7 @@ class _CustomTextInput extends StatelessWidget {
           hintText: this.text,
           hintStyle: TextStyle(
             height: 0,
-            color: hexaColor('#D6D6D6', opacity: 0.4),
+            color: hexaColor('#303030', opacity: 0.4),
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           disabledBorder: OutlineInputBorder(

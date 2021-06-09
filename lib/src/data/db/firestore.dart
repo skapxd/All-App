@@ -68,6 +68,28 @@ class DBFirestore {
     _firestore.collection(_path).doc('$categories').delete();
   }
 
+  void addProducInMyCategori({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+    @required String categories,
+    @required String productName,
+    @required String productPrice,
+    @required String productQty,
+    @required bool productAvailability,
+  }) {
+    //
+
+    final _path =
+        'country/${cityPath.country}/store/$phoneIdStore/categories/$categories/product/';
+
+    _firestore.collection(_path).doc('$productName').set({
+      "nombre": productName,
+      "precio": productPrice,
+      "cantidad": productQty,
+      "disponibilidad": productAvailability,
+    }, SetOptions(merge: true)).then((value) => 'Successfull');
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getMyCategori({
     @required String phoneIdStore,
     @required AddressModel cityPath,

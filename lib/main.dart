@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/06_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
 import 'package:allapp/src/pages/06_comercio/crear-producto-page/crear-producto-page.dart';
 import 'package:allapp/src/pages/06_comercio/productos-page/productos.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +43,7 @@ void main() async {
         BlocProvider(create: (_) => new MiUbicacionBloc()),
         BlocProvider(create: (_) => new MapaBloc()),
         BlocProvider(create: (_) => new HomeBloc()),
+        BlocProvider(create: (_) => new CrearProductoPageBloc()),
       ],
       child: MyApp(),
     ),
