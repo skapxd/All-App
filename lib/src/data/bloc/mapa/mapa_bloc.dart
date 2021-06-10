@@ -30,7 +30,7 @@ class MapaBloc extends Bloc<MapaEvent, MapaState> {
 
       this._mapHomeController?.animateCamera(cameraUpdate);
     } catch (e) {
-      print('The Error is =====> $e');
+      print('MapaBloc - moverCamaraHome - error: $e');
     }
   }
 
@@ -50,7 +50,7 @@ class MapaBloc extends Bloc<MapaEvent, MapaState> {
 
       this._mapComercioController?.animateCamera(cameraUpdate);
     } catch (e) {
-      print('The Error is =====> $e');
+      print('MapaBloc - moverCamaraComercio - error: $e');
     }
   }
 
@@ -59,7 +59,7 @@ class MapaBloc extends Bloc<MapaEvent, MapaState> {
     MapaEvent event,
   ) async* {
     if (event is OnMapaListo) {
-      print('mapa listo ');
+      print('MapaBloc - mapEventToState - mapa listo');
       yield MapaState().copyWith(mapaListo: true);
     }
   }

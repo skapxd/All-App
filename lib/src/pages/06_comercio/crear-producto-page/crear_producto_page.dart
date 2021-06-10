@@ -40,8 +40,6 @@ class CrearProductoPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             categorieName,
-            // 'PRODUCTOS',
-            textAlign: TextAlign.center,
             style: TextStyle(
               height: 1.5,
               fontSize: 15,

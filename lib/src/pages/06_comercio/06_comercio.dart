@@ -1,4 +1,3 @@
-import 'grupo_productos/grupo_productos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,7 @@ import '../../utils/utils.dart';
 import '../../widgets/OutLineButton.dart';
 import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
+import 'grupo_productos/grupo_productos.dart';
 import 'mapa_page/mapa_page.dart';
 import 'widgets/custom_buttom.dart';
 import 'widgets/if_swich_formulario_comercio.dart';
@@ -108,11 +108,11 @@ Se asumirá que usted está de acuerdo si decide continuar
                 initialIfEnable: !_pref.ifVerInfoDeTienda,
                 text: 'Aceptar términos',
                 onChanged: (value) {
-                  print('Swich of termns $value');
+                  print('ComercioPage - Swich of termns $value');
                   _pref.ifVerInfoDeTienda = !value;
                   final bloc = BlocProvider.of<ComercioBloc>(context);
                   bloc.add(AddAceptoTerminos(!value));
-                  print('bloc ===> ${bloc.state.aceptoTerminos}');
+                  print('ComercioPage - bloc:  ${bloc.state.aceptoTerminos}');
                 },
               ),
             ],

@@ -8,8 +8,8 @@ import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/db/firestore.dart';
 import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
-import 'widget/single_categorie.dart';
 import 'widget/modal_buttom_grupo_productos.dart';
+import 'widget/single_categorie.dart';
 
 class GrupoProductosPage extends StatelessWidget {
   static final String pathName = '/CrearProductosPage';
@@ -27,7 +27,7 @@ class GrupoProductosPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'GRUPO DE PRODUCTOS',
-          textAlign: TextAlign.center,
+          // textAlign: TextAlign.center,
           style: TextStyle(
             height: 1.5,
             fontSize: 15,

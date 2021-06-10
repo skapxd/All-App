@@ -13,6 +13,40 @@ class DBFirestore {
 
   final now = DateTime.now();
 
+  Future<void> addPhotosStore({
+    @required String urlImage,
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+  }) {
+    //
+
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
+
+    Map<String, dynamic> data = {};
+
+    if (urlImage != null) {
+      data.addAll({'urlImage': urlImage});
+    }
+
+    _firestore.collection(_path).doc().set(
+          data,
+          SetOptions(merge: true),
+        );
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getPhotosStore({
+    @required String phoneIdStore,
+    @required AddressModel cityPath,
+  }) {
+    //
+
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
+
+    final stream = _firestore.collection(_path).snapshots();
+
+    return stream;
+  }
+
   Future<List> getCategory({
     @required String categories,
   }) async {
@@ -29,16 +63,6 @@ class DBFirestore {
     print('DBFirestore - getCategory - listCategories $listCategories');
 
     return listCategories;
-  }
-
-  void addFuture({
-    @required String phoneIdStore,
-    @required AddressModel cityPath,
-  }) {
-    _firestore
-        .collection('Users')
-        .doc('$phoneIdStore')
-        .set({}, SetOptions(merge: true));
   }
 
   void addMyCategori({
@@ -340,7 +364,6 @@ class DBFirestore {
     if (expire.isBefore(now)) {
       //
 
-      // print('etc');
       print(
         'DBFirestore - getListCategoriesStore - cache no es nulo pero expiro ${cache.expire}',
       );
@@ -363,7 +386,7 @@ class DBFirestore {
     } catch (e) {
       //
 
-      print('Firestore - getListCategoriesStore - Error: $e');
+      print('DBFirestore - getListCategoriesStore - Error: $e');
     }
   }
 
@@ -434,7 +457,7 @@ class DBFirestore {
 
       return cache2.storeModel;
     } catch (e) {
-      print('Firestore - _listStoreModel - Error: $e');
+      print('DBFirestore - _listStoreModel - Error: $e');
     }
   }
 
@@ -468,8 +491,6 @@ class DBFirestore {
 
     print('DBFirestore - getDataFilterStoreOfFireStore - data: ${data.docs}');
 
-    // print('Firestore - getDataOfFireStore - path: $path');
-
     return data;
   }
 
@@ -501,8 +522,6 @@ class DBFirestore {
     print(
       'DBFirestore - getDataAllCategoriesStoreOfFireStore - data: ${data.docs}',
     );
-
-    // print('Firestore - getDataOfFireStore - path: $path');
 
     return data;
   }

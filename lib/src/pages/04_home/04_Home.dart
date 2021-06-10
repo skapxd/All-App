@@ -30,7 +30,7 @@ class _HomeState extends State<Home>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print('=====================> $state');
+    print('Home -  $state');
 
     if (state == AppLifecycleState.resumed) {
       if (await Permission.location.isGranted) {

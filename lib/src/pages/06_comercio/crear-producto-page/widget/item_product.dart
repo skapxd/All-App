@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../data/db/firestore.dart';
@@ -31,9 +33,16 @@ class ItemProduct extends StatelessWidget {
     final g = random.nextInt(150) + 50;
     final b = random.nextInt(150) + 50;
 
+    // View Width
+    final double vw = MediaQuery.of(context).size.width;
+    // View Height
+    final double vh = MediaQuery.of(context).size.height;
+
     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return Container(
+      // height: 80,
+      // color: Colors.red,
       margin: EdgeInsets.only(
         top: index == 0 ? 70 : 20,
       ),
@@ -47,13 +56,13 @@ class ItemProduct extends StatelessWidget {
             builder: (BuildContext context) {
               return ModalButtomProducto(
                 textButtom: 'MODIFICAR',
-                idProduct: data.id,
+                idProduct: this.data.id,
                 categori: category,
-                cantidad: data.data()['cantidad'],
-                disponibilidad: data.data()['disponibilidad'],
-                nombre: data.data()['nombre'],
-                precio: data.data()['precio'],
-                urlImage: data.data()['urlImageProducto'],
+                cantidad: this.data.data()['cantidad'],
+                disponibilidad: this.data.data()['disponibilidad'],
+                nombre: this.data.data()['nombre'],
+                precio: this.data.data()['precio'],
+                urlImage: this.data.data()['urlImageProducto'],
               );
             },
           );
@@ -104,8 +113,6 @@ class ItemProduct extends StatelessWidget {
                         onPressed: () {
                           //
 
-                          print(data);
-
                           DBFirestore().deleteProducInMyCategori(
                             productName: data.id,
                             categories: category,
@@ -130,22 +137,38 @@ class ItemProduct extends StatelessWidget {
           ),
         ),
         leading: Container(
-          height: 50,
-          width: 50,
-          padding: EdgeInsets.all(5),
+          // height: 80,
+          width: 60,
+          // padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: rgbColor(r, g, b, 1),
+            borderRadius: BorderRadius.circular(5),
+            // color: rgbColor(r, g, b, 1),
+            color: this.data.data()['urlImageProducto'] != null
+                ? rgbColor(0, 0, 0, 0)
+                : hexaColor('#BEA07D'),
           ),
-          child: Center(
-            child: Text(
-              data.data()['nombre'] == null ? '' : data.data()['nombre'][0],
-              style: TextStyle(
-                fontSize: 24,
-                color: hexaColor('#DDDDDD'),
-              ),
-            ),
-          ),
+          child: this.data.data()['urlImageProducto'] == null
+              ? Container(
+                  margin: EdgeInsets.all(10),
+                  child: SvgPicture.asset('assets/icons/box.svg'),
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: FadeInImage.memoryNetwork(
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: vw * 0.25,
+                        width: vw * 0.25,
+                        color: Colors.pink,
+                      );
+                    },
+                    placeholder: kTransparentImage,
+                    image: this.data.data()['urlImageProducto'],
+                    // height: vw * 0.25,
+                    // width: vw * 0.25,
+                    fit: BoxFit.cover,
+                  ),
+                ),
         ),
         title: Text(
           data.data()['nombre'] ?? '',

@@ -212,6 +212,11 @@ class _ImageBusiness extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(vw * 0.05),
           child: FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: this.url,
+            height: vw * 0.25,
+            width: vw * 0.25,
+            fit: BoxFit.cover,
             imageErrorBuilder: (context, error, stackTrace) {
               return Container(
                 height: vw * 0.25,
@@ -219,11 +224,6 @@ class _ImageBusiness extends StatelessWidget {
                 color: Colors.pink,
               );
             },
-            placeholder: kTransparentImage,
-            image: this.url,
-            height: vw * 0.25,
-            width: vw * 0.25,
-            fit: BoxFit.cover,
           ),
           // child: Image.network(
           //   this.url,

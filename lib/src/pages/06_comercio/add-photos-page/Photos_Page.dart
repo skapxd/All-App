@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:transparent_image/transparent_image.dart';
 
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../data/db/firestore.dart';
+import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/PageImage.dart';
 import 'Image_Page.dart';
@@ -38,6 +44,8 @@ class _PhotosPageState extends State<PhotosPage> {
     final double vw = MediaQuery.of(context).size.width;
     // View Height
     final double vh = MediaQuery.of(context).size.height;
+
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -87,49 +95,65 @@ class _PhotosPageState extends State<PhotosPage> {
         backgroundColor: hexaColor('#303030'),
         body: Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
-          child: StaggeredGridView.countBuilder(
-            controller: _scrollController,
-            physics: BouncingScrollPhysics(),
-            // itemCount: 8,
-            crossAxisCount: 4,
-            mainAxisSpacing: 16.0,
-            crossAxisSpacing: 16.0,
-
-            staggeredTileBuilder: (int index) {
-              // double size
-              return StaggeredTile.count(
-                2,
-                index.isOdd ? 3 : 3.3,
-              );
-            },
-
-            itemBuilder: (BuildContext context, int index) => new Container(
-              decoration: BoxDecoration(
-                color: index.isEven
-                    ? hexaColor('#D6D6D6', opacity: 0.5)
-                    : hexaColor('#D6D6D6', opacity: 0.3),
-                borderRadius: BorderRadius.circular(vw * 0.07),
+          child: StreamBuilder(
+              stream: DBFirestore().getPhotosStore(
+                phoneIdStore: Pref().phone,
+                cityPath: miUbicacionBloc.state.address,
+                // categories: categories,
               ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(vw * 0.07),
-                onTap: () {
-                  print('imagenes: $index');
-                  Navigator.pushNamed(
-                    context,
-                    PageImage.pathName,
-                    arguments: index,
-                  );
-                  // print(FirebaseAuth.instance.currentUser);
-                },
-                child: new Center(
-                  child: new CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: new Text('$index'),
+              builder: (
+                context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+              ) {
+                if (snapshot.data == null) {
+                  return Container();
+                }
+
+                final data = snapshot.data.docs;
+
+                return StaggeredGridView.countBuilder(
+                  controller: _scrollController,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: data.length,
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 16.0,
+                  crossAxisSpacing: 16.0,
+                  staggeredTileBuilder: (int index) {
+                    // double size
+                    return StaggeredTile.count(
+                      2,
+                      index.isOdd ? 3 : 3.3,
+                    );
+                  },
+                  itemBuilder: (BuildContext context, int index) =>
+                      new Container(
+                    decoration: BoxDecoration(
+                      color: index.isEven
+                          ? hexaColor('#D6D6D6', opacity: 0.5)
+                          : hexaColor('#D6D6D6', opacity: 0.3),
+                      borderRadius: BorderRadius.circular(vw * 0.07),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(vw * 0.07),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          PageImage.pathName,
+                          arguments: index,
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(vw * 0.07),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: data[index].data()['urlImage'],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ),
+                );
+              }),
         ),
       ),
     );

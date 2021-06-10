@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../data/db/firestore.dart';
 import '../../../data/shared/pref.dart';
 import '../../../data/storage/storage.dart';
 import '../../../utils/utils.dart';
@@ -57,16 +58,31 @@ class _AddPageImageState extends State<AddPageImage> {
           color: hexaColor('#232323'),
         ),
         onPressed: () {
-          print('AddPageImage _image.path: ${_image.path}');
-          print('AddPageImage _image.absolute: ${_image.absolute}');
-          print('AddPageImage _image.uri: ${_image.uri}');
-          DBFirebaseStorage().uploadLogo(
-            phone: _pref.phone,
-            filePath: _image.path,
-            categories: 'todo',
-            cityPath: _miUbicacion.address,
-            // onSuccess: () => Navigator.pop(context),
-          );
+          //
+
+          try {
+            DBFirebaseStorage().uploadImageStore(
+              phone: _pref.phone,
+              filePath: _image.path,
+              cityPath: _miUbicacion.address,
+              onSuccess: (cloudUrl) {
+                DBFirestore().addPhotosStore(
+                  phoneIdStore: Pref().phone,
+                  cityPath: _miUbicacion.address,
+                  urlImage: cloudUrl,
+                );
+                Navigator.pop(context);
+              },
+            );
+          } catch (e) {
+            //
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("No se pudo subir la imagen"),
+            ));
+
+            print('AddPageImage - DBFirebaseStorage().uploadLogo() failed');
+          }
         },
       ),
       body: CustomBackgroundGradient(
