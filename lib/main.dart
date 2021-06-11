@@ -1,4 +1,6 @@
 import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
+import 'package:allapp/src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
+import 'package:allapp/src/widgets/page_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -110,6 +112,7 @@ class _MyAppState extends State<MyApp> {
           ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
           CrearProductoPage.pathName: (_) => CrearProductoPage(),
           VerComercios.pathName: (_) => VerComercios(),
+          VerPageImageComercio.pathName: (_) => VerPageImageComercio(),
         },
       ),
     );

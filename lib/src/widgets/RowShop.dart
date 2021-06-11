@@ -239,12 +239,6 @@ class _ImageBusiness extends StatelessWidget {
                 );
               },
             ),
-            // child: Image.network(
-            //   this.url,
-            //   fit: BoxFit.cover,
-            //   height: vw * 0.25,
-            //   width: vw * 0.25,
-            // ),
           ),
         ),
       );
