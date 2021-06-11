@@ -1,12 +1,13 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../data/db/firestore.dart';
 import '../../../../data/shared/pref.dart';
-import '../../crear-producto-page/crear_producto_page.dart';
 import '../../../../utils/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../crear-producto-page/crear_producto_page.dart';
 
 class SingleCategorie extends StatelessWidget {
   final int index;

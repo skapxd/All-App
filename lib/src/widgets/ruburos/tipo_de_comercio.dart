@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../data/db/firestore.dart';
-import '../../models/cache_store_model.dart';
+import '../../models/cache_store_model/cache_store_model.dart';
 import '../../pages/04_home/bloc/home_bloc.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';

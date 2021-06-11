@@ -61,6 +61,18 @@ class _AddPageImageState extends State<AddPageImage> {
           //
 
           try {
+            Navigator.pop(context);
+
+            showSnackBar(
+              context: context,
+              text: Text(
+                "subiendo imagen",
+                style: TextStyle(color: hexaColor('#303030')),
+              ),
+              backGround: hexaColor('#d5d5d5'),
+              systemNavigationBarColor: hexaColor('#d5d5d5'),
+            );
+
             DBFirebaseStorage().uploadImageStore(
               phone: _pref.phone,
               filePath: _image.path,
@@ -71,15 +83,20 @@ class _AddPageImageState extends State<AddPageImage> {
                   cityPath: _miUbicacion.address,
                   urlImage: cloudUrl,
                 );
-                Navigator.pop(context);
               },
             );
           } catch (e) {
             //
 
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("No se pudo subir la imagen"),
-            ));
+            showSnackBar(
+              context: context,
+              text: Text(
+                "No se pudo guardar la imagen",
+                style: TextStyle(color: hexaColor('#303030')),
+              ),
+              backGround: hexaColor('#d5d5d5'),
+              systemNavigationBarColor: hexaColor('#d5d5d5'),
+            );
 
             print('AddPageImage - DBFirebaseStorage().uploadLogo() failed');
           }
@@ -97,7 +114,7 @@ class _AddPageImageState extends State<AddPageImage> {
                 ? CustomText('TOUCH ME')
                 : Image.file(
                     _image,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                     height: vh,
                     width: vw,
                   ),
@@ -107,6 +124,3 @@ class _AddPageImageState extends State<AddPageImage> {
     );
   }
 }
-
-// https://firebasestorage.googleapis.com/v0/b/multi-entregas-je.appspot.com/o/country%2Fcolombia%2Fdepartament%2Fantioquia%2Fcity%2Fla_ceja%2Fcategories%2Ftodo%2Fstore%2F%2B573143750280?alt=media&token=774762fd-ea91-4261-b214-a695b2d44b0c
-// https://firebasestorage.googleapis.com/v0/b/multi-entregas-je.appspot.com/o/country%2Fcolombia%2Fdepartament%2Fantioquia%2Fcity%2Fla_ceja%2Fcategories%2Ftodo%2Fstore%2F%2B573143750280?alt=media&token=14a1bf50-8c34-4aa6-9673-851403965581

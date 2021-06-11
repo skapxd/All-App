@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,14 +14,14 @@ import 'src/pages/02_03_Phone/bloc/phone_bloc.dart';
 import 'src/pages/04_home/04_Home.dart';
 import 'src/pages/04_home/bloc/home_bloc.dart';
 import 'src/pages/05_favoritos/05_favoritos.dart';
-import 'src/pages/06_comercio/06_comercio.dart';
-import 'src/pages/06_comercio/add-photos-page/Image_Page.dart';
-import 'src/pages/06_comercio/add-photos-page/Photos_Page.dart';
-import 'src/pages/06_comercio/bloc/comercio_bloc.dart';
-import 'src/pages/06_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
-import 'src/pages/06_comercio/crear-producto-page/crear_producto_page.dart';
-import 'src/pages/06_comercio/grupo_productos/grupo_productos.dart';
-import 'src/pages/06_comercio/mapa_page/mapa_page.dart';
+import 'src/pages/06_crear_comercio/06_crear_comercio.dart';
+import 'src/pages/06_crear_comercio/add-photos-page/Image_Page.dart';
+import 'src/pages/06_crear_comercio/add-photos-page/Photos_Page.dart';
+import 'src/pages/06_crear_comercio/bloc/comercio_bloc.dart';
+import 'src/pages/06_crear_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
+import 'src/pages/06_crear_comercio/crear-producto-page/crear_producto_page.dart';
+import 'src/pages/06_crear_comercio/grupo_productos/grupo_productos.dart';
+import 'src/pages/06_crear_comercio/mapa_page/mapa_page.dart';
 import 'src/utils/utils.dart';
 import 'src/widgets/Menu/bloc/menu_bloc.dart';
 import 'src/widgets/PageImage.dart';
@@ -100,6 +101,7 @@ class _MyAppState extends State<MyApp> {
           Home.pathName: (_) => Home(),
           SliverPage.pathName: (_) => SliverPage(),
           PageImage.pathName: (_) => PageImage(),
+          PageImageComercio.pathName: (_) => PageImageComercio(),
           FavoritosPage.pathName: (_) => FavoritosPage(),
           ComercioPage.pathName: (_) => ComercioPage(),
           GrupoProductosPage.pathName: (_) => GrupoProductosPage(),
@@ -107,6 +109,7 @@ class _MyAppState extends State<MyApp> {
           AddPageImage.pathName: (_) => AddPageImage(),
           ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
           CrearProductoPage.pathName: (_) => CrearProductoPage(),
+          VerComercios.pathName: (_) => VerComercios(),
         },
       ),
     );

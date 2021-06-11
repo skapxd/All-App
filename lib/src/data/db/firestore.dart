@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/address_model.dart';
-import '../../models/cache_store_model.dart';
+import '../../models/cache_store_model/cache_store_model.dart';
 import '../shared/pref.dart';
 
 class DBFirestore {
@@ -20,18 +20,33 @@ class DBFirestore {
   }) {
     //
 
+    final now = DateTime.now();
+
     final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
 
     Map<String, dynamic> data = {};
 
     if (urlImage != null) {
       data.addAll({'urlImage': urlImage});
+      data.addAll({'dateTime': now});
     }
 
     _firestore.collection(_path).doc().set(
           data,
           SetOptions(merge: true),
         );
+  }
+
+  Future<void> deletePhotosStore({
+    @required String phoneIdStore,
+    @required String idImage,
+    @required AddressModel cityPath,
+  }) {
+    //
+
+    final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
+
+    _firestore.collection(_path).doc(idImage).delete();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getPhotosStore({
@@ -42,7 +57,10 @@ class DBFirestore {
 
     final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
 
-    final stream = _firestore.collection(_path).snapshots();
+    final stream = _firestore
+        .collection(_path)
+        .orderBy('dateTime', descending: true)
+        .snapshots();
 
     return stream;
   }
@@ -420,6 +438,7 @@ class DBFirestore {
       //
 
       final _storeModelTemp = StoreModel(
+        id: queryDocumentSnapshot.id,
         latLng: queryDocumentSnapshot['latLng'],
         urlImage: queryDocumentSnapshot['urlImage'],
         telegram: queryDocumentSnapshot['telegram'],
@@ -436,7 +455,12 @@ class DBFirestore {
     print('DBFirestore - listStoremodel: ${listStoremodel.length}');
 
     final expire = DateTime(
-            now.year, now.month, now.day, now.hour, (now.minute))
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      (now.minute),
+    )
         // DateTime(now.year, now.month, now.day, now.hour, (now.minute + 30))
         .toString();
 

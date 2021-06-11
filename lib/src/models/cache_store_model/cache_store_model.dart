@@ -1,10 +1,5 @@
-// To parse this JSON data, do
-//
-//     final cacheStoreModel = cacheStoreModelFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'package:meta/meta.dart';
+import 'dart:convert';
 
 CacheStoreModel cacheStoreModelFromJson(String str) =>
     CacheStoreModel.fromJson(json.decode(str));
@@ -40,45 +35,49 @@ class CacheStoreModel {
 
 class StoreModel {
   StoreModel({
-    @required this.direccion,
+    @required this.id,
     @required this.latLng,
+    @required this.urlImage,
+    @required this.telegram,
     @required this.nameStore,
     @required this.phoneCall,
-    @required this.phoneWhatsApp,
-    @required this.telegram,
-    @required this.urlImage,
+    @required this.direccion,
     @required this.visibilidad,
+    @required this.phoneWhatsApp,
   });
 
-  final String direccion;
+  final String id;
   final String latLng;
+  final String urlImage;
+  final String telegram;
   final String nameStore;
   final String phoneCall;
-  final String phoneWhatsApp;
-  final String telegram;
-  final String urlImage;
+  final String direccion;
   final bool visibilidad;
+  final String phoneWhatsApp;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
-        direccion: json["direccion"],
+        id: json["id"],
         latLng: json["latLng"],
+        urlImage: json["urlImage"],
+        telegram: json["telegram"],
         nameStore: json["nameStore"],
         phoneCall: json["phoneCall"],
-        phoneWhatsApp: json["phoneWhatsApp"],
-        telegram: json["telegram"],
-        urlImage: json["urlImage"],
+        direccion: json["direccion"],
         visibilidad: json["visibilidad"],
+        phoneWhatsApp: json["phoneWhatsApp"],
       );
 
   Map<String, dynamic> toJson() => {
-        "direccion": direccion,
+        "id": id,
         "latLng": latLng,
+        "urlImage": urlImage,
+        "telegram": telegram,
         "nameStore": nameStore,
         "phoneCall": phoneCall,
-        "phoneWhatsApp": phoneWhatsApp,
-        "telegram": telegram,
-        "urlImage": urlImage,
+        "direccion": direccion,
         "visibilidad": visibilidad,
+        "phoneWhatsApp": phoneWhatsApp,
       };
 }
 
@@ -88,23 +87,15 @@ class StoreModel {
 //     "path": "123",
 //     "StoreModel": [
 //             {
-//             "latLng" : "123",
-//             "urlImage" : "123",
-//             "telegram" : "123",
-//             "nameStore" : "123",
-//             "phoneCall" : "123",
-//             "direccion" : "123",
+//             "id": "string",
+//             "latLng" : "string",
+//             "urlImage" : "string",
+//             "telegram" : "string",
+//             "nameStore" : "string",
+//             "phoneCall" : "string",
+//             "direccion" : "string",
 //             "visibilidad" : true,
-//             "phoneWhatsApp" : "123",
+//             "phoneWhatsApp" : "string"
 //         }
 //     ]
 // }
-
-// direccion
-// latLng
-// nameStore
-// phoneCall
-// phoneWhatsApp
-// telegram
-// urlImage
-// visibilidad

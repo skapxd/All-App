@@ -1,8 +1,9 @@
+import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../models/cache_store_model.dart';
+import '../models/cache_store_model/cache_store_model.dart';
 import '../utils/utils.dart';
 
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
@@ -144,6 +145,7 @@ class _Item extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _ImageBusiness(
+            storeModel: storeModel,
             url: this.storeModel.urlImage,
             ruburo: this.ruburo,
           ),
@@ -182,11 +184,13 @@ class _Item extends StatelessWidget {
 
 class _ImageBusiness extends StatelessWidget {
   final String url;
+  final StoreModel storeModel;
   final String ruburo;
   const _ImageBusiness({
     Key key,
     this.url,
     this.ruburo,
+    this.storeModel,
   }) : super(key: key);
 
   @override
@@ -195,54 +199,78 @@ class _ImageBusiness extends StatelessWidget {
     final vh = MediaQuery.of(context).size.height;
     print('FilaDeSubCategoriaDeTiendas - _ImageBusiness: $url');
     if (url != '') {
-      return Container(
-        // padding: EdgeInsets.all(vw * 0.013),
-        decoration: BoxDecoration(
-          color: hexaColor('#303030'),
-          boxShadow: [
-            BoxShadow(
-              color: rgbColor(0, 0, 0, 0.2),
-              blurRadius: 5,
-              // spreadRadius: 10,
-              offset: Offset(3, 3),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(vw * 0.05),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(vw * 0.05),
-          child: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: this.url,
-            height: vw * 0.25,
-            width: vw * 0.25,
-            fit: BoxFit.cover,
-            imageErrorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: vw * 0.25,
-                width: vw * 0.25,
-                color: Colors.pink,
-              );
+      return InkWell(
+        onTap: () {
+          print(storeModel.nameStore);
+          Navigator.pushNamed(
+            context,
+            VerComercios.pathName,
+            arguments: {
+              'storeModel': storeModel,
+              'ruburo': ruburo,
             },
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: hexaColor('#303030'),
+            boxShadow: [
+              BoxShadow(
+                color: rgbColor(0, 0, 0, 0.2),
+                blurRadius: 5,
+                offset: Offset(3, 3),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(vw * 0.05),
           ),
-          // child: Image.network(
-          //   this.url,
-          //   fit: BoxFit.cover,
-          //   height: vw * 0.25,
-          //   width: vw * 0.25,
-          // ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(vw * 0.05),
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: this.url,
+              height: vw * 0.25,
+              width: vw * 0.25,
+              fit: BoxFit.cover,
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: vw * 0.25,
+                  width: vw * 0.25,
+                  color: Colors.pink,
+                );
+              },
+            ),
+            // child: Image.network(
+            //   this.url,
+            //   fit: BoxFit.cover,
+            //   height: vw * 0.25,
+            //   width: vw * 0.25,
+            // ),
+          ),
         ),
       );
     } else {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: vw * 0.07),
-        height: vw * 0.24,
-        decoration: BoxDecoration(
-          color: hexaColor('#BEA07D'),
-          borderRadius: BorderRadius.circular(vw * 0.05),
-        ),
-        child: SvgPicture.asset(
-          'assets/ruburos/${ruburo}.svg',
+      return InkWell(
+        onTap: () {
+          print(storeModel.nameStore);
+          Navigator.pushNamed(
+            context,
+            VerComercios.pathName,
+            arguments: {
+              'storeModel': storeModel,
+              'ruburo': ruburo,
+            },
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: vw * 0.07),
+          height: vw * 0.24,
+          decoration: BoxDecoration(
+            color: hexaColor('#BEA07D'),
+            borderRadius: BorderRadius.circular(vw * 0.05),
+          ),
+          child: SvgPicture.asset(
+            'assets/ruburos/$ruburo.svg',
+          ),
         ),
       );
     }

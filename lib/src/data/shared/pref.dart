@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/cache_store_model.dart';
+import '../../models/cache_store_model/cache_store_model.dart';
 import '../../pages/01_wellcome/01_wellcome.dart';
 
 // class ApiPref {
