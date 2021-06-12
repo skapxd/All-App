@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/01_wellcome/01_permisos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -42,7 +43,7 @@ class WelcomePage extends StatelessWidget {
             ),
             CustomOutLineButton(
               text: 'CONTINUAR',
-              onTap: () => Navigator.pushNamed(context, EnterPhone.pathName),
+              onTap: () => Navigator.pushNamed(context, PermisosPage.pathName),
               margin: EdgeInsets.only(top: vw * 0.5),
             ),
           ],

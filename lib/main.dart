@@ -1,3 +1,4 @@
+import 'package:allapp/src/pages/01_wellcome/01_permisos.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
@@ -96,9 +97,10 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         initialRoute: Pref().lastPage,
-        // initialRoute: EnterPhone.pathName,
+        // initialRoute: PermisosPage.pathName,
         routes: {
           WelcomePage.pathName: (_) => WelcomePage(),
+          PermisosPage.pathName: (_) => PermisosPage(),
           EnterPhone.pathName: (_) => EnterPhone(),
           EnterCode.pathName: (_) => EnterCode(),
           Home.pathName: (_) => Home(),
