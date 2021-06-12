@@ -71,6 +71,7 @@ class Fotos extends StatelessWidget {
                     child: FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
                       image: data.docs[index].data()['urlImage'],
+                      width: vw * 0.25,
                       fit: BoxFit.cover,
                       height: vw * 0.4,
                     ),

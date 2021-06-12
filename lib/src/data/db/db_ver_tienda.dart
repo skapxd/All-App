@@ -11,7 +11,10 @@ class DBVerTiendas {
   }) {
     final _path = 'country/${cityPath.country}/store/$phoneIdStore/photos/';
 
-    final fotos = _firestore.collection(_path).snapshots();
+    final fotos = _firestore
+        .collection(_path)
+        .orderBy('dateTime', descending: true)
+        .snapshots();
 
     return fotos;
   }

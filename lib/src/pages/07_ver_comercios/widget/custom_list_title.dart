@@ -4,15 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomListTile extends StatelessWidget {
   final String title;
-  final EdgeInsets padding;
   final String subTitle;
+  final double iconWith;
+  final String iconPath;
   final Function() onTap;
+  final EdgeInsets padding;
 
   CustomListTile({
+    this.iconPath,
+    this.subTitle,
+    this.iconWith,
     @required this.onTap,
     @required this.title,
     @required this.padding,
-    this.subTitle,
   });
 
   @override
@@ -52,8 +56,8 @@ class CustomListTile extends StatelessWidget {
           ),
           Expanded(child: Container()),
           Container(
-            width: 30,
-            child: SvgPicture.asset('assets/icons/next.svg'),
+            width: this.iconWith ?? 30,
+            child: SvgPicture.asset(this.iconPath ?? 'assets/icons/next.svg'),
           ),
         ],
       ),

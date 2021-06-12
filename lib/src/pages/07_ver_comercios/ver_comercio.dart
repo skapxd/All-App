@@ -1,4 +1,5 @@
 import 'package:allapp/src/models/cache_store_model/cache_store_model.dart';
+import 'package:allapp/src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
 import 'package:allapp/src/pages/07_ver_comercios/widget/comprar.dart';
 import 'package:allapp/src/pages/07_ver_comercios/widget/custom_list_title.dart';
 import 'package:allapp/src/pages/07_ver_comercios/widget/fotos.dart';
@@ -6,6 +7,7 @@ import 'package:allapp/src/pages/07_ver_comercios/widget/logo.dart';
 import 'package:allapp/src/utils/utils.dart';
 import 'package:allapp/src/widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class VerComercios extends StatelessWidget {
   static final String pathName = '/VerComercios';
@@ -81,6 +83,11 @@ class VerComercios extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 3),
               onTap: () {
                 print('object');
+                Navigator.pushNamed(
+                  context,
+                  VerGaleriaFotos.pathName,
+                  arguments: {'storeModel': data},
+                );
               },
             ),
             SizedBox(
@@ -90,7 +97,7 @@ class VerComercios extends StatelessWidget {
               storeModel: data,
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
             CustomListTile(
               title: 'DESCRIPCIÓN',
@@ -106,13 +113,81 @@ class VerComercios extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: vw * 0.06),
               child: Text(
-                'Nisi excepteur id laboris quis tempor. Incididunt sit excepteur dolor mollit mollit nostrud qui est laboris nostrud dolor non velit dolore. Qui culpa aute sunt officia Lorem. Aliquip Lorem non excepteur sunt ipsum sint pariatur deserunt fugiat in qui eiusmod proident quis. Consequat cupidatat deserunt nisi quis tempor velit aliquip occaecat aliquip culpa.',
+                'Nisi excepteur id laboris quis tempor. Incididunt sit excepteur dolor mollit mollit nostrud qui est laboris nostrud dolor non velit dolore. Qui culpa aute sunt officia Lorem. Aliquip Lorem non excepteur sunt ipsum sint pariatur deserunt fugiat in qui eiusmod proident quis. Consequat cupidatat deserunt nisi quis tempor velit aliquip occaecat aliquip culpa.'
+                        .substring(0, 90) +
+                    '...',
                 style: TextStyle(color: hexaColor('#777777')),
               ),
-            )
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CustomListTile(
+              iconWith: 20,
+              title: 'CONTACTOS',
+              iconPath: 'assets/icons/arrow_down.svg',
+              padding: EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 3),
+              onTap: () {
+                print('object');
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: vw * 0.06),
+              child: Column(
+                children: [
+                  _Contact(
+                    iconPath: 'assets/icons/whatsapp.svg',
+                    text: data.phoneWhatsApp,
+                  ),
+                  _Contact(
+                    iconPath: 'assets/icons/whatsapp.svg',
+                    text: data.phoneWhatsApp,
+                  ),
+                  _Contact(
+                    iconPath: 'assets/icons/whatsapp.svg',
+                    text: data.phoneWhatsApp,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Contact extends StatelessWidget {
+  const _Contact({
+    Key key,
+    @required this.iconPath,
+    @required this.text,
+  }) : super(key: key);
+
+  final String iconPath;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          this.iconPath,
+          width: 20,
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        Text(
+          this.text,
+          style: TextStyle(
+            color: hexaColor('#d5d5d5'),
+          ),
+        )
+      ],
     );
   }
 }
