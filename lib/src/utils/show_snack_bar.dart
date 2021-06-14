@@ -1,11 +1,11 @@
 part of 'utils.dart';
 
 //
-void showSnackBar({
+void customShowSnackBar({
   Text text,
   Color backGround,
-  BuildContext context,
   Color systemNavigationBarColor,
+  @required BuildContext context,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

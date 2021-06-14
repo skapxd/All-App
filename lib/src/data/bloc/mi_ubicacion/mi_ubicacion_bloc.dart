@@ -16,7 +16,7 @@ part 'mi_ubicacion_event.dart';
 part 'mi_ubicacion_state.dart';
 
 class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
-  MiUbicacionBloc() : super(MiUbicacionState());
+  MiUbicacionBloc() : super(MiUbicacionState(markers: Map()));
 
   StreamSubscription<Position> _positionSuscriptio;
 
@@ -147,6 +147,35 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
       //
 
       yield state.copyWith(initPosition: event.initPosition);
+    } else if (event is AddMarkers) {
+      //
+
+      final markerId = MarkerId(
+        this.state.markers.length.toString(),
+      );
+
+      final marker = Marker(markerId: markerId, position: event.marker);
+
+      final markers = Map<MarkerId, Marker>.from(this.state.markers);
+
+      markers[markerId] = marker;
+
+      print('MiUbicacionBloc - markers: ${markers}');
+
+      yield state.copyWith(markers: markers);
+    } else if (event is ClearMArkers) {
+      //
+
+      final markers = Map<MarkerId, Marker>.from(this.state.markers);
+
+      markers.clear();
+
+      yield state.copyWith(markers: markers);
     }
   }
 }
+
+//  MiUbicacionBloc - markers: {
+//    MarkerId(0): Marker{markerId: MarkerId(0), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position: LatLng(6.027700420668657, -75.43619412928818), rotation: 0.0, visible: true, zIndex: 0.0, onTap: null},
+//    MarkerId(1): Marker{markerId: MarkerId(1), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position: LatLng(6.027479361528141, -75.43668564409018), rotation: 0.0, visible: true, zIndex: 0.0, onTap: null},
+//    MarkerId(2): Marker{markerId: MarkerId(2), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position

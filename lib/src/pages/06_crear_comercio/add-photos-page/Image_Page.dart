@@ -63,7 +63,7 @@ class _AddPageImageState extends State<AddPageImage> {
           try {
             Navigator.pop(context);
 
-            showSnackBar(
+            customShowSnackBar(
               context: context,
               text: Text(
                 "subiendo imagen",
@@ -88,7 +88,7 @@ class _AddPageImageState extends State<AddPageImage> {
           } catch (e) {
             //
 
-            showSnackBar(
+            customShowSnackBar(
               context: context,
               text: Text(
                 "No se pudo guardar la imagen",

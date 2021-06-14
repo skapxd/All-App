@@ -57,10 +57,16 @@ Se asumirá que usted está de acuerdo si decide continuar
 
   Pref _pref;
 
+  GlobalKey<FormState> _formKey;
+
   @override
   void initState() {
     super.initState();
+
     _pref = Pref();
+
+    _formKey = GlobalKey<FormState>();
+
     Future.delayed(Duration.zero,
         () => _pref.ifVerInfoDeTienda ? showCustomDialog(context) : null);
   }
@@ -242,25 +248,38 @@ Se asumirá que usted está de acuerdo si decide continuar
                         text: 'Visibilidad de la tienda',
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
-                          _pref.ifVisibilidadDeTienda = value;
-                          // comercioBloc.add(AddToggleViewStore(value));
+                          if (_formKey.currentState.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            _pref.ifVisibilidadDeTienda = value;
+                            // comercioBloc.add(AddToggleViewStore(value));
 
-                          DBFirestore().addStore(
-                            categories: _pref.nombreTipoDeTienda,
-                            visibilidad: value,
-                            latLng: _pref.latLanDeTienda,
-                            phoneIdStore: _pref.phone,
-                            nameStore: _pref.nombreDeTienda,
-                            cityPath: miUbicacion.state.address,
-                            telegram: _pref.telegramDeTienda,
-                            phoneCall: _pref.telefotoDeTienda,
-                            direccion: _pref.direccionDeTienda,
-                            phoneWhatsApp: _pref.whatsAppDeTienda,
-                            urlImage: _pref.iconCludPath,
-                          );
+                            DBFirestore().addStore(
+                              categories: _pref.nombreTipoDeTienda,
+                              visibilidad: value,
+                              latLng: _pref.latLanDeTienda,
+                              phoneIdStore: _pref.phone,
+                              nameStore: _pref.nombreDeTienda,
+                              cityPath: miUbicacion.state.address,
+                              telegram: _pref.telegramDeTienda,
+                              phoneCall: _pref.telefotoDeTienda,
+                              direccion: _pref.direccionDeTienda,
+                              phoneWhatsApp: _pref.whatsAppDeTienda,
+                              urlImage: _pref.iconCludPath,
+                            );
+                          } else {
+                            customShowSnackBar(
+                              context: context,
+                              text: Text(
+                                'La tienda no sera visible hasta llenar todos los campos',
+                                style: TextStyle(color: hexaColor('#303030')),
+                              ),
+                            );
+                          }
                         },
                       ),
                       Form(
+                        key: _formKey,
                         child: Container(
                           width: vw * 0.7,
                           child: Column(
@@ -355,7 +374,8 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 text: 'Telegram ej: @Nombre',
                                 margin: EdgeInsets.only(bottom: vw * 0.08),
                                 onChange: (value) {
-                                  _pref.telegramDeTienda = value;
+                                  _pref.telegramDeTienda =
+                                      value.replaceAll('@', '');
                                   print('ComercioPage $value');
                                 },
                               ),
@@ -503,6 +523,12 @@ class _CustomTextInput extends StatelessWidget {
     return Container(
       margin: this.margin,
       child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Campo obligatorio';
+          }
+          return null;
+        },
         controller: this.textEditingController,
         initialValue: this.initialValue,
         enabled: this.ifEnable,

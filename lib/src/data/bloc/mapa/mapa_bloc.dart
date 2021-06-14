@@ -19,7 +19,7 @@ class MapaBloc extends Bloc<MapaEvent, MapaState> {
   void initMapHome(GoogleMapController controller) {
     this._mapHomeController = controller;
 
-    this._mapHomeController.setMapStyle(jsonEncode(mapStyle));
+    this._mapHomeController.setMapStyle(jsonEncode(mapStyle2));
 
     add(OnMapaListo());
   }
@@ -39,7 +39,7 @@ class MapaBloc extends Bloc<MapaEvent, MapaState> {
   void initMapComercio(GoogleMapController controller) {
     this._mapComercioController = controller;
 
-    this._mapComercioController.setMapStyle(jsonEncode(mapStyle));
+    this._mapComercioController.setMapStyle(jsonEncode(mapStyle2));
 
     add(OnMapaListo());
   }

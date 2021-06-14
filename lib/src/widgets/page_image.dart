@@ -74,7 +74,7 @@ class _PageImageComercioState extends State<PageImageComercio> {
               Navigator.pop(context);
 
               print('delete');
-              showSnackBar(
+              customShowSnackBar(
                 context: context,
                 text: Text(
                   'Borrando Imagen',
@@ -89,7 +89,7 @@ class _PageImageComercioState extends State<PageImageComercio> {
                   phoneIdStore: Pref().phone,
                 );
               } catch (e) {
-                showSnackBar(
+                customShowSnackBar(
                   context: context,
                   text: Text(
                     'No se pudo borrar la imagen, por favor intente de nuevo',

@@ -26,6 +26,7 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
     print('FilaDeSubCategoriaDeTiendas - categories: $categories');
 
     return Container(
+      // margin: EdgeInsets.only(top: vw * 0.06),
       margin: EdgeInsets.only(top: vw * 0.02),
       child: Column(
         children: [

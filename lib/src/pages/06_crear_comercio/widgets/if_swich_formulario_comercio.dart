@@ -49,14 +49,14 @@ class _IfSwichFormularioComercioState extends State<IfSwichFormularioComercio> {
           ),
           CupertinoSwitch(
             activeColor: hexaColor('#BEA07D'),
-            onChanged: (bool value) {
-              if (widget.onChanged != null) {
-                widget.onChanged(value);
-              }
-              setState(() {
-                this.state = value;
-              });
-            },
+            onChanged: widget.onChanged == null
+                ? null
+                : (bool value) {
+                    widget.onChanged(value);
+                    setState(() {
+                      this.state = value;
+                    });
+                  },
             value: this.state,
           ),
         ],

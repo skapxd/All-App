@@ -14,7 +14,7 @@ class CustomListTile extends StatelessWidget {
     this.iconPath,
     this.subTitle,
     this.iconWith,
-    @required this.onTap,
+    this.onTap,
     @required this.title,
     @required this.padding,
   });

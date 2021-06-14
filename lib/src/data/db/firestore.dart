@@ -7,6 +7,7 @@ import '../shared/pref.dart';
 
 class DBFirestore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final _pref = Pref();
 
   int count = 0;

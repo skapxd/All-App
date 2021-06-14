@@ -65,21 +65,39 @@ class EnterCode extends StatelessWidget {
                   text: 'CONTINUAR',
                   margin: EdgeInsets.only(top: vw * 0.15),
                   onTap: () async {
-                    await AuthPhone().enterMsg(
-                      smsCode: state.modelPhone.msg,
-                      token: state.modelPhone.token,
-                      onSuccess: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          Home.pathName,
-                          (Route<dynamic> route) => false,
-                        );
-                        Pref().phone = state.modelPhone.phone;
-                        DBFirestore().addUser(
-                          phone: state.modelPhone.phone,
-                        );
-                      },
-                    );
+                    //
+
+                    if (state.modelPhone.msg.length == 6) {
+                      await AuthPhone().enterMsg(
+                        smsCode: state.modelPhone.msg,
+                        token: state.modelPhone.token,
+                        onSuccess: () {
+                          //
+
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Home.pathName,
+                            (Route<dynamic> route) => false,
+                          );
+                          Pref().phone = state.modelPhone.phone;
+                          DBFirestore().addUser(
+                            phone: state.modelPhone.phone,
+                          );
+                        },
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          backgroundColor: hexaColor('#303030'),
+                          title: Text(
+                            'Código invalido',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: hexaColor('#d5d5d5')),
+                          ),
+                        ),
+                      );
+                    }
                   },
                 );
               },

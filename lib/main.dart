@@ -1,6 +1,7 @@
 import 'package:allapp/src/pages/01_wellcome/01_permisos.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
+import 'package:allapp/src/pages/07_ver_comercios/ver_mapa_page/ver_mapa_page.dart';
 import 'package:allapp/src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
 import 'package:allapp/src/widgets/page_image.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -97,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         initialRoute: Pref().lastPage,
-        // initialRoute: PermisosPage.pathName,
+        // initialRoute: WelcomePage.pathName,
         routes: {
           WelcomePage.pathName: (_) => WelcomePage(),
           PermisosPage.pathName: (_) => PermisosPage(),
@@ -117,6 +118,7 @@ class _MyAppState extends State<MyApp> {
           VerComercios.pathName: (_) => VerComercios(),
           VerPageImageComercio.pathName: (_) => VerPageImageComercio(),
           VerGaleriaFotos.pathName: (_) => VerGaleriaFotos(),
+          VerMapaPage.pathName: (_) => VerMapaPage(),
         },
       ),
     );

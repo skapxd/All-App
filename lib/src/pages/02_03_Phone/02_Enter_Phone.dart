@@ -37,8 +37,8 @@ class EnterPhone extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomText(
-              'INGRESA TU NÚMERO',
-              width: vw * 0.56,
+              'INGRESA \nTU NÚMERO',
+              // width: vw * 0.56,
               margin: EdgeInsets.only(top: vw * 0.31),
               style: TextStyle(
                 color: hexaColor('#BEA07D'),
@@ -121,7 +121,12 @@ class EnterPhone extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text('Número invalido'),
+                          backgroundColor: hexaColor('#303030'),
+                          title: Text(
+                            'Número invalido',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: hexaColor('#d5d5d5')),
+                          ),
                         ),
                       );
                     }

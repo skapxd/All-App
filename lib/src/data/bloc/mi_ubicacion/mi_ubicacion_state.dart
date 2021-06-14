@@ -8,8 +8,11 @@ class MiUbicacionState {
   final bool siguiendo;
   final bool ifLocationExist;
 
+  final Map<MarkerId, Marker> markers;
+
   MiUbicacionState({
     this.latLng,
+    this.markers,
     this.address,
     this.initPosition,
     this.siguiendo = true,
@@ -22,9 +25,11 @@ class MiUbicacionState {
     AddressModel address,
     LatLng initPosition,
     bool existeUbicacion,
+    Map<MarkerId, Marker> markers,
   }) =>
       new MiUbicacionState(
         latLng: latLng ?? this.latLng,
+        markers: markers ?? this.markers,
         address: address ?? this.address,
         siguiendo: siguiendo ?? this.siguiendo,
         initPosition: initPosition ?? this.initPosition,
