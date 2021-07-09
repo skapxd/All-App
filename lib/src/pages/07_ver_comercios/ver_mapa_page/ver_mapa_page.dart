@@ -1,3 +1,5 @@
+import 'package:allapp/src/models/cache_store_model/cache_store_model.dart'
+    as Cache;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -49,14 +51,38 @@ class _VerMapaPageState extends State<VerMapaPage>
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<String> position = args['latLng'].toString().split(',');
+    final List<Cache.LatLng> position = args['latLng'];
+
+    print('VerMapaPage - position: $position');
 
     final LatLng latLng = LatLng(
-      double.tryParse(position[0]),
-      double.tryParse(position[1]),
+      position[0].lat,
+      position[0].lng,
+      // 6.02812720125828,
+      // -75.43562047183514,
     );
 
-    print(latLng);
+    Map<MarkerId, Marker> markers;
+
+    int i = 0;
+
+    position.forEach((element) {
+      //
+
+      if (markers == null) {
+        markers = {};
+      }
+
+      markers.addAll(
+        {
+          MarkerId('$i'): Marker(
+            markerId: MarkerId('$i'),
+            position: LatLng(element.lat, element.lng),
+          ),
+        },
+      );
+      i++;
+    });
 
     final camaraPosition = CameraPosition(
       target: latLng,
@@ -77,6 +103,7 @@ class _VerMapaPageState extends State<VerMapaPage>
                   myLocationEnabled: true,
                   zoomControlsEnabled: false,
                   initialCameraPosition: camaraPosition,
+                  markers: markers.values.toSet(),
                   onMapCreated: (controller) {
                     BlocProvider.of<MapaBloc>(context)
                         .initMapComercio(controller);

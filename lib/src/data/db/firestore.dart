@@ -235,7 +235,9 @@ class DBFirestore {
     @required AddressModel cityPath,
     @required String categories,
     @required bool visibilidad,
-    @required String latLng,
+    // @required Map<String, dynamic> latLng,
+    // List<Map<String, double>> latLng,
+    dynamic latLng,
     @required String phoneIdStore,
     @required String urlImage,
     @required String telegram,
@@ -258,7 +260,7 @@ class DBFirestore {
       'city': '${cityPath.city}',
       'country': '${cityPath.country}',
       'categories': categories,
-      'latLng': '${latLng ?? ''}',
+      'latLng': latLng,
       'urlImage': '${urlImage ?? ''}',
       'telegram': '${telegram ?? ''}',
       'direccion': '${direccion ?? ''}',
@@ -438,9 +440,28 @@ class DBFirestore {
         store.docs.map((queryDocumentSnapshot) {
       //
 
+      print('DBFirestore - latLng: ${queryDocumentSnapshot['latLng']}');
+
+      List<LatLng> lanLng = [];
+
+      queryDocumentSnapshot['latLng'].forEach((i) {
+        lanLng.add(LatLng(
+          lat: i['lat'],
+          lng: i['lng'],
+        ));
+      });
+
+      print(lanLng);
+      // LatLng(
+      //   lat: queryDocumentSnapshot['latLng'][0]['lan'],
+      //   lng: queryDocumentSnapshot['latLng'][0]['lng'],
+      // );
+
+      // final List<LatLng> list = queryDocumentSnapshot['latLng'];
+
       final _storeModelTemp = StoreModel(
         id: queryDocumentSnapshot.id,
-        latLng: queryDocumentSnapshot['latLng'],
+        latLng: lanLng,
         urlImage: queryDocumentSnapshot['urlImage'],
         telegram: queryDocumentSnapshot['telegram'],
         nameStore: queryDocumentSnapshot['nameStore'],

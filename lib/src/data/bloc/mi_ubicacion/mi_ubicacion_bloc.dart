@@ -174,8 +174,3 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     }
   }
 }
-
-//  MiUbicacionBloc - markers: {
-//    MarkerId(0): Marker{markerId: MarkerId(0), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position: LatLng(6.027700420668657, -75.43619412928818), rotation: 0.0, visible: true, zIndex: 0.0, onTap: null},
-//    MarkerId(1): Marker{markerId: MarkerId(1), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position: LatLng(6.027479361528141, -75.43668564409018), rotation: 0.0, visible: true, zIndex: 0.0, onTap: null},
-//    MarkerId(2): Marker{markerId: MarkerId(2), alpha: 1.0, anchor: Offset(0.5, 1.0), consumeTapEvents: false, draggable: false, flat: false, icon: Instance of 'BitmapDescriptor', infoWindow: InfoWindow{title: null, snippet: null, anchor: Offset(0.5, 0.0)}, position

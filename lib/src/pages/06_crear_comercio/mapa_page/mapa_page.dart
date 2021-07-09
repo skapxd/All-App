@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
 
+import 'package:allapp/src/models/cache_store_model/cache_store_model.dart'
+    as Cache;
+
 import '../../../data/bloc/mapa/mapa_bloc.dart';
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../utils/utils.dart';
@@ -51,6 +54,39 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
+    final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+
+    final List<Cache.LatLng> position = args['latLng'];
+
+    print('VerMapaPage - position: $position');
+
+    Map<MarkerId, Marker> markers;
+
+    int i = 0;
+
+    position.forEach((element) {
+      // if
+
+      if (markers == null) {
+        markers = {};
+      }
+
+      markers.addAll(
+        {
+          MarkerId('$i'): Marker(
+            markerId: MarkerId('$i'),
+            position: LatLng(element.lat, element.lng),
+          ),
+        },
+      );
+      i++;
+    });
+
+    // final camaraPosition = CameraPosition(
+    //   target: latLng,
+    //   zoom: 17,
+    // );
+
     return Scaffold(
       backgroundColor: hexaColor('#232323'),
       body: Container(
@@ -92,7 +128,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
                             myLocationButtonEnabled: false,
                             myLocationEnabled: true,
                             zoomControlsEnabled: false,
-                            markers: state.markers.values.toSet(),
+                            markers: markers ?? state.markers.values.toSet(),
                             initialCameraPosition: camaraPosition,
                             onMapCreated: (controller) {
                               BlocProvider.of<MapaBloc>(context)

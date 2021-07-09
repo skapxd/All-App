@@ -58,6 +58,8 @@ dependencies:
 
   dio: ^4.0.0
 
+  http: ^0.13.3
+
   # expand_widget: ^2.1.0
   
   url_launcher: ^6.0.6

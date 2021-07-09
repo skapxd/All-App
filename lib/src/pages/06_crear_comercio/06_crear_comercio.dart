@@ -254,10 +254,22 @@ Se asumirá que usted está de acuerdo si decide continuar
                             _pref.ifVisibilidadDeTienda = value;
                             // comercioBloc.add(AddToggleViewStore(value));
 
+                            // final Map<String, Map<String, double>> mapLatLng =
+                            //     {};
+                            final List<Map<String, double>> mapLatLng = [];
+
+                            miUbicacion.state.markers.forEach((key, value) {
+                              mapLatLng.add({
+                                'lat': value.position.latitude,
+                                'lng': value.position.longitude,
+                              });
+                              // print('ComercioPage - mapLatLng: $mapLatLng');
+                            });
+
                             DBFirestore().addStore(
                               categories: _pref.nombreTipoDeTienda,
                               visibilidad: value,
-                              latLng: _pref.latLanDeTienda,
+                              latLng: mapLatLng,
                               phoneIdStore: _pref.phone,
                               nameStore: _pref.nombreDeTienda,
                               cityPath: miUbicacion.state.address,
@@ -401,14 +413,14 @@ Se asumirá que usted está de acuerdo si decide continuar
                         iconPath: 'assets/icons/lat-lan.svg',
                         ifEnable: _pref.ifHabilitarEdicion,
                         onTap: () {
-                          accesoGps(
-                            onGranted: () {
-                              Navigator.pushNamed(
-                                context,
-                                ComercioMapaPage.pathName,
-                              );
-                            },
-                          );
+                          // DBFirestore().accesoGps(
+                          // // DBFirestore().accesoGps(
+                          //   onGranted: () {
+                          //     Navigator.pushNamed(
+                          //         context, ComercioMapaPage.pathName,
+                          //         arguments: []);
+                          //   },
+                          // );
                         },
                       ),
                       CustomOutLineButton(

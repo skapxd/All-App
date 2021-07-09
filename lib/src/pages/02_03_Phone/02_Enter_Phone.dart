@@ -98,25 +98,34 @@ class EnterPhone extends StatelessWidget {
                     if (state.modelPhone.phone.length == 13) {
                       Navigator.pushNamed(context, EnterCode.pathName);
 
-                      AuthPhone().sendMsg(
+                      AuthPhoneForWhatsApp().verifyPhone(
                         phone: state.modelPhone.phone,
-                        onGetToken: (value) {
-                          BlocProvider.of<PhoneBloc>(context)
-                              .add(AddToken(value));
-                        },
-                        onSuccess: (value) {
-                          BlocProvider.of<PhoneBloc>(context)
-                              .add(AddToken(value));
-
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Home.pathName,
-                            (Route<dynamic> route) => false,
-                          );
-
+                        onSuccess: () {
                           Pref().phone = state.modelPhone.phone;
+                          print(state.modelPhone.phone);
                         },
                       );
+
+                      // AuthPhone().sendMsg(
+                      //   phone: state.modelPhone.phone,
+                      //   onGetToken: (value) {
+                      //     BlocProvider.of<PhoneBloc>(context)
+                      //         .add(AddToken(value));
+                      //   },
+                      //   onSuccess: (value) {
+                      //     BlocProvider.of<PhoneBloc>(context)
+                      //         .add(AddToken(value));
+
+                      //     Navigator.pushNamedAndRemoveUntil(
+                      //       context,
+                      //       Home.pathName,
+                      //       (Route<dynamic> route) => false,
+                      //     );
+
+                      //     Pref().phone = state.modelPhone.phone;
+                      //   },
+                      // );
+
                     } else {
                       showDialog(
                         context: context,
