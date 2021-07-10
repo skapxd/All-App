@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:allapp/src/models/address_model.dart';
+import '../../models/address_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBVerTiendas {

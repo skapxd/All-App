@@ -1,7 +1,7 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/pages/02_03_Phone/02_Enter_Phone.dart';
-import 'package:allapp/src/utils/utils.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../02_03_Phone/02_Enter_Phone.dart';
+import '../../utils/utils.dart';
+import '../../widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';

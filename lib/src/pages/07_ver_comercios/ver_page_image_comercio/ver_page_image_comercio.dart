@@ -1,4 +1,4 @@
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import '../../../widgets/BackgroundGradient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';

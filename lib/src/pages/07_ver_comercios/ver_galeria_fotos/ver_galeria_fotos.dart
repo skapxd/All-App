@@ -1,9 +1,9 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/db/db_ver_tienda.dart';
-import 'package:allapp/src/models/cache_store_model/cache_store_model.dart';
-import 'package:allapp/src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
-import 'package:allapp/src/utils/utils.dart';
-import 'package:allapp/src/widgets/page_image.dart';
+import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../data/db/db_ver_tienda.dart';
+import '../../../models/cache_store_model/cache_store_model.dart';
+import '../ver_page_image_comercio/ver_page_image_comercio.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/page_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

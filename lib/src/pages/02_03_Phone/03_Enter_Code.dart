@@ -1,10 +1,9 @@
+import '../../data/services/auth/auth_Phone.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../data/auth/auth_Phone.dart';
-import '../../data/db/firestore.dart';
 import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
@@ -68,23 +67,38 @@ class EnterCode extends StatelessWidget {
                     //
 
                     if (state.modelPhone.msg.length == 6) {
-                      await AuthPhone().enterMsg(
-                        smsCode: state.modelPhone.msg,
-                        token: state.modelPhone.token,
-                        onSuccess: () {
-                          //
-
+                      AuthPhone().verifyPhoneCode(
+                        phone: state.modelPhone.phone,
+                        code: state.modelPhone.msg,
+                        onSuccess: (token) {
+                          print(token);
+                          Pref().phone = state.modelPhone.phone;
+                          Pref().token = token;
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             Home.pathName,
                             (Route<dynamic> route) => false,
                           );
-                          Pref().phone = state.modelPhone.phone;
-                          DBFirestore().addUser(
-                            phone: state.modelPhone.phone,
-                          );
                         },
                       );
+
+                      // await AuthPhone().enterMsg(
+                      //   smsCode: state.modelPhone.msg,
+                      //   token: state.modelPhone.token,
+                      //   onSuccess: () {
+                      //     //
+
+                      //     Navigator.pushNamedAndRemoveUntil(
+                      //       context,
+                      //       Home.pathName,
+                      //       (Route<dynamic> route) => false,
+                      //     );
+                      //     Pref().phone = state.modelPhone.phone;
+                      //     DBFirestore().addUser(
+                      //       phone: state.modelPhone.phone,
+                      //     );
+                      //   },
+                      // );
                     } else {
                       showDialog(
                         context: context,

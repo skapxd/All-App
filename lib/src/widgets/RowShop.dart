@@ -1,4 +1,4 @@
-import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
+import '../pages/07_ver_comercios/ver_comercio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';

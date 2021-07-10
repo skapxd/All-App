@@ -82,6 +82,11 @@ class Pref {
 
   set nombe(String value) => _pref.setString('nombe', value);
 
+  // GET & SET -> Token
+  String get token => _pref.getString('token') ?? '';
+
+  set token(String value) => _pref.setString('token', value);
+
   ////////////////////////////////////////////////////////////////////
   /// Pref de tienda
   ////////////////////////////////////////////////////////////////////

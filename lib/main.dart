@@ -1,9 +1,9 @@
-import 'package:allapp/src/pages/01_wellcome/01_permisos.dart';
-import 'package:allapp/src/pages/07_ver_comercios/ver_comercio.dart';
-import 'package:allapp/src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
-import 'package:allapp/src/pages/07_ver_comercios/ver_mapa_page/ver_mapa_page.dart';
-import 'package:allapp/src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
-import 'package:allapp/src/widgets/page_image.dart';
+import 'src/pages/01_wellcome/01_permisos.dart';
+import 'src/pages/07_ver_comercios/ver_comercio.dart';
+import 'src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
+import 'src/pages/07_ver_comercios/ver_mapa_page/ver_mapa_page.dart';
+import 'src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
+import 'src/widgets/page_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,8 +97,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        // initialRoute: Pref().lastPage,
-        initialRoute: EnterPhone.pathName,
+        initialRoute: Pref().lastPage,
+        // initialRoute: EnterPhone.pathName,
         routes: {
           WelcomePage.pathName: (_) => WelcomePage(),
           PermisosPage.pathName: (_) => PermisosPage(),
@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 // flutter build appbundle --target-platform android-arm,android-arm64,android-x64
-// Construir apk   flutter build apk --release
+// Construir apk   flutter build apk --release 
 
 // Comando para cambiar el icono
 // flutter pub run flutter_launcher_icons:main

@@ -1,5 +1,5 @@
-import 'package:allapp/src/models/cache_store_model/cache_store_model.dart';
-import 'package:allapp/src/utils/utils.dart';
+import '../../../models/cache_store_model/cache_store_model.dart';
+import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:transparent_image/transparent_image.dart';

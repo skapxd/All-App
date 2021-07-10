@@ -1,4 +1,4 @@
-import 'package:allapp/src/pages/01_wellcome/01_permisos.dart';
+import '01_permisos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

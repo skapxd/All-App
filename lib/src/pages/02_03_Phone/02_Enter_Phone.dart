@@ -1,10 +1,10 @@
+import '../../data/services/auth/auth_Phone.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../data/auth/auth_Phone.dart';
 import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
@@ -98,7 +98,7 @@ class EnterPhone extends StatelessWidget {
                     if (state.modelPhone.phone.length == 13) {
                       Navigator.pushNamed(context, EnterCode.pathName);
 
-                      AuthPhoneForWhatsApp().verifyPhone(
+                      AuthPhone().createPhoneCode(
                         phone: state.modelPhone.phone,
                         onSuccess: () {
                           Pref().phone = state.modelPhone.phone;
