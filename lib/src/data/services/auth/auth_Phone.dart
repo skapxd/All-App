@@ -17,7 +17,7 @@ class AuthPhone extends UrlBase {
 
     try {
       res = await url.post(
-        '/api-v1/users/create-phone-code',
+        '/auth/create-phone-code',
         data: {"phone": phone},
       );
     } catch (e) {
@@ -51,7 +51,7 @@ class AuthPhone extends UrlBase {
 
     try {
       res = await url.post(
-        '/api-v1/users/verify-phone-code',
+        '/auth/verify-phone-code',
         data: {
           "smsCode": code,
           "phone": phone,

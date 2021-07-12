@@ -10,7 +10,6 @@ import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
 import '../../widgets/CustomText.dart';
 import '../../widgets/OutLineButton.dart';
-import '../04_home/04_Home.dart';
 import '03_Enter_Code.dart';
 import 'bloc/phone_bloc.dart';
 
@@ -105,27 +104,6 @@ class EnterPhone extends StatelessWidget {
                           print(state.modelPhone.phone);
                         },
                       );
-
-                      // AuthPhone().sendMsg(
-                      //   phone: state.modelPhone.phone,
-                      //   onGetToken: (value) {
-                      //     BlocProvider.of<PhoneBloc>(context)
-                      //         .add(AddToken(value));
-                      //   },
-                      //   onSuccess: (value) {
-                      //     BlocProvider.of<PhoneBloc>(context)
-                      //         .add(AddToken(value));
-
-                      //     Navigator.pushNamedAndRemoveUntil(
-                      //       context,
-                      //       Home.pathName,
-                      //       (Route<dynamic> route) => false,
-                      //     );
-
-                      //     Pref().phone = state.modelPhone.phone;
-                      //   },
-                      // );
-
                     } else {
                       showDialog(
                         context: context,

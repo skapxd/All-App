@@ -19,11 +19,13 @@
         android:requestLegacyExternalStorage="true"
         ...
      -->
+
+     <!-- android:usesCleartextTraffic="true" -->
+     
    <application
    
         android:requestLegacyExternalStorage="true"
         android:label="All App"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         
         <!-- API key with sha-1 of google maps api -->

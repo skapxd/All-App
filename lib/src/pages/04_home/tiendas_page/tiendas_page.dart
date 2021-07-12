@@ -77,119 +77,72 @@ class _TiendasState extends State<Tiendas>
 
     return CustomBackgroundGradient(
       child: SafeArea(
-        child: CustomScrollView(
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
           physics: BouncingScrollPhysics(),
-          slivers: [
-            //
-
-            BuscadorYPerfil(
-              tabController: _tabController,
-            ),
-
-            CustomTapBar(
-              tabController: _tabController,
-              tabText: tabText,
-              onTap: (value) {
-                setState(() {});
-                homeBloc.add(AddTapBarViewIndex(value));
-              },
-            ),
-
-            _tabController.index == 0
-                ? HomeTipoDeComercio(categories: 'todo')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
+          headerSliverBuilder: (context, isscrolled) {
+            return [
+              BuscadorYPerfil(
+                tabController: _tabController,
+              ),
+              new SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverCustomHeaderDelegate(
+                  minHeight: 51,
+                  maxHeight: 51,
+                  child: Container(
+                    color: hexaColor('#232323'),
+                    child: Column(
+                      children: [
+                        TabBar(
+                          onTap: (value) {
+                            setState(() {});
+                            homeBloc.add(AddTapBarViewIndex(value));
+                          },
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: hexaColor('#E6D29F'),
+                          unselectedLabelColor: Colors.white,
+                          controller: _tabController,
+                          indicatorColor: hexaColor('#E6D29F'),
+                          indicatorWeight: 4,
+                          isScrollable: true,
+                          physics: BouncingScrollPhysics(),
+                          indicator: MD2Indicator(
+                            indicatorHeight: 4,
+                            indicatorColor: hexaColor('#E6D29F'),
+                            indicatorSize: MD2IndicatorSize.normal,
+                          ),
+                          tabs: tabText,
+                        ),
+                        Container(
+                          height: 1,
+                          color: hexaColor('#E6D29F'),
+                        ),
+                      ],
                     ),
                   ),
-
-            _tabController.index == 1
-                ? HomeTipoDeComercio(categories: 'supermercado')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 2
-                ? HomeTipoDeComercio(categories: 'comida rápida')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 3
-                ? HomeTipoDeComercio(categories: 'drogueria')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 4
-                ? HomeTipoDeComercio(categories: 'ferreteria')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 5
-                ? HomeTipoDeComercio(categories: 'restaurantes')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 6
-                ? HomeTipoDeComercio(categories: 'calzado')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 7
-                ? HomeTipoDeComercio(categories: 'cosmetiscos')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 8
-                ? HomeTipoDeComercio(categories: 'electrónicos')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 9
-                ? HomeTipoDeComercio(categories: 'licor')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-            _tabController.index == 10
-                ? HomeTipoDeComercio(categories: 'carniceria')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-
-            _tabController.index == 11
-                ? HomeTipoDeComercio(categories: 'minimercado')
-                : SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
-          ],
+                ),
+              ),
+            ];
+          },
+          body: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: homeBloc.page,
+            children: [
+              HomeTipoDeComercio(categories: 'todo'),
+              HomeTipoDeComercio(categories: 'supermercado'),
+              HomeTipoDeComercio(categories: 'comida rápida'),
+              HomeTipoDeComercio(categories: 'drogueria'),
+              HomeTipoDeComercio(categories: 'ferreteria'),
+              HomeTipoDeComercio(categories: 'restaurantes'),
+              HomeTipoDeComercio(categories: 'calzado'),
+              HomeTipoDeComercio(categories: 'cosmetiscos'),
+              HomeTipoDeComercio(categories: 'electrónicos'),
+              HomeTipoDeComercio(categories: 'licor'),
+              HomeTipoDeComercio(categories: 'carniceria'),
+              HomeTipoDeComercio(categories: 'minimercado'),
+            ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import '../utils/utils.dart';
 
 class BannerInicial extends StatelessWidget {
+  final String text;
+
+  BannerInicial({
+    this.text,
+  });
+
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
@@ -17,6 +23,9 @@ class BannerInicial extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: hexaColor('#BEA07D'),
+        ),
+        child: Center(
+          child: Text(text),
         ),
       ),
     );
