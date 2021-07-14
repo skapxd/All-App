@@ -1,13 +1,11 @@
+import '../../../../../utils/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
-
-class IfSwichFormularioComercio extends StatefulWidget {
+class IfSwichFormularioProducto extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final String text;
   final bool initialIfEnable;
-  const IfSwichFormularioComercio({
+  const IfSwichFormularioProducto({
     Key key,
     this.text,
     this.onChanged,
@@ -15,11 +13,11 @@ class IfSwichFormularioComercio extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _IfSwichFormularioComercioState createState() =>
-      _IfSwichFormularioComercioState();
+  _IfSwichFormularioProductoState createState() =>
+      _IfSwichFormularioProductoState();
 }
 
-class _IfSwichFormularioComercioState extends State<IfSwichFormularioComercio> {
+class _IfSwichFormularioProductoState extends State<IfSwichFormularioProducto> {
   bool state;
 
   @override
@@ -44,19 +42,19 @@ class _IfSwichFormularioComercioState extends State<IfSwichFormularioComercio> {
           Text(
             widget.text,
             style: TextStyle(
-              color: hexaColor('#D6D6D6', opacity: 0.4),
+              color: hexaColor('#4F4F4F'),
             ),
           ),
           CupertinoSwitch(
             activeColor: hexaColor('#BEA07D'),
-            onChanged: widget.onChanged == null
-                ? null
-                : (bool value) {
-                    widget.onChanged(value);
-                    setState(() {
-                      this.state = value;
-                    });
-                  },
+            onChanged: (bool value) {
+              if (widget.onChanged != null) {
+                widget.onChanged(value);
+              }
+              setState(() {
+                this.state = value;
+              });
+            },
             value: this.state,
           ),
         ],

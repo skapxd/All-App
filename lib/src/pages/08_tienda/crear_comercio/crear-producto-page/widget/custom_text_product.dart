@@ -1,6 +1,5 @@
+import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../utils/utils.dart';
 
 class CustomTextInputProducts extends StatefulWidget {
   final String text;

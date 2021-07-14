@@ -1,3 +1,5 @@
+import 'package:allapp/src/pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+import 'package:allapp/src/pages/08_tienda/tienda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,7 +7,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../data/shared/pref.dart';
 import '../../pages/05_favoritos/05_favoritos.dart';
-import '../../pages/06_crear_comercio/06_crear_comercio.dart';
 import '../../utils/utils.dart';
 import 'bloc/menu_bloc.dart';
 
@@ -101,15 +102,15 @@ class _MenuList extends StatelessWidget {
               _MenuListItem(
                 pathIcon: 'assets/icons/settings.svg',
                 height: 25,
-                text: 'Configuración',
+                text: 'Ajustes',
                 onTap: () => print('Configuracion'),
               ),
               _MenuListItem(
                 height: 30,
                 pathIcon: 'assets/icons/settings-shop-2.svg',
                 text: 'Tienda',
-                onTap: () =>
-                    Navigator.pushNamed(context, ComercioPage.pathName),
+                onTap: () => Navigator.pushNamed(context, TiendaPage.pathName),
+                // Navigator.pushNamed(context, ComercioPage.pathName),
               ),
               _MenuListItem(
                 height: 25,

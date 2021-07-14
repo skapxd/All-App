@@ -1,12 +1,11 @@
+import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../../../data/shared/pref.dart';
+import '../../../../../data/storage/storage.dart';
+import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../../data/db/firestore.dart';
-import '../../../../data/shared/pref.dart';
-import '../../../../data/storage/storage.dart';
-import '../../../../utils/utils.dart';
 import '../bloc/crear_producto_page_bloc.dart';
 import 'custom_text_product.dart';
 import 'if_swich_formulario_producto.dart';

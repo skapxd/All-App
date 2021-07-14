@@ -1,36 +1,15 @@
-import 'src/pages/01_wellcome/01_permisos.dart';
-import 'src/pages/07_ver_comercios/ver_comercio.dart';
-import 'src/pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
-import 'src/pages/07_ver_comercios/ver_mapa_page/ver_mapa_page.dart';
-import 'src/pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
-import 'src/widgets/page_image.dart';
+import 'package:allapp/src/provider.dart';
+import 'package:allapp/src/router.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'src/data/bloc/mapa/mapa_bloc.dart';
 import 'src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import 'src/data/shared/pref.dart';
 import 'src/pages/01_wellcome/01_wellcome.dart';
-import 'src/pages/02_03_Phone/02_Enter_Phone.dart';
-import 'src/pages/02_03_Phone/03_Enter_Code.dart';
-import 'src/pages/02_03_Phone/bloc/phone_bloc.dart';
-import 'src/pages/04_home/04_Home.dart';
-import 'src/pages/04_home/bloc/home_bloc.dart';
-import 'src/pages/05_favoritos/05_favoritos.dart';
-import 'src/pages/06_crear_comercio/06_crear_comercio.dart';
-import 'src/pages/06_crear_comercio/add-photos-page/Image_Page.dart';
-import 'src/pages/06_crear_comercio/add-photos-page/Photos_Page.dart';
-import 'src/pages/06_crear_comercio/bloc/comercio_bloc.dart';
-import 'src/pages/06_crear_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
-import 'src/pages/06_crear_comercio/crear-producto-page/crear_producto_page.dart';
-import 'src/pages/06_crear_comercio/grupo_productos/grupo_productos.dart';
-import 'src/pages/06_crear_comercio/mapa_page/mapa_page.dart';
 import 'src/utils/utils.dart';
-import 'src/widgets/Menu/bloc/menu_bloc.dart';
-import 'src/widgets/PageImage.dart';
-import 'src/widgets/SliverPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,16 +20,7 @@ void main() async {
   await pref.initPref();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => new PhoneBloc()),
-        BlocProvider(create: (_) => new MenuBloc()),
-        BlocProvider(create: (_) => new ComercioBloc()),
-        BlocProvider(create: (_) => new MiUbicacionBloc()),
-        BlocProvider(create: (_) => new MapaBloc()),
-        BlocProvider(create: (_) => new HomeBloc()),
-        BlocProvider(create: (_) => new CrearProductoBloc()),
-      ],
+    MainProvider(
       child: MyApp(),
     ),
   );
@@ -99,27 +69,7 @@ class _MyAppState extends State<MyApp> {
         ),
         // initialRoute: Pref().lastPage,
         initialRoute: WelcomePage.pathName,
-        routes: {
-          WelcomePage.pathName: (_) => WelcomePage(),
-          PermisosPage.pathName: (_) => PermisosPage(),
-          EnterPhone.pathName: (_) => EnterPhone(),
-          EnterCode.pathName: (_) => EnterCode(),
-          Home.pathName: (_) => Home(),
-          SliverPage.pathName: (_) => SliverPage(),
-          PageImage.pathName: (_) => PageImage(),
-          PageImageComercio.pathName: (_) => PageImageComercio(),
-          FavoritosPage.pathName: (_) => FavoritosPage(),
-          ComercioPage.pathName: (_) => ComercioPage(),
-          GrupoProductosPage.pathName: (_) => GrupoProductosPage(),
-          PhotosPage.pathName: (_) => PhotosPage(),
-          AddPageImage.pathName: (_) => AddPageImage(),
-          ComercioMapaPage.pathName: (_) => ComercioMapaPage(),
-          CrearProductoPage.pathName: (_) => CrearProductoPage(),
-          VerComercios.pathName: (_) => VerComercios(),
-          VerPageImageComercio.pathName: (_) => VerPageImageComercio(),
-          VerGaleriaFotos.pathName: (_) => VerGaleriaFotos(),
-          VerMapaPage.pathName: (_) => VerMapaPage(),
-        },
+        routes: router,
       ),
     );
   }

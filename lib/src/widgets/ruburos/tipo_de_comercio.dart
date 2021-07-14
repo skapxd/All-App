@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../data/db/firestore.dart';
-import '../../pages/04_home/bloc/home_bloc.dart';
 import '../BannerDePago.dart';
 import '../BannerInicial.dart';
 import '../BloqueDePago/BloqueDePago.dart';
@@ -34,6 +30,11 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
         children: [
           BannerInicial(
             text: widget.categories ?? 'todo',
+          ),
+          FilaDeSubCategoriaDeTiendas(
+            titleRow: 'PATROCINADORES DE ALL APP',
+            // listStoreModel: [],
+            category: widget.categories,
           ),
           FilaDeSubCategoriaDeTiendas(
             titleRow: 'RECOMENDADOS POR ALL APP',

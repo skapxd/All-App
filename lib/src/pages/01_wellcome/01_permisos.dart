@@ -5,7 +5,6 @@ import '../../widgets/BackgroundGradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 
 class PermisosPage extends StatelessWidget {
   static final String pathName = '/PermisosPage';

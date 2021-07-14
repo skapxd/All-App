@@ -1,3 +1,5 @@
+import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../../../utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../data/db/firestore.dart';
-import '../../../data/shared/pref.dart';
-import '../../../utils/utils.dart';
 import 'widget/item_product.dart';
 import 'widget/modal_bottom_tienda.dart';
 
 class CrearProductoPage extends StatelessWidget {
   //
 
-  static final pathName = 'CrearProductoPage';
+  static final pathName = '/CrearProductoPage';
 
   @override
   Widget build(BuildContext context) {

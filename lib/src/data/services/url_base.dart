@@ -1,4 +1,4 @@
-import 'package:allapp/src/data/shared/pref.dart';
+import '../shared/pref.dart';
 import 'package:dio/dio.dart';
 
 abstract class UrlBase {

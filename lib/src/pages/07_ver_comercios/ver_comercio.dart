@@ -1,4 +1,4 @@
-import 'package:allapp/src/models/store_model.dart';
+import '../../models/store_model.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../data/db/firestore.dart';

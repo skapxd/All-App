@@ -1,6 +1,6 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/services/stores/stores.service.dart';
-import 'package:allapp/src/models/store_model.dart';
+import '../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../data/services/stores/stores.service.dart';
+import '../models/store_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../pages/07_ver_comercios/ver_comercio.dart';

@@ -1,9 +1,9 @@
-import 'package:allapp/src/data/shared/pref.dart';
-import 'package:allapp/src/models/address_model.dart';
-import 'package:allapp/src/models/store_model.dart';
+import '../../shared/pref.dart';
+import '../../../models/address_model.dart';
+import '../../../models/store_model.dart';
 import 'package:meta/meta.dart';
 
-import 'package:allapp/src/data/services/url_base.dart';
+import '../url_base.dart';
 
 class StoresService extends UrlBase {
   //
