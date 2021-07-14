@@ -21,10 +21,10 @@
      -->
 
      <!-- android:usesCleartextTraffic="true" -->
-     <!-- android:usesCleartextTraffic="true" -->
      
-   <application
-        android:requestLegacyExternalStorage="true"
+     <application
+     android:usesCleartextTraffic="true"
+     android:requestLegacyExternalStorage="true"
         android:label="All App"
         android:icon="@mipmap/launcher_icon">
         

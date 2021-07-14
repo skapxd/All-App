@@ -85,8 +85,9 @@ class StoreModel {
       direccion: json["direccion"],
       visibilidad: json["visibilidad"],
       phoneWhatsApp: json["phoneWhatsApp"],
-      latLng:
-          List<LatLng>.from(json["latLng"].map((x) => LatLng.fromMap(x))) ?? [],
+      latLng: json["latLng"] != null
+          ? List<LatLng>.from(json["latLng"].map((x) => LatLng.fromMap(x)))
+          : [],
     );
   }
 

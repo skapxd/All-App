@@ -177,10 +177,16 @@ class FilaDeTiendas extends StatelessWidget {
         itemBuilder: (context, index) {
           //
 
-          List<String> name = this.listStoreModel[index].nameStore.split('');
+          List<String> name;
 
-          if (name.length > 12) {
-            name.insert(12, '\n');
+          if (this.listStoreModel[index].nameStore != null) {
+            //
+
+            name = this.listStoreModel[index].nameStore.split('');
+
+            if (name.length > 12) {
+              name.insert(12, '\n');
+            }
           }
 
           return _Item(
@@ -334,7 +340,7 @@ class _Item extends StatelessWidget {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: vw * 0.01),
             child: Text(
-              name.join(''),
+              name != null ? name.join('') : '',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: hexaColor('#8C8C8C'),

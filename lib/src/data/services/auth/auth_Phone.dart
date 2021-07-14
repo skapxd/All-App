@@ -1,9 +1,14 @@
+import 'package:allapp/src/data/shared/pref.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../url_base.dart';
 
 class AuthPhone extends UrlBase {
+  //
+
+  final _pref = Pref();
+
   Future createPhoneCode({
     @required String phone,
     Function onSuccess,
@@ -63,6 +68,8 @@ class AuthPhone extends UrlBase {
 
     final bool success = res.data['success'];
     final String token = res.data['token'];
+
+    _pref.token = token;
 
     print(res.data);
 

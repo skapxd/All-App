@@ -97,8 +97,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        initialRoute: Pref().lastPage,
-        // initialRoute: EnterPhone.pathName,
+        // initialRoute: Pref().lastPage,
+        initialRoute: WelcomePage.pathName,
         routes: {
           WelcomePage.pathName: (_) => WelcomePage(),
           PermisosPage.pathName: (_) => PermisosPage(),
