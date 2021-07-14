@@ -17,7 +17,7 @@ class ModalButtomGrupoProductos extends StatelessWidget {
     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return FutureBuilder(
-      future: DBFirestore().getCategory(categories: 'supermercado'),
+      // future: DBFirestore().getCategory(categories: 'supermercado'),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         //
 
@@ -177,11 +177,11 @@ class __CrearCategoriaState extends State<_CrearCategoria> {
 
                 if (this._nombreCategoria != null &&
                     this._nombreCategoria != '') {
-                  DBFirestore().addMyCategori(
-                    phoneIdStore: Pref().phone,
-                    cityPath: widget.miUbicacionBloc.address,
-                    categories: this._nombreCategoria,
-                  );
+                  // DBFirestore().addMyCategori(
+                  //   phoneIdStore: Pref().phone,
+                  //   cityPath: widget.miUbicacionBloc.address,
+                  //   categories: this._nombreCategoria,
+                  // );
                   Navigator.pop(context);
                 }
               },

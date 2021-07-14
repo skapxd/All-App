@@ -78,7 +78,7 @@ class _ModalButtomProductoState extends State<ModalButtomProducto> {
     final _productoBloc = BlocProvider.of<CrearProductoBloc>(context);
 
     return FutureBuilder(
-      future: DBFirestore().getCategory(categories: 'supermercado'),
+      // future: DBFirestore().getCategory(categories: 'supermercado'),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         //
 
@@ -214,17 +214,17 @@ class _ModalButtomProductoState extends State<ModalButtomProducto> {
                         filePath: localPathImageProduct,
                         cityPath: _miUbicacionBloc.address,
                         onSuccess: (url) {
-                          DBFirestore().addProducInMyCategori(
-                            urlImageProducto: url,
-                            productName: nombre,
-                            productPrice: precio,
-                            productQty: cantidad,
-                            phoneIdStore: Pref().phone,
-                            idProduct: this.widget.idProduct,
-                            categories: this.widget.categori,
-                            productAvailability: ifDisponible,
-                            cityPath: _miUbicacionBloc.address,
-                          );
+                          // DBFirestore().addProducInMyCategori(
+                          //   urlImageProducto: url,
+                          //   productName: nombre,
+                          //   productPrice: precio,
+                          //   productQty: cantidad,
+                          //   phoneIdStore: Pref().phone,
+                          //   idProduct: this.widget.idProduct,
+                          //   categories: this.widget.categori,
+                          //   productAvailability: ifDisponible,
+                          //   cityPath: _miUbicacionBloc.address,
+                          // );
 
                           // nombreTextEditingController.clear();
                           // precioTextEditingController.clear();

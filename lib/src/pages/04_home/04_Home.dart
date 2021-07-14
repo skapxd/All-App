@@ -18,10 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home>
-    with
-        TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin,
-        WidgetsBindingObserver {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   //
 
   PageController _pageController;
@@ -143,7 +140,4 @@ class _HomeState extends State<Home>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

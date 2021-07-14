@@ -1,6 +1,7 @@
+import 'package:allapp/src/models/store_model.dart';
+
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/db/db_ver_tienda.dart';
-import '../../../models/cache_store_model/cache_store_model.dart';
 import '../ver_page_image_comercio/ver_page_image_comercio.dart';
 import '../../../utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

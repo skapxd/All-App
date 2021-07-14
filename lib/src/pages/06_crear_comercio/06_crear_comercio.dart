@@ -220,12 +220,12 @@ Se asumirá que usted está de acuerdo si decide continuar
                         onSelectedImage: (String localPath, String cloudPath) {
                           _pref.iconCludPath = cloudPath;
                           _pref.iconLocalPath = localPath;
-                          DBFirestore().updateStoreIcon(
-                            categories: _pref.nombreTipoDeTienda,
-                            phoneIdStore: _pref.phone,
-                            cityPath: miUbicacion.state.address,
-                            urlImage: cloudPath,
-                          );
+                          // DBFirestore().updateStoreIcon(
+                          //   categories: _pref.nombreTipoDeTienda,
+                          //   phoneIdStore: _pref.phone,
+                          //   cityPath: miUbicacion.state.address,
+                          //   urlImage: cloudPath,
+                          // );
                           print(
                             'ComercioPage - SelecteIcon: ${_pref.iconCludPath}',
                           );
@@ -266,19 +266,19 @@ Se asumirá que usted está de acuerdo si decide continuar
                               // print('ComercioPage - mapLatLng: $mapLatLng');
                             });
 
-                            DBFirestore().addStore(
-                              categories: _pref.nombreTipoDeTienda,
-                              visibilidad: value,
-                              latLng: mapLatLng,
-                              phoneIdStore: _pref.phone,
-                              nameStore: _pref.nombreDeTienda,
-                              cityPath: miUbicacion.state.address,
-                              telegram: _pref.telegramDeTienda,
-                              phoneCall: _pref.telefotoDeTienda,
-                              direccion: _pref.direccionDeTienda,
-                              phoneWhatsApp: _pref.whatsAppDeTienda,
-                              urlImage: _pref.iconCludPath,
-                            );
+                            // DBFirestore().addStore(
+                            //   categories: _pref.nombreTipoDeTienda,
+                            //   visibilidad: value,
+                            //   latLng: mapLatLng,
+                            //   phoneIdStore: _pref.phone,
+                            //   nameStore: _pref.nombreDeTienda,
+                            //   cityPath: miUbicacion.state.address,
+                            //   telegram: _pref.telegramDeTienda,
+                            //   phoneCall: _pref.telefotoDeTienda,
+                            //   direccion: _pref.direccionDeTienda,
+                            //   phoneWhatsApp: _pref.whatsAppDeTienda,
+                            //   urlImage: _pref.iconCludPath,
+                            // );
                           } else {
                             customShowSnackBar(
                               context: context,

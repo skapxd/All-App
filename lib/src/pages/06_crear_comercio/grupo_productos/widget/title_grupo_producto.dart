@@ -27,11 +27,11 @@ class TitleGrupoProductos extends StatelessWidget {
         ),
       ),
       onTap: () {
-        DBFirestore().addMyCategori(
-          phoneIdStore: Pref().phone,
-          cityPath: miUbicacionBloc.address,
-          categories: this.name,
-        );
+        // DBFirestore().addMyCategori(
+        //   phoneIdStore: Pref().phone,
+        //   cityPath: miUbicacionBloc.address,
+        //   categories: this.name,
+        // );
         Navigator.pop(context);
         print('TitleGrupoProductos - this.name: ${this.name}');
       },

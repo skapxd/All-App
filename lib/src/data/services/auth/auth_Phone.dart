@@ -16,7 +16,7 @@ class AuthPhone extends UrlBase {
     Response res;
 
     try {
-      res = await url.post(
+      res = await urlBase.post(
         '/auth/create-phone-code',
         data: {"phone": phone},
       );
@@ -50,7 +50,7 @@ class AuthPhone extends UrlBase {
     Response res;
 
     try {
-      res = await url.post(
+      res = await urlBase.post(
         '/auth/verify-phone-code',
         data: {
           "smsCode": code,

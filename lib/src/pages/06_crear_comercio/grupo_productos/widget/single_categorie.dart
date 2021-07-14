@@ -91,11 +91,11 @@ class SingleCategorie extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          DBFirestore().deleteMyCategori(
-                            phoneIdStore: Pref().phone,
-                            cityPath: miUbicacionBloc.address,
-                            categories: data,
-                          );
+                          // DBFirestore().deleteMyCategori(
+                          //   phoneIdStore: Pref().phone,
+                          //   cityPath: miUbicacionBloc.address,
+                          //   categories: data,
+                          // );
                         },
                         child: Text(
                           'Borrar',

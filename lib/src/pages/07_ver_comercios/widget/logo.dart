@@ -1,4 +1,6 @@
-import '../../../models/cache_store_model/cache_store_model.dart';
+// import '../../../models/cache_store_model/_cache_store_model.dart';
+import 'package:allapp/src/models/store_model.dart';
+
 import '../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

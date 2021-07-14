@@ -78,11 +78,11 @@ class _AddPageImageState extends State<AddPageImage> {
               filePath: _image.path,
               cityPath: _miUbicacion.address,
               onSuccess: (cloudUrl) {
-                DBFirestore().addPhotosStore(
-                  phoneIdStore: Pref().phone,
-                  cityPath: _miUbicacion.address,
-                  urlImage: cloudUrl,
-                );
+                // DBFirestore().addPhotosStore(
+                //   phoneIdStore: Pref().phone,
+                //   cityPath: _miUbicacion.address,
+                //   urlImage: cloudUrl,
+                // );
               },
             );
           } catch (e) {

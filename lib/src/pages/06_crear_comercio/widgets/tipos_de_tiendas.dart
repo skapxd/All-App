@@ -162,11 +162,11 @@ class _Item extends StatelessWidget {
         comercioBloc.add(AddNombreTipoDeTienda(this.name));
         comercioBloc.add(AddPathTipoDeTienda(this.iconPath));
 
-        DBFirestore().removeStore(
-          categories: _pref.nombreTipoDeTienda,
-          phoneIdStore: _pref.phone,
-          cityPath: miUbicacion.address,
-        );
+        // DBFirestore().removeStore(
+        //   categories: _pref.nombreTipoDeTienda,
+        //   phoneIdStore: _pref.phone,
+        //   cityPath: miUbicacion.address,
+        // );
 
         _pref.nombreTipoDeTienda = this.name.toLowerCase();
         _pref.pathTipoDeTienda = this.iconPath.toLowerCase();

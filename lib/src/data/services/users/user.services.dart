@@ -2,10 +2,10 @@ import 'package:meta/meta.dart';
 
 import '../url_base.dart';
 
-class Users extends UrlBase {
+class UsersService extends UrlBase {
   Future addUserFCMToken({
     @required String token,
   }) async {
-    url.post('/');
+    urlBase.post('/');
   }
 }

@@ -1,6 +1,8 @@
+import 'package:allapp/src/models/store_model.dart';
+
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../data/db/firestore.dart';
-import '../../models/cache_store_model/cache_store_model.dart';
+// import '../../models/cache_store_model/cache_store_model.dart';
 import 'ver_galeria_fotos/ver_galeria_fotos.dart';
 import 'ver_mapa_page/ver_mapa_page.dart';
 import 'widget/comprar.dart';
@@ -153,10 +155,10 @@ class VerComercios extends StatelessWidget {
                   print('VerComercios - Categori $ruburo');
 
                   return FutureBuilder(
-                    future: DBFirestore().getListCategoriesStore(
-                      cityPath: state.address,
-                      categories: ruburo,
-                    ),
+                    // future: DBFirestore().getListCategoriesStore(
+                    //   cityPath: state.address,
+                    //   categories: ruburo,
+                    // ),
                     // ignore: missing_return
                     builder: (
                       BuildContext context,

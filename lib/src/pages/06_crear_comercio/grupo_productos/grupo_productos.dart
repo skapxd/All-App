@@ -64,10 +64,10 @@ class GrupoProductosPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               child: StreamBuilder(
-                stream: DBFirestore().getMyCategori(
-                  cityPath: miUbicacionBloc.address,
-                  phoneIdStore: Pref().phone,
-                ),
+                // stream: DBFirestore().getMyCategori(
+                //   cityPath: miUbicacionBloc.address,
+                //   phoneIdStore: Pref().phone,
+                // ),
                 builder: (
                   BuildContext context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,

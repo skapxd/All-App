@@ -1,21 +1,26 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/data/services/stores/stores.service.dart';
+import 'package:allapp/src/models/store_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../pages/07_ver_comercios/ver_comercio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../models/cache_store_model/cache_store_model.dart';
+// import '../models/cache_store_model/cache_store_model.dart';
 import '../utils/utils.dart';
 
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
   // final ListModelImageUrls nameBusiness;
-  final List<StoreModel> listStoreModel;
+  // final List<StoreModel> listStoreModel;
   final String titleRow;
-  final String categories;
+  final String category;
   // final String titleRow;
   FilaDeSubCategoriaDeTiendas({
-    @required this.listStoreModel,
+    // @required this.listStoreModel,
     @required this.titleRow,
-    @required this.categories,
+    @required this.category,
     // @required this.titleRow,
   });
   @override
@@ -23,37 +28,129 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
 
-    print('FilaDeSubCategoriaDeTiendas - categories: $categories');
+    // print('FilaDeSubCategoriaDeTiendas - categories: $category');
 
-    return Container(
-      // margin: EdgeInsets.only(top: vw * 0.06),
-      margin: EdgeInsets.only(top: vw * 0.02),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              this.titleRow.toUpperCase(),
-              style: TextStyle(
-                color: hexaColor('#BEA07D'),
-                letterSpacing: 3,
-                fontSize: vw * 0.03,
-              ),
-            ),
-            trailing: Container(
-              child: SvgPicture.asset(
-                'assets/icons/next.svg',
-                width: vw * 0.07,
-              ),
-            ),
+    return BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
+      builder: (context, state) {
+        // if (state.address == null) {
+        //   return Container();
+        // }
+
+        return FutureBuilder(
+          // future: DBFirestore().getListCategoriesStore(
+          //   cityPath: state.address,
+          //   categories: this.categories,
+          // ),
+          future: StoresService().getCacheAllStores(
+            cityPath: state.address,
+            category: this.category,
           ),
-          FilaDeTiendas(
-            // nameBusiness: this.nameBusiness,
-            listStoreModel: listStoreModel,
-            ruburo: this.categories,
-          ),
-        ],
-      ),
+          // future: StoresService().getAllStores(cityPath: state.address),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<CacheStoreModel> snapshot,
+          ) {
+            //
+
+            final data = snapshot.data;
+
+            // print(data);
+            if (data == null) {
+              // return Container();
+              return Container(
+                // margin: EdgeInsets.only(top: vw * 0.06),
+                margin: EdgeInsets.only(top: vw * 0.02),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        this.titleRow.toUpperCase(),
+                        style: TextStyle(
+                          color: hexaColor('#BEA07D'),
+                          letterSpacing: 3,
+                          fontSize: vw * 0.03,
+                        ),
+                      ),
+                      trailing: Container(
+                        child: SvgPicture.asset(
+                          'assets/icons/next.svg',
+                          width: vw * 0.07,
+                        ),
+                      ),
+                    ),
+                    PlaceHolderFilasDeTiendas(),
+                  ],
+                ),
+              );
+            }
+
+            print(
+                'FilaDeSubCategoriaDeTiendas - List ${data.storeModel.length}');
+
+            return Container(
+              // margin: EdgeInsets.only(top: vw * 0.06),
+              margin: EdgeInsets.only(top: vw * 0.02),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      this.titleRow.toUpperCase(),
+                      style: TextStyle(
+                        color: hexaColor('#BEA07D'),
+                        letterSpacing: 3,
+                        fontSize: vw * 0.03,
+                      ),
+                    ),
+                    trailing: Container(
+                      child: SvgPicture.asset(
+                        'assets/icons/next.svg',
+                        width: vw * 0.07,
+                      ),
+                    ),
+                  ),
+                  FilaDeTiendas(
+                    // nameBusiness: this.nameBusiness,
+                    // listStoreModel: listStoreModel,
+                    listStoreModel: data.storeModel,
+                    ruburo: this.category,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
+
+    // return Container(
+    //   // margin: EdgeInsets.only(top: vw * 0.06),
+    //   margin: EdgeInsets.only(top: vw * 0.02),
+    //   child: Column(
+    //     children: [
+    //       ListTile(
+    //         title: Text(
+    //           this.titleRow.toUpperCase(),
+    //           style: TextStyle(
+    //             color: hexaColor('#BEA07D'),
+    //             letterSpacing: 3,
+    //             fontSize: vw * 0.03,
+    //           ),
+    //         ),
+    //         trailing: Container(
+    //           child: SvgPicture.asset(
+    //             'assets/icons/next.svg',
+    //             width: vw * 0.07,
+    //           ),
+    //         ),
+    //       ),
+    //       FilaDeTiendas(
+    //         // nameBusiness: this.nameBusiness,
+    //         listStoreModel: listStoreModel,
+    //         ruburo: this.categories,
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 
@@ -64,7 +161,7 @@ class FilaDeTiendas extends StatelessWidget {
 
   FilaDeTiendas({
     @required this.listStoreModel,
-    @required this.ruburo,
+    this.ruburo,
   });
   @override
   Widget build(BuildContext context) {
@@ -88,9 +185,92 @@ class FilaDeTiendas extends StatelessWidget {
 
           return _Item(
             storeModel: listStoreModel[index],
-            ruburo: ruburo,
+            ruburo: this.ruburo,
             name: name,
             index: index,
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PlaceHolderFilasDeTiendas extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final vw = MediaQuery.of(context).size.width;
+    final vh = MediaQuery.of(context).size.height;
+
+    return Container(
+      height: vw * 0.39,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          //
+
+          return Container(
+            margin: index == 0
+                ? EdgeInsets.only(
+                    left: vw * 0.05,
+                    top: vw * 0.02,
+                    right: vw * 0.04,
+                  )
+                : EdgeInsets.only(
+                    top: vw * 0.02,
+                    right: vw * 0.04,
+                  ),
+            width: vw * 0.24,
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: hexaColor('#303030'),
+                    boxShadow: [
+                      BoxShadow(
+                        color: rgbColor(0, 0, 0, 0.2),
+                        blurRadius: 5,
+                        offset: Offset(3, 3),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(vw * 0.05),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(vw * 0.05),
+                    child: Container(
+                      height: vw * 0.25,
+                      color: hexaColor('#8C8C8C'),
+                      width: vw * 0.25,
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: vw * 0.01),
+                  child: Container(
+                    height: 0.03 * vw,
+                    decoration: BoxDecoration(
+                      color: hexaColor('#8C8C8C'),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: vw * 0.01),
+                  child: Container(
+                    height: 0.03 * vw,
+                    decoration: BoxDecoration(
+                      color: hexaColor('#8C8C8C'),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -101,9 +281,9 @@ class FilaDeTiendas extends StatelessWidget {
 class _Item extends StatelessWidget {
   const _Item({
     Key key,
+    this.ruburo,
     @required this.name,
     @required this.index,
-    @required this.ruburo,
     @required this.storeModel,
   }) : super(key: key);
 
@@ -140,14 +320,12 @@ class _Item extends StatelessWidget {
               right: vw * 0.04,
             ),
       width: vw * 0.24,
-      // color: Colors.red,
       alignment: Alignment.centerLeft,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _ImageBusiness(
             storeModel: storeModel,
-            url: this.storeModel.urlImage,
             ruburo: this.ruburo,
           ),
           Container(
@@ -184,12 +362,12 @@ class _Item extends StatelessWidget {
 }
 
 class _ImageBusiness extends StatelessWidget {
-  final String url;
+  // final String url;
   final StoreModel storeModel;
   final String ruburo;
   const _ImageBusiness({
     Key key,
-    this.url,
+    // this.url,
     this.ruburo,
     this.storeModel,
   }) : super(key: key);
@@ -198,8 +376,9 @@ class _ImageBusiness extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
-    print('FilaDeSubCategoriaDeTiendas - _ImageBusiness: $url');
-    if (url != '') {
+    print(
+        'FilaDeSubCategoriaDeTiendas - _ImageBusiness: ${storeModel.urlImage}');
+    if (this.storeModel.urlImage != null && this.storeModel.urlImage != '') {
       return InkWell(
         onTap: () {
           print(storeModel.nameStore);
@@ -228,7 +407,7 @@ class _ImageBusiness extends StatelessWidget {
             borderRadius: BorderRadius.circular(vw * 0.05),
             child: FadeInImage.memoryNetwork(
               placeholder: kTransparentImage,
-              image: this.url,
+              image: this.storeModel.urlImage,
               height: vw * 0.25,
               width: vw * 0.25,
               fit: BoxFit.cover,
@@ -259,12 +438,14 @@ class _ImageBusiness extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: vw * 0.07),
           height: vw * 0.24,
+          width: vw * 0.24,
           decoration: BoxDecoration(
             color: hexaColor('#BEA07D'),
             borderRadius: BorderRadius.circular(vw * 0.05),
           ),
           child: SvgPicture.asset(
-            'assets/ruburos/$ruburo.svg',
+            // 'assets/ruburos/todo.svg',
+            'assets/ruburos/${ruburo ?? "todo"}.svg',
           ),
         ),
       );

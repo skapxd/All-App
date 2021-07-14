@@ -113,12 +113,12 @@ class ItemProduct extends StatelessWidget {
                         onPressed: () {
                           //
 
-                          DBFirestore().deleteProducInMyCategori(
-                            productName: data.id,
-                            categories: category,
-                            phoneIdStore: Pref().phone,
-                            cityPath: miUbicacionBloc.address,
-                          );
+                          // DBFirestore().deleteProducInMyCategori(
+                          //   productName: data.id,
+                          //   categories: category,
+                          //   phoneIdStore: Pref().phone,
+                          //   cityPath: miUbicacionBloc.address,
+                          // );
 
                           Navigator.pop(context);
                         },

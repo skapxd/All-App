@@ -67,11 +67,11 @@ class CrearProductoPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               child: StreamBuilder(
-                stream: DBFirestore().getProducInMyCategori(
-                  cityPath: miUbicacionBloc.address,
-                  phoneIdStore: Pref().phone,
-                  categories: categorieName,
-                ),
+                // stream: DBFirestore().getProducInMyCategori(
+                //   cityPath: miUbicacionBloc.address,
+                //   phoneIdStore: Pref().phone,
+                //   categories: categorieName,
+                // ),
                 builder: (
                   BuildContext context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,

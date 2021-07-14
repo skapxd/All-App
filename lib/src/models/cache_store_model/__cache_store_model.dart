@@ -5,14 +5,14 @@
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-CacheStoreModel cacheStoreModelFromJson(String str) =>
-    CacheStoreModel.fromJson(json.decode(str));
+CacheStoreModelDeprecated cacheStoreModelFromJson(String str) =>
+    CacheStoreModelDeprecated.fromJson(json.decode(str));
 
-String cacheStoreModelToJson(CacheStoreModel data) =>
+String cacheStoreModelToJson(CacheStoreModelDeprecated data) =>
     json.encode(data.toJson());
 
-class CacheStoreModel {
-  CacheStoreModel({
+class CacheStoreModelDeprecated {
+  CacheStoreModelDeprecated({
     @required this.expire,
     @required this.path,
     @required this.storeModel,
@@ -22,8 +22,8 @@ class CacheStoreModel {
   final String path;
   final List<StoreModel> storeModel;
 
-  factory CacheStoreModel.fromJson(Map<String, dynamic> json) =>
-      CacheStoreModel(
+  factory CacheStoreModelDeprecated.fromJson(Map<String, dynamic> json) =>
+      CacheStoreModelDeprecated(
         expire: json["expire"],
         path: json["path"],
         storeModel: List<StoreModel>.from(

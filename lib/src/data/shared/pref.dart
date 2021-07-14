@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/cache_store_model/cache_store_model.dart';
 import '../../pages/01_wellcome/01_wellcome.dart';
 
 // class ApiPref {
@@ -39,13 +38,11 @@ class Pref {
 
   /// Get any data
   String getAnyData({String path}) {
-    String data;
-    try {
-      data = _pref.get(path);
-    } catch (e) {
-      data = 'error';
-    }
-    return data;
+    return _pref.get(path);
+  }
+
+  Future<bool> setAnyData({String path, String object}) async {
+    return await _pref.setString(path, object);
   }
 
   // GET & SET -> Ultima pagina
@@ -60,10 +57,13 @@ class Pref {
   // GET & SET -> Cache store
   // String get cacheStore => _pref.getString('hola');
 
-  set cacheStore(CacheStoreModel cacheStoreModel) {
-    final cache = cacheStoreModelToJson(cacheStoreModel);
-    _pref.setString(cacheStoreModel.path, cache);
-  }
+  // set cacheStore(CacheStoreModel cacheStoreModel) {
+  //   final cache = cacheStoreModelToJson(cacheStoreModel);
+
+  //   // final cache = CacheStoreModel.(cacheStoreModel);
+
+  //   _pref.setString(cacheStoreModel.path, cache);
+  // }
 
   set lastPage(String value) => _pref.setString('lastPage', value);
 

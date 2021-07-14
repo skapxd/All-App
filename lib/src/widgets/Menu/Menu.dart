@@ -113,6 +113,12 @@ class _MenuList extends StatelessWidget {
               ),
               _MenuListItem(
                 height: 25,
+                pathIcon: 'assets/icons/calendar.svg',
+                text: 'Eventos',
+                onTap: () => print('problema'),
+              ),
+              _MenuListItem(
+                height: 25,
                 pathIcon: 'assets/icons/report-issue.svg',
                 text: 'Reportar un problema',
                 onTap: () => print('problema'),

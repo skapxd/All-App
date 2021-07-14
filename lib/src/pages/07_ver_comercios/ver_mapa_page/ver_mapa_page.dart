@@ -1,4 +1,6 @@
-import 'package:allapp/src/models/cache_store_model/cache_store_model.dart'
+// import 'package:allapp/src/models/cache_store_model/_cache_store_model.dart'
+//     as Cache;
+import 'package:allapp/src/models/cache_store_model/__cache_store_model.dart'
     as Cache;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -96,66 +96,65 @@ class _PhotosPageState extends State<PhotosPage> {
         body: Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
           child: StreamBuilder(
-              stream: DBFirestore().getPhotosStore(
-                phoneIdStore: Pref().phone,
-                cityPath: miUbicacionBloc.state.address,
-              ),
+              // stream: DBFirestore().getPhotosStore(
+              //   phoneIdStore: Pref().phone,
+              //   cityPath: miUbicacionBloc.state.address,
+              // ),
               builder: (
-                context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-              ) {
-                //
+            context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+          ) {
+            //
 
-                if (snapshot.data == null) {
-                  return Container();
-                }
+            if (snapshot.data == null) {
+              return Container();
+            }
 
-                // final data = snapshot.data.docs;
-                final data = snapshot.data.docs;
+            // final data = snapshot.data.docs;
+            final data = snapshot.data.docs;
 
-                return StaggeredGridView.countBuilder(
-                  controller: _scrollController,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: data.length,
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 16.0,
-                  crossAxisSpacing: 16.0,
-                  staggeredTileBuilder: (int index) {
-                    // double size
-                    return StaggeredTile.count(
-                      2,
-                      index.isOdd ? 3 : 3.3,
+            return StaggeredGridView.countBuilder(
+              controller: _scrollController,
+              physics: BouncingScrollPhysics(),
+              itemCount: data.length,
+              crossAxisCount: 4,
+              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 16.0,
+              staggeredTileBuilder: (int index) {
+                // double size
+                return StaggeredTile.count(
+                  2,
+                  index.isOdd ? 3 : 3.3,
+                );
+              },
+              itemBuilder: (BuildContext context, int index) => new Container(
+                decoration: BoxDecoration(
+                  color: index.isEven
+                      ? hexaColor('#D6D6D6', opacity: 0.5)
+                      : hexaColor('#D6D6D6', opacity: 0.3),
+                  borderRadius: BorderRadius.circular(vw * 0.07),
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(vw * 0.07),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      PageImageComercio.pathName,
+                      arguments: {'index': index, 'data': data},
                     );
                   },
-                  itemBuilder: (BuildContext context, int index) =>
-                      new Container(
-                    decoration: BoxDecoration(
-                      color: index.isEven
-                          ? hexaColor('#D6D6D6', opacity: 0.5)
-                          : hexaColor('#D6D6D6', opacity: 0.3),
-                      borderRadius: BorderRadius.circular(vw * 0.07),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(vw * 0.07),
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          PageImageComercio.pathName,
-                          arguments: {'index': index, 'data': data},
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(vw * 0.07),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: data[index].data()['urlImage'],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(vw * 0.07),
+                    child: FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: data[index].data()['urlImage'],
+                      fit: BoxFit.cover,
                     ),
                   ),
-                );
-              }),
+                ),
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -83,11 +83,11 @@ class _PageImageComercioState extends State<PageImageComercio> {
               );
 
               try {
-                DBFirestore().deletePhotosStore(
-                  idImage: data[index].id,
-                  cityPath: miUbicacionBloc.state.address,
-                  phoneIdStore: Pref().phone,
-                );
+                // DBFirestore().deletePhotosStore(
+                //   idImage: data[index].id,
+                //   cityPath: miUbicacionBloc.state.address,
+                //   phoneIdStore: Pref().phone,
+                // );
               } catch (e) {
                 customShowSnackBar(
                   context: context,

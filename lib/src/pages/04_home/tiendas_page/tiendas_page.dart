@@ -65,6 +65,12 @@ class _TiendasState extends State<Tiendas>
   }
 
   @override
+  void dispose() {
+    print('dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //
 
@@ -96,7 +102,7 @@ class _TiendasState extends State<Tiendas>
                       children: [
                         TabBar(
                           onTap: (value) {
-                            setState(() {});
+                            // setState(() {});
                             homeBloc.add(AddTapBarViewIndex(value));
                           },
                           indicatorSize: TabBarIndicatorSize.label,
@@ -129,7 +135,7 @@ class _TiendasState extends State<Tiendas>
             physics: NeverScrollableScrollPhysics(),
             controller: homeBloc.page,
             children: [
-              HomeTipoDeComercio(categories: 'todo'),
+              HomeTipoDeComercio(categories: null),
               HomeTipoDeComercio(categories: 'supermercado'),
               HomeTipoDeComercio(categories: 'comida rápida'),
               HomeTipoDeComercio(categories: 'drogueria'),
