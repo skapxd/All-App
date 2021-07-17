@@ -44,6 +44,17 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
           future: StoresService().getCacheAllStores(
             cityPath: state.address,
             category: this.category,
+            onFailed: ({data}) {
+              print('On failed');
+              print(data);
+            },
+            onProgress: () {
+              print('On progress');
+            },
+            onSuccess: ({data}) {
+              print('On success');
+              print(data);
+            },
           ),
           // future: StoresService().getAllStores(cityPath: state.address),
           builder: (

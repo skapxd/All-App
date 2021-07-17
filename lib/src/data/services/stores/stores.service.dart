@@ -5,6 +5,16 @@ import 'package:meta/meta.dart';
 
 import '../url_base.dart';
 
+class CustomGeoLocation {
+  final double lat;
+  final double lng;
+
+  CustomGeoLocation({
+    @required this.lat,
+    @required this.lng,
+  });
+}
+
 class StoresService extends UrlBase {
   //
 
@@ -16,6 +26,9 @@ class StoresService extends UrlBase {
   Future<CacheStoreModel> getCacheAllStores({
     @required AddressModel cityPath,
     @required String category,
+    Function() onProgress,
+    Function({dynamic data}) onSuccess,
+    Function({dynamic data}) onFailed,
   }) async {
     //
 
@@ -29,7 +42,13 @@ class StoresService extends UrlBase {
     // En caso de que el cache no exista
     if (cacheString == null) {
       print('Cache no existe ');
-      cacheClass = await _getAllStores(cityPath: cityPath, category: category);
+      cacheClass = await _getAllStores(
+        cityPath: cityPath,
+        category: category,
+        onFailed: onFailed,
+        onProgress: onProgress,
+        onSuccess: onSuccess,
+      );
 
       cacheString = getStringCacheStoreModel(cacheClass);
 
@@ -45,7 +64,13 @@ class StoresService extends UrlBase {
     // En caso de que el cache halla expirado
     if (expire.isBefore(now)) {
       print('Cache expirado');
-      cacheClass = await _getAllStores(cityPath: cityPath, category: category);
+      cacheClass = await _getAllStores(
+        cityPath: cityPath,
+        category: category,
+        onFailed: onFailed,
+        onProgress: onProgress,
+        onSuccess: onSuccess,
+      );
 
       cacheString = getStringCacheStoreModel(cacheClass);
 
@@ -63,6 +88,9 @@ class StoresService extends UrlBase {
   Future<CacheStoreModel> _getAllStores({
     @required AddressModel cityPath,
     @required String category,
+    @required Function() onProgress,
+    @required Function({dynamic data}) onSuccess,
+    @required Function({dynamic data}) onFailed,
   }) async {
     //
 
@@ -72,19 +100,46 @@ class StoresService extends UrlBase {
     Map<String, dynamic> data = {
       'city': cityPath.city,
       'country': cityPath.country,
-      'departament': cityPath.department,
+      'department': cityPath.department,
     };
 
     if (category != null) {
-      data.addAll({'category': category});
+      data.addAll({'categoryStore': category});
     }
 
-    final res = await urlBase.get(
-      '/api-v1/stores',
-      queryParameters: data,
-    );
+    dynamic res;
 
-    print(res.data);
+    if (onProgress != null) {
+      onProgress();
+    }
+
+    // res = (await urlBase.get(
+    //   '/api-v1/stores',
+    //   queryParameters: data,
+    // ))
+    //     .data;
+    try {
+      res = (await urlBase.get(
+        '/api-v1/stores',
+        queryParameters: data,
+      ))
+          .data;
+    } catch (e) {
+      print('error: $e');
+      if (onFailed != null) {
+        onFailed(data: e);
+      }
+    }
+
+    if (onSuccess != null && res['success']) {
+      onSuccess(data: res);
+    }
+
+    if (onFailed != null && !res['success']) {
+      onFailed(data: res);
+    }
+
+    print(res);
 
     final expire = DateTime(
       now.year,
@@ -97,9 +152,110 @@ class StoresService extends UrlBase {
     final cache = CacheStoreModel.getObject(
       expire: expire.toIso8601String(),
       path: path,
-      storeModel: res.data,
+      storeModel: res,
     );
 
     return cache;
+  }
+
+  Future<void> createStore({
+    String urlImage,
+    String nameStore,
+    void Function() onProgress,
+    void Function({dynamic data}) onSuccess,
+    void Function({dynamic data}) onFailed,
+    String addressStore,
+    String telegramStore,
+    String categoryStore,
+    String phonCallStore,
+    String whatsAppStore,
+    @required String phoneIdStore,
+    @required AddressModel addressModel,
+    List<CustomGeoLocation> geolocationStore,
+  }) async {
+    //
+
+    Map<String, dynamic> data = {};
+
+    if (urlImage != null) {
+      data.addAll({'urlImage': urlImage});
+    }
+
+    if (nameStore != null) {
+      data.addAll({'nameStore': nameStore});
+    }
+
+    if (addressStore != null) {
+      data.addAll({'addressStore': addressStore});
+    }
+
+    if (telegramStore != null) {
+      data.addAll({'telegramStore': telegramStore});
+    }
+
+    if (categoryStore != null) {
+      data.addAll({'categoryStore': categoryStore});
+    }
+
+    if (phonCallStore != null) {
+      data.addAll({'phonCallStore': phonCallStore});
+    }
+
+    if (whatsAppStore != null) {
+      data.addAll({'whatsAppStore': whatsAppStore});
+    }
+
+    if (addressModel != null) {
+      data.addAll({'city': addressModel.city});
+      data.addAll({'country': addressModel.country});
+      data.addAll({'department': addressModel.department});
+    }
+
+    if (phoneIdStore != null) {
+      data.addAll({'phoneIdStore': phoneIdStore});
+    }
+
+    List<Map<String, double>> geolocation = [];
+
+    if (geolocationStore != null) {
+      //
+
+      geolocation = geolocationStore.map((e) {
+        final Map<String, double> i = {
+          'lat': e.lat,
+          'lng': e.lng,
+        };
+
+        return i;
+      }).toList();
+
+      data.addAll({'latLng': geolocation});
+    }
+
+    if (onProgress != null) {
+      onProgress();
+    }
+
+    print(data);
+
+    dynamic res;
+
+    try {
+      //
+
+      res = (await urlBase.post('/api-v1/stores', data: data)).data;
+    } catch (e) {
+      //
+
+      if (onProgress != null) {
+        onFailed();
+      }
+    }
+
+    if (res['success'] && onSuccess != null) {
+      onSuccess(data: res);
+    } else if (!res['success'] && onFailed != null) {
+      onFailed(data: res);
+    }
   }
 }

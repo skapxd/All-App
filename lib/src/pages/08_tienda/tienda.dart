@@ -19,9 +19,9 @@ class TiendaPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: hexaColor('#303030'),
       appBar: AppBar(
-        elevation: 0,
+        elevation: 10,
         centerTitle: true,
-        backgroundColor: hexaColor('#303030'),
+        backgroundColor: hexaColor('#353535'),
         title: Text(
           'TIENDA',
           textAlign: TextAlign.center,
@@ -72,7 +72,7 @@ class TiendaPage extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Autorizacion de domiciliarios',
+              'Domiciliarios',
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -84,7 +84,7 @@ class TiendaPage extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Historial de pedidos',
+              'Historial de clientes',
               style: TextStyle(color: Colors.white),
             ),
           ),

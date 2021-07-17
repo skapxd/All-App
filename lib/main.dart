@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         color: Color(0xffffffff),
         debugShowCheckedModeBanner: false,
-        title: 'AllApp',
+        title: 'All App',
         theme: ThemeData(
           appBarTheme: AppBarTheme(
             brightness: Brightness.dark,
@@ -67,8 +67,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        // initialRoute: Pref().lastPage,
-        initialRoute: WelcomePage.pathName,
+        initialRoute: Pref().lastPage,
+        // initialRoute: WelcomePage.pathName,
         routes: router,
       ),
     );

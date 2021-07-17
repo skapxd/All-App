@@ -25,9 +25,11 @@ class CacheStoreModel {
     return CacheStoreModel(
       expire: expire,
       path: path,
-      storeModel: List<StoreModel>.from(
-        storeModel["res"].map((x) => StoreModel.fromMap(x)),
-      ),
+      storeModel: storeModel["res"] != null
+          ? List<StoreModel>.from(
+              storeModel["res"].map((x) => StoreModel.fromMap(x)),
+            )
+          : [],
     );
   }
 
@@ -35,9 +37,11 @@ class CacheStoreModel {
     return CacheStoreModel(
       expire: json["expire"],
       path: json["path"],
-      storeModel: List<StoreModel>.from(
-        json["res"].map((x) => StoreModel.fromMap(x)),
-      ),
+      storeModel: json["res"] != null
+          ? List<StoreModel>.from(
+              json["res"].map((x) => StoreModel.fromMap(x)),
+            )
+          : [],
     );
   }
 

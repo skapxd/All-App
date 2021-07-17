@@ -120,15 +120,15 @@ class Pref {
   set nombreDeTienda(String value) => _pref.setString('nombreDeTienda', value);
 
   // GET & SET -> Nombre de tipo tienda
-  String get nombreTipoDeTienda => _pref.getString('nombreTipoDeTienda');
+  String get categoriaDeTienda => _pref.getString('nombreTipoDeTienda');
 
-  set nombreTipoDeTienda(String value) =>
+  set categoriaDeTienda(String value) =>
       _pref.setString('nombreTipoDeTienda', value);
 
   // GET & SET -> Nombre de tienda
-  String get pathTipoDeTienda => _pref.getString('pathTipoDeTienda');
+  String get pathIconTipoDeTienda => _pref.getString('pathTipoDeTienda');
 
-  set pathTipoDeTienda(String value) =>
+  set pathIconTipoDeTienda(String value) =>
       _pref.setString('pathTipoDeTienda', value);
 
   // GET & SET -> Telefono de tienda

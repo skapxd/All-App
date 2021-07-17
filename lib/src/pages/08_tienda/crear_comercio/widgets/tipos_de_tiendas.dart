@@ -167,8 +167,8 @@ class _Item extends StatelessWidget {
         //   cityPath: miUbicacion.address,
         // );
 
-        _pref.nombreTipoDeTienda = this.name.toLowerCase();
-        _pref.pathTipoDeTienda = this.iconPath.toLowerCase();
+        _pref.categoriaDeTienda = this.name.toLowerCase();
+        _pref.pathIconTipoDeTienda = this.iconPath.toLowerCase();
       },
     );
   }

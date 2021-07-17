@@ -1,3 +1,5 @@
+import 'package:allapp/src/data/services/stores/stores.service.dart';
+
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
@@ -149,9 +151,9 @@ Se asumirá que usted está de acuerdo si decide continuar
         // backgroundColor: hexaColor('#232323'),
         backgroundColor: hexaColor('#303030'),
         appBar: AppBar(
-          elevation: 0,
+          elevation: 10,
           centerTitle: true,
-          backgroundColor: hexaColor('#303030'),
+          backgroundColor: hexaColor('#353535'),
           actions: [
             InkWell(
               highlightColor: rgbColor(0, 0, 0, 0),
@@ -307,14 +309,14 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 },
                               ),
                               CustomButton(
-                                ifData: _pref.pathTipoDeTienda != null ||
+                                ifData: _pref.pathIconTipoDeTienda != null ||
                                         state.pathTipoDeTienda != null
                                     ? true
                                     : false,
-                                iconPath: _pref.pathTipoDeTienda ??
+                                iconPath: _pref.pathIconTipoDeTienda ??
                                     state.pathTipoDeTienda ??
                                     'assets/icons/settings-shop-2.svg',
-                                text: _pref.nombreTipoDeTienda ??
+                                text: _pref.categoriaDeTienda ??
                                     state.nombreTipoDeTienda ??
                                     'Tipo de tienda',
                                 ifEnable: _pref.ifHabilitarEdicion,
@@ -421,70 +423,63 @@ Se asumirá que usted está de acuerdo si decide continuar
                           // );
                         },
                       ),
-                      // CustomOutLineButton(
-                      //   margin: EdgeInsets.only(bottom: vw * 0.1),
-                      //   textStyle:
-                      //       CustomOutLineButton.defaultTextStyle.copyWith(
-                      //     letterSpacing: 5,
-                      //   ),
-                      //   onTap: () {
-                      //     Navigator.pushNamed(
-                      //       context,
-                      //       GrupoProductosPage.pathName,
-                      //     );
-                      //   },
-                      //   text: 'PRODUCTOS',
-                      //   width: vw * 0.7,
-                      // ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: vw * 0.08),
-                        width: vw * 0.7,
-                        child: InkWell(
-                          highlightColor: rgbColor(0, 0, 0, 0),
-                          splashColor: rgbColor(0, 0, 0, 0),
-                          onTap: () =>
-                              Navigator.pushNamed(context, PhotosPage.pathName),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    height: vw * 0.15,
-                                    width: vw * 0.15,
-                                    decoration: BoxDecoration(
-                                      color: hexaColor('#BEA07D'),
-                                      borderRadius: BorderRadius.circular(vw),
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.all(vw * 0.03),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/camara.svg',
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: vw * 0.105,
-                                    // left: 42,
-                                    child: Icon(
-                                      Icons.add,
-                                      color: hexaColor('#FFDEBD'),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                'AGREGAR FOTOS \nDEL COMERCIO',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  height: 1.8,
-                                  letterSpacing: 5,
-                                  color: hexaColor('#BEA07D'),
-                                ),
-                              )
-                            ],
-                          ),
+                      CustomOutLineButton(
+                        margin: EdgeInsets.only(bottom: vw * 0.1),
+                        textStyle:
+                            CustomOutLineButton.defaultTextStyle.copyWith(
+                          letterSpacing: 5,
                         ),
+                        onTap: () {
+                          StoresService().createStore(
+                            phoneIdStore: Pref().phone,
+                            nameStore: Pref().nombreDeTienda,
+                            addressModel: miUbicacion.state.address,
+                            addressStore: Pref().direccionDeTienda,
+                            categoryStore: Pref().categoriaDeTienda,
+                            phonCallStore: Pref().telefotoDeTienda,
+                            telegramStore: Pref().telegramDeTienda,
+                            whatsAppStore: Pref().whatsAppDeTienda,
+                            urlImage: Pref().iconCludPath,
+                            geolocationStore: [
+                              CustomGeoLocation(lat: 123.321, lng: 321.123),
+                            ],
+                            onProgress: () {
+                              customShowSnackBar(
+                                context: context,
+                                text: Text(
+                                  'Guardando datos',
+                                  style: TextStyle(
+                                    color: hexaColor('#666666'),
+                                  ),
+                                ),
+                              );
+                            },
+                            onFailed: ({data}) {
+                              customShowSnackBar(
+                                context: context,
+                                text: Text(
+                                  'Error al guardar datos',
+                                  style: TextStyle(
+                                    color: hexaColor('#666666'),
+                                  ),
+                                ),
+                              );
+                            },
+                            onSuccess: ({data}) {
+                              customShowSnackBar(
+                                context: context,
+                                text: Text(
+                                  'Datos guardados con exito',
+                                  style: TextStyle(
+                                    color: hexaColor('#666666'),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        text: 'GUARDAR',
+                        width: vw * 0.7,
                       ),
                     ],
                   );
