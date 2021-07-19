@@ -1,3 +1,6 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
+
 import '../../data/services/auth/auth_Phone.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +18,8 @@ import 'bloc/phone_bloc.dart';
 class EnterCode extends StatelessWidget {
   static final String pathName = '/EnterCode';
 
+  final _pref = Pref();
+
   @override
   Widget build(BuildContext context) {
     // View Width
@@ -22,113 +27,208 @@ class EnterCode extends StatelessWidget {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
-    String msg = '';
+    final phoneBloc = BlocProvider.of<PhoneBloc>(context);
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return _Bg(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            CustomText(
-              'INGRESA EL CÓDIGO',
-              width: vw * 0.56,
-              margin: EdgeInsets.only(top: vw * 0.31),
-              style: TextStyle(
-                color: hexaColor('#BEA07D'),
-                fontWeight: FontWeight.w400,
-                letterSpacing: 12,
-                height: 1.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: vw * 0.85),
-              child: _TextField(
-                onChange: (value) {
-                  msg = value.replaceAll(' ', '');
-
-                  BlocProvider.of<PhoneBloc>(context).add(AddMsg(msg));
-
-                  int length = msg.length;
-
-                  if (length == 6) {
-                    FocusScope.of(context).unfocus();
-                  }
-                },
-              ),
-            ),
-            BlocBuilder<PhoneBloc, PhoneState>(
-              builder: (context, state) {
-                return CustomOutLineButton(
-                  text: 'CONTINUAR',
-                  margin: EdgeInsets.only(top: vw * 0.15),
-                  onTap: () async {
-                    //
-
-                    if (state.modelPhone.msg.length == 6) {
-                      AuthPhone().verifyPhoneCode(
-                        phone: state.modelPhone.phone,
-                        code: state.modelPhone.msg,
-                        onSuccess: (token) {
-                          print(token);
-                          Pref().phone = state.modelPhone.phone;
-                          Pref().token = token;
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Home.pathName,
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                      );
-
-                      // await AuthPhone().enterMsg(
-                      //   smsCode: state.modelPhone.msg,
-                      //   token: state.modelPhone.token,
-                      //   onSuccess: () {
-                      //     //
-
-                      //     Navigator.pushNamedAndRemoveUntil(
-                      //       context,
-                      //       Home.pathName,
-                      //       (Route<dynamic> route) => false,
-                      //     );
-                      //     Pref().phone = state.modelPhone.phone;
-                      //     DBFirestore().addUser(
-                      //       phone: state.modelPhone.phone,
-                      //     );
-                      //   },
-                      // );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          backgroundColor: hexaColor('#303030'),
-                          title: Text(
-                            'Código invalido',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: hexaColor('#d5d5d5')),
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                );
-              },
-            ),
-            CustomText(
-              'Ingresa el código que te enviamos por SMS\npara ingresar a los servicios de All App.',
-              margin: EdgeInsets.only(top: vw * 0.15),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: hexaColor('#8C8C8C'),
-                fontSize: vw * 0.035,
-                height: 1.3,
-              ),
-            ),
+            RequestPermisonWidget(vw: vw, phoneBloc: phoneBloc, pref: _pref),
+            PopupRequestActivateGeolocation(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class RequestPermisonWidget extends StatelessWidget {
+  const RequestPermisonWidget({
+    Key key,
+    @required this.vw,
+    @required this.phoneBloc,
+    @required Pref pref,
+  })  : _pref = pref,
+        super(key: key);
+
+  final double vw;
+  final PhoneBloc phoneBloc;
+  final Pref _pref;
+
+  @override
+  Widget build(BuildContext context) {
+    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CustomText(
+          'INGRESA EL CÓDIGO',
+          width: vw * 0.56,
+          margin: EdgeInsets.only(top: vw * 0.31),
+          style: TextStyle(
+            color: hexaColor('#BEA07D'),
+            fontWeight: FontWeight.w400,
+            letterSpacing: 12,
+            height: 1.5,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        Container(
+          margin: EdgeInsets.only(top: vw * 0.85),
+          child: _TextField(
+            onChange: (value) {
+              value = value.replaceAll(' ', '');
+
+              phoneBloc.add(AddMsg(value));
+
+              if (value.length == 6) {
+                FocusScope.of(context).unfocus();
+              }
+            },
+          ),
+        ),
+        CustomOutLineButton(
+          text: 'CONTINUAR',
+          margin: EdgeInsets.only(top: vw * 0.15),
+          onTap: () async {
+            //
+
+            final msg = phoneBloc.state.modelPhone.msg;
+
+            final phone =
+                '${phoneBloc.state.modelPhone.code}-${phoneBloc.state.modelPhone.phone}';
+
+            print(msg);
+            print(phone);
+
+            if (msg.length == 6) {
+              AuthPhone().verifyPhoneCode(
+                phone: phone,
+                code: msg,
+                addressModel: miUbicacionBloc.state.address,
+                onSuccess: (token) {
+                  _pref.phone = phoneBloc.state.modelPhone.phone;
+                  _pref.countryCode = phoneBloc.state.modelPhone.code;
+                  _pref.token = token;
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //   context,
+                  //   Home.pathName,
+                  //   (Route<dynamic> route) => false,
+                  // );
+                },
+                onError: (error) {
+                  print(error);
+                },
+              );
+
+              // await AuthPhone().enterMsg(
+              //   smsCode: state.modelPhone.msg,
+              //   token: state.modelPhone.token,
+              //   onSuccess: () {
+              //     //
+
+              //     Navigator.pushNamedAndRemoveUntil(
+              //       context,
+              //       Home.pathName,
+              //       (Route<dynamic> route) => false,
+              //     );
+              //     Pref().phone = state.modelPhone.phone;
+              //     DBFirestore().addUser(
+              //       phone: state.modelPhone.phone,
+              //     );
+              //   },
+              // );
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: hexaColor('#303030'),
+                  title: Text(
+                    'Código invalido',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: hexaColor('#d5d5d5')),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+        // BlocBuilder<PhoneBloc, PhoneState>(
+        //   builder: (context, state) {
+        //     return CustomOutLineButton(
+        //       text: 'CONTINUAR',
+        //       margin: EdgeInsets.only(top: vw * 0.15),
+        //       onTap: () async {
+        //         //
+
+        //         if (state.modelPhone.msg.length == 6) {
+        //           AuthPhone().verifyPhoneCode(
+        //             phone: state.modelPhone.phone,
+        //             code: state.modelPhone.msg,
+        //             onSuccess: (token) {
+        //               print(token);
+        //               Pref().phone = state.modelPhone.phone;
+        //               Pref().token = token;
+        //               Navigator.pushNamedAndRemoveUntil(
+        //                 context,
+        //                 Home.pathName,
+        //                 (Route<dynamic> route) => false,
+        //               );
+        //             },
+        //           );
+
+        //           // await AuthPhone().enterMsg(
+        //           //   smsCode: state.modelPhone.msg,
+        //           //   token: state.modelPhone.token,
+        //           //   onSuccess: () {
+        //           //     //
+
+        //           //     Navigator.pushNamedAndRemoveUntil(
+        //           //       context,
+        //           //       Home.pathName,
+        //           //       (Route<dynamic> route) => false,
+        //           //     );
+        //           //     Pref().phone = state.modelPhone.phone;
+        //           //     DBFirestore().addUser(
+        //           //       phone: state.modelPhone.phone,
+        //           //     );
+        //           //   },
+        //           // );
+        //         } else {
+        //           showDialog(
+        //             context: context,
+        //             builder: (context) => AlertDialog(
+        //               backgroundColor: hexaColor('#303030'),
+        //               title: Text(
+        //                 'Código invalido',
+        //                 textAlign: TextAlign.center,
+        //                 style: TextStyle(color: hexaColor('#d5d5d5')),
+        //               ),
+        //             ),
+        //           );
+        //         }
+        //       },
+        //     );
+        //   },
+        // ),
+        CustomText(
+          'Ingresa el código que te enviamos por WhatsApp\npara ingresar a los servicios de All App.',
+          margin: EdgeInsets.only(
+            top: vw * 0.1,
+            left: vw * 0.05,
+            right: vw * 0.05,
+          ),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: hexaColor('#8C8C8C'),
+            fontSize: vw * 0.035,
+            height: 1.3,
+          ),
+        ),
+      ],
     );
   }
 }

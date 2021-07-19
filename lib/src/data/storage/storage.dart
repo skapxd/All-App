@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 import '../../models/address_model.dart';
 
-class DBFirebaseStorage {
+class DBFirebaseStorageDeprecated {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 

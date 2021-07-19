@@ -1,5 +1,5 @@
-import 'package:allapp/src/pages/08_tienda/crear_comercio/06_crear_comercio.dart';
-import 'package:allapp/src/pages/08_tienda/tienda.dart';
+import '../../pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+import '../../pages/08_tienda/tienda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,14 +48,9 @@ class MenuButton extends StatelessWidget {
 }
 
 class _MenuList extends StatelessWidget {
-  final List<String> phoneTemp = Pref().phone.substring(3, 13).split('');
-
   @override
   Widget build(BuildContext context) {
-    phoneTemp.insert(3, ' ');
-    phoneTemp.insert(7, ' ');
-
-    String phone = phoneTemp.join();
+    String phone = Pref().phone;
 
     // View Width
     final double vw = MediaQuery.of(context).size.width;
@@ -108,7 +103,7 @@ class _MenuList extends StatelessWidget {
               _MenuListItem(
                 height: 30,
                 pathIcon: 'assets/icons/settings-shop-2.svg',
-                text: 'Tienda',
+                text: 'Mi tienda',
                 onTap: () => Navigator.pushNamed(context, TiendaPage.pathName),
                 // Navigator.pushNamed(context, ComercioPage.pathName),
               ),
@@ -117,6 +112,14 @@ class _MenuList extends StatelessWidget {
                 pathIcon: 'assets/icons/calendar.svg',
                 text: 'Eventos',
                 onTap: () => print('problema'),
+              ),
+              // TODO: Crear pagina de administar otras tiendas
+              _MenuListItem(
+                height: 30,
+                pathIcon: 'assets/icons/settings-shop-2.svg',
+                text: 'Administrar otras tiendas',
+                onTap: () => Navigator.pushNamed(context, TiendaPage.pathName),
+                // Navigator.pushNamed(context, ComercioPage.pathName),
               ),
               _MenuListItem(
                 height: 25,
@@ -190,14 +193,9 @@ class _MenuListItem extends StatelessWidget {
 }
 
 class _MenuListProfile extends StatelessWidget {
-  final List<String> phoneTemp = Pref().phone.substring(3, 13).split('');
-
   @override
   Widget build(BuildContext context) {
-    phoneTemp.insert(3, ' ');
-    phoneTemp.insert(7, ' ');
-
-    String phone = phoneTemp.join();
+    String phone = Pref().phone;
 
     // View Width
     final double vw = MediaQuery.of(context).size.width;

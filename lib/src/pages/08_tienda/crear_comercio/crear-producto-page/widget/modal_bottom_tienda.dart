@@ -208,34 +208,34 @@ class _ModalButtomProductoState extends State<ModalButtomProducto> {
                         _productoBloc.state.ifDisponibilidad != null) {
                       //
 
-                      DBFirebaseStorage().uploadImageProduct(
-                        phone: Pref().phone,
-                        filePath: localPathImageProduct,
-                        cityPath: _miUbicacionBloc.address,
-                        onSuccess: (url) {
-                          // DBFirestore().addProducInMyCategori(
-                          //   urlImageProducto: url,
-                          //   productName: nombre,
-                          //   productPrice: precio,
-                          //   productQty: cantidad,
-                          //   phoneIdStore: Pref().phone,
-                          //   idProduct: this.widget.idProduct,
-                          //   categories: this.widget.categori,
-                          //   productAvailability: ifDisponible,
-                          //   cityPath: _miUbicacionBloc.address,
-                          // );
+                      // DBFirebaseStorage().uploadImageProduct(
+                      //   phone: Pref().phone,
+                      //   filePath: localPathImageProduct,
+                      //   cityPath: _miUbicacionBloc.address,
+                      //   onSuccess: (url) {
+                      //     // DBFirestore().addProducInMyCategori(
+                      //     //   urlImageProducto: url,
+                      //     //   productName: nombre,
+                      //     //   productPrice: precio,
+                      //     //   productQty: cantidad,
+                      //     //   phoneIdStore: Pref().phone,
+                      //     //   idProduct: this.widget.idProduct,
+                      //     //   categories: this.widget.categori,
+                      //     //   productAvailability: ifDisponible,
+                      //     //   cityPath: _miUbicacionBloc.address,
+                      //     // );
 
-                          // nombreTextEditingController.clear();
-                          // precioTextEditingController.clear();
-                          // cantidadTextEditingController.clear();
+                      //     // nombreTextEditingController.clear();
+                      //     // precioTextEditingController.clear();
+                      //     // cantidadTextEditingController.clear();
 
-                          nombre = null;
-                          precio = null;
-                          cantidad = null;
-                          ifDisponible = null;
-                          localPathImageProduct = null;
-                        },
-                      );
+                      //     nombre = null;
+                      //     precio = null;
+                      //     cantidad = null;
+                      //     ifDisponible = null;
+                      //     localPathImageProduct = null;
+                      //   },
+                      // );
 
                       Navigator.pop(context);
                     }

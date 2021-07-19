@@ -28,8 +28,6 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
 
-    // print('FilaDeSubCategoriaDeTiendas - categories: $category');
-
     return BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
       builder: (context, state) {
         // if (state.address == null) {
@@ -45,16 +43,10 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
             cityPath: state.address,
             category: this.category,
             onFailed: ({data}) {
-              print('On failed');
               print(data);
             },
-            onProgress: () {
-              print('On progress');
-            },
-            onSuccess: ({data}) {
-              print('On success');
-              print(data);
-            },
+            onProgress: () {},
+            onSuccess: ({data}) {},
           ),
           // future: StoresService().getAllStores(cityPath: state.address),
           builder: (
@@ -94,9 +86,6 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
                 ),
               );
             }
-
-            print(
-                'FilaDeSubCategoriaDeTiendas - List ${data.storeModel.length}');
 
             return Container(
               // margin: EdgeInsets.only(top: vw * 0.06),
@@ -393,8 +382,6 @@ class _ImageBusiness extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
-    print(
-        'FilaDeSubCategoriaDeTiendas - _ImageBusiness: ${storeModel.urlImage}');
     if (this.storeModel.urlImage != null && this.storeModel.urlImage != '') {
       return InkWell(
         onTap: () {

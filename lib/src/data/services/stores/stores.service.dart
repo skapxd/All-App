@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+
 import '../../shared/pref.dart';
 import '../../../models/address_model.dart';
 import '../../../models/store_model.dart';
@@ -113,16 +117,11 @@ class StoresService extends UrlBase {
       onProgress();
     }
 
-    // res = (await urlBase.get(
-    //   '/api-v1/stores',
-    //   queryParameters: data,
-    // ))
-    //     .data;
     try {
-      res = (await urlBase.get(
-        '/api-v1/stores',
-        queryParameters: data,
-      ))
+      res = (await this.urlBase.get(
+                '/api-v1/stores',
+                queryParameters: data,
+              ))
           .data;
     } catch (e) {
       print('error: $e');
@@ -138,8 +137,6 @@ class StoresService extends UrlBase {
     if (onFailed != null && !res['success']) {
       onFailed(data: res);
     }
-
-    print(res);
 
     final expire = DateTime(
       now.year,
@@ -169,7 +166,6 @@ class StoresService extends UrlBase {
     String categoryStore,
     String phonCallStore,
     String whatsAppStore,
-    @required String phoneIdStore,
     @required AddressModel addressModel,
     List<CustomGeoLocation> geolocationStore,
   }) async {
@@ -211,10 +207,6 @@ class StoresService extends UrlBase {
       data.addAll({'department': addressModel.department});
     }
 
-    if (phoneIdStore != null) {
-      data.addAll({'phoneIdStore': phoneIdStore});
-    }
-
     List<Map<String, double>> geolocation = [];
 
     if (geolocationStore != null) {
@@ -236,14 +228,12 @@ class StoresService extends UrlBase {
       onProgress();
     }
 
-    print(data);
-
     dynamic res;
 
     try {
       //
 
-      res = (await urlBase.post('/api-v1/stores', data: data)).data;
+      res = (await this.urlBase.post('/api-v1/stores', data: data)).data;
     } catch (e) {
       //
 
@@ -256,6 +246,25 @@ class StoresService extends UrlBase {
       onSuccess(data: res);
     } else if (!res['success'] && onFailed != null) {
       onFailed(data: res);
+    }
+  }
+
+  Future<void> uploadLogo({
+    @required String file,
+  }) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        file,
+        filename: 'logo.${file.split('.').last}',
+        // filename: file.split('/').last,
+      )
+      // 'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt')
+    });
+
+    try {
+      await this.urlBase.post('/api-v1/stores/upload', data: formData);
+    } catch (e) {
+      print(e);
     }
   }
 }

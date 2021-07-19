@@ -21,11 +21,11 @@ class AddInitPosition extends MiUbicacionEvent {
   AddInitPosition(this.initPosition);
 }
 
-class AddMarkers extends MiUbicacionEvent {
-  final LatLng marker;
+// class AddMarkers extends MiUbicacionEvent {
+//   final LatLng marker;
 
-  AddMarkers(this.marker);
-}
+//   AddMarkers(this.marker);
+// }
 
 class ClearMArkers extends MiUbicacionEvent {
   ClearMArkers();

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../../data/shared/pref.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -10,9 +12,12 @@ part 'comercio_state.dart';
 
 class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
   ComercioBloc()
-      : super(ComercioState(
-          aceptoTerminos: Pref().ifVerInfoDeTienda,
-        ));
+      : super(
+          ComercioState(
+            aceptoTerminos: Pref().ifVerInfoDeTienda,
+            markers: Map(),
+          ),
+        );
 
   @override
   Stream<ComercioState> mapEventToState(
@@ -21,7 +26,7 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
     if (event is AddComercioIcon) {
       //
 
-      yield ComercioState(icon: event.image);
+      yield state.copyWith(icon: event.image);
       //
     } else if (event is AddAceptoTerminos) {
       //
@@ -48,6 +53,22 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
 
       yield state.copyWith(nombreTipoDeTienda: event.nombreTipoDeTienda);
       //
+    } else if (event is AddMarkers) {
+      //
+
+      final markerId = MarkerId(
+        this.state.markers.length.toString(),
+      );
+
+      final marker = Marker(markerId: markerId, position: event.marker);
+
+      final markers = Map<MarkerId, Marker>.from(this.state.markers);
+
+      markers[markerId] = marker;
+
+      print('MiUbicacionBloc - markers: ${markers}');
+
+      yield state.copyWith(markers: markers);
     }
   }
 }

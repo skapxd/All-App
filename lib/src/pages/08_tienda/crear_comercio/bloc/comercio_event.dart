@@ -38,3 +38,15 @@ class AddPathTipoDeTienda extends ComercioEvent {
 
   AddPathTipoDeTienda(this.pathTipoDeTienda);
 }
+
+class AddMarkers extends ComercioEvent {
+  final LatLng marker;
+
+  AddMarkers(this.marker);
+}
+
+// class AddFileIcon extends ComercioEvent {
+//   final File icon;
+
+//   AddFileIcon(this.icon);
+// }

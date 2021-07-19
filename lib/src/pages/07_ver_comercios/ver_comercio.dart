@@ -39,8 +39,6 @@ class VerComercios extends StatelessWidget {
       nameSplit.insert(16, '\n');
     }
 
-    print(nameSplit.length);
-
     return Scaffold(
       body: CustomBackgroundGradient(
         child: SingleChildScrollView(
@@ -56,9 +54,7 @@ class VerComercios extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Logo(
-                      onTap: () {
-                        print('object');
-                      },
+                      onTap: () {},
                       storeModel: data,
                       ruburo: ruburo,
                       url: data.urlImage,
@@ -93,7 +89,6 @@ class VerComercios extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 3),
                 onTap: () {
-                  print('object');
                   Navigator.pushNamed(
                     context,
                     VerGaleriaFotos.pathName,
@@ -115,9 +110,7 @@ class VerComercios extends StatelessWidget {
                 // subTitle: 'Conoce más acerca de este comercio aquí.',
                 padding:
                     EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 3),
-                onTap: () {
-                  print('object');
-                },
+                onTap: () {},
               ),
               SizedBox(
                 height: 10,
@@ -149,11 +142,6 @@ class VerComercios extends StatelessWidget {
                     return _PlaceHolder();
                   }
 
-                  print(
-                      'VerComercios - MiUbicacionBloc ${state.address.country}');
-
-                  print('VerComercios - Categori $ruburo');
-
                   return FutureBuilder(
                     // future: DBFirestore().getListCategoriesStore(
                     //   cityPath: state.address,
@@ -174,14 +162,6 @@ class VerComercios extends StatelessWidget {
 
                         case ConnectionState.done:
                           final List<StoreModel> listStoreModel = snapshot.data;
-
-                          print(
-                            'VerComercios - listStoreModel: $listStoreModel',
-                          );
-
-                          // print(
-                          //   'VerComercios - ${listStoreModel}',
-                          // );
 
                           return FilaDeTiendas(
                             // nameBusiness: this.nameBusiness,
@@ -270,7 +250,6 @@ class _Links extends StatelessWidget {
                           },
                         ).toString();
 
-                        print(_url);
                         await canLaunch(_url)
                             ? await launch(_url)
                             : throw 'Could not launch $_url';
@@ -290,7 +269,6 @@ class _Links extends StatelessWidget {
                           path: data.telegram.replaceAll('@', ''),
                         ).toString();
 
-                        print(_url);
                         await canLaunch(_url)
                             ? await launch(_url)
                             : throw 'Could not launch $_url';

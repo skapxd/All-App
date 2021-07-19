@@ -9,6 +9,12 @@ class AddPhone extends PhoneEvent {
   AddPhone(this.phone);
 }
 
+class AddCountryCode extends PhoneEvent {
+  final String code;
+
+  AddCountryCode(this.code);
+}
+
 class AddMsg extends PhoneEvent {
   final String msg;
 

@@ -1,0 +1,64 @@
+import 'package:allapp/src/utils/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:location_permissions/location_permissions.dart' as LP;
+
+class PopupRequestActivateGeolocation extends StatefulWidget {
+  @override
+  _PopupRequestActivateGeolocationState createState() =>
+      _PopupRequestActivateGeolocationState();
+}
+
+class _PopupRequestActivateGeolocationState
+    extends State<PopupRequestActivateGeolocation> {
+  Stream<bool> locationEventStream;
+
+  @override
+  void initState() {
+    locationEventStream = LP.LocationPermissions()
+        .serviceStatus
+        .asBroadcastStream()
+        .map((s) => s == LP.ServiceStatus.enabled ? true : false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // View Width
+    final double vw = MediaQuery.of(context).size.width;
+    // View Height
+    final double vh = MediaQuery.of(context).size.height;
+
+    return StreamBuilder(
+      stream: locationEventStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (!snapshot.data) {
+          return Container(
+            alignment: Alignment.center,
+            height: double.infinity,
+            width: double.infinity,
+            color: rgbColor(0, 0, 0, 0.4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: vw * 0.5,
+                  height: vw * 0.5,
+                  color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      'Por favor active el geolocalizador',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: hexaColor('#303030')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Container();
+      },
+    );
+  }
+}

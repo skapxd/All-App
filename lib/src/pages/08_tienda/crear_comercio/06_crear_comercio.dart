@@ -1,4 +1,6 @@
-import 'package:allapp/src/data/services/stores/stores.service.dart';
+import 'package:allapp/src/models/store_model.dart';
+
+import '../../../data/services/stores/stores.service.dart';
 
 import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/shared/pref.dart';
@@ -14,6 +16,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
 import 'grupo_productos/grupo_productos.dart';
+import 'mapa_page/mapa_page.dart';
 import 'widgets/custom_buttom.dart';
 import 'widgets/if_swich_formulario_comercio.dart';
 import 'widgets/select_icon_comercio.dart';
@@ -57,11 +60,15 @@ Se asumirá que usted está de acuerdo si decide continuar
 
   Pref _pref;
 
+  StoresService storesService;
+
   GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     super.initState();
+
+    storesService = StoresService();
 
     _pref = Pref();
 
@@ -217,21 +224,12 @@ Se asumirá que usted está de acuerdo si decide continuar
                         height: vw * 0.1,
                       ),
                       SelecteIconComercio(
-                        onSelectedImage: (String localPath, String cloudPath) {
-                          _pref.iconCludPath = cloudPath;
-                          _pref.iconLocalPath = localPath;
-                          // DBFirestore().updateStoreIcon(
-                          //   categories: _pref.nombreTipoDeTienda,
-                          //   phoneIdStore: _pref.phone,
-                          //   cityPath: miUbicacion.state.address,
-                          //   urlImage: cloudPath,
-                          // );
-                          print(
-                            'ComercioPage - SelecteIcon: ${_pref.iconCludPath}',
-                          );
-                        },
                         category: 'todo',
                         ifEnable: _pref.ifHabilitarEdicion,
+                        onSelected: (file) {
+                          comercioBloc.add(AddComercioIcon(file));
+                          print(file);
+                        },
                       ),
                       SizedBox(
                         height: vw * 0.1,
@@ -394,7 +392,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                               _CustomTextInput(
                                 ifEnable: _pref.ifHabilitarEdicion,
                                 initialValue: _pref.direccionDeTienda,
-                                text: 'Dirección ej: Cll ## ## ',
+                                text: 'Dirección ej: Cll ## ##',
                                 maxLength: null,
                                 margin: EdgeInsets.only(bottom: vw * 0.08),
                                 onChange: (value) {
@@ -413,33 +411,45 @@ Se asumirá que usted está de acuerdo si decide continuar
                         iconPath: 'assets/icons/lat-lan.svg',
                         ifEnable: _pref.ifHabilitarEdicion,
                         onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ComercioMapaPage.pathName,
+                            arguments: {'latLng': List<LatLng>()},
+                          );
                           // DBFirestore().accesoGps(
                           // // DBFirestore().accesoGps(
                           //   onGranted: () {
-                          //     Navigator.pushNamed(
-                          //         context, ComercioMapaPage.pathName,
-                          //         arguments: []);
-                          //   },
+                          // }
                           // );
                         },
                       ),
                       CustomOutLineButton(
+                        text: 'GUARDAR',
                         margin: EdgeInsets.only(bottom: vw * 0.1),
+                        width: vw * 0.7,
                         textStyle:
                             CustomOutLineButton.defaultTextStyle.copyWith(
                           letterSpacing: 5,
                         ),
                         onTap: () {
-                          StoresService().createStore(
-                            phoneIdStore: Pref().phone,
-                            nameStore: Pref().nombreDeTienda,
+                          final phone = '${_pref.countryCode}-${_pref.phone}';
+
+                          final file = comercioBloc.state.icon?.path;
+
+                          if (file != null) {
+                            storesService.uploadLogo(
+                              file: file,
+                            );
+                          }
+
+                          storesService.createStore(
+                            nameStore: _pref.nombreDeTienda,
                             addressModel: miUbicacion.state.address,
-                            addressStore: Pref().direccionDeTienda,
-                            categoryStore: Pref().categoriaDeTienda,
-                            phonCallStore: Pref().telefotoDeTienda,
-                            telegramStore: Pref().telegramDeTienda,
-                            whatsAppStore: Pref().whatsAppDeTienda,
-                            urlImage: Pref().iconCludPath,
+                            addressStore: _pref.direccionDeTienda,
+                            categoryStore: _pref.categoriaDeTienda,
+                            phonCallStore: _pref.telefotoDeTienda,
+                            telegramStore: _pref.telegramDeTienda,
+                            whatsAppStore: _pref.whatsAppDeTienda,
                             geolocationStore: [
                               CustomGeoLocation(lat: 123.321, lng: 321.123),
                             ],
@@ -478,8 +488,6 @@ Se asumirá que usted está de acuerdo si decide continuar
                             },
                           );
                         },
-                        text: 'GUARDAR',
-                        width: vw * 0.7,
                       ),
                     ],
                   );

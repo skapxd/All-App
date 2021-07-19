@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:allapp/src/pages/08_tienda/crear_comercio/bloc/comercio_bloc.dart';
+
 import '../../../../data/bloc/mapa/mapa_bloc.dart';
 import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../models/store_model.dart' as Store;
@@ -22,11 +24,12 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
 // with AutomaticKeepAliveClientMixin
 {
   MiUbicacionBloc miUbicacionBloc;
+  ComercioBloc comercioBloc;
 
   @override
   void didChangeDependencies() {
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
-
+    comercioBloc = BlocProvider.of<ComercioBloc>(context);
     miUbicacionBloc.iniciarSeguimiento();
 
     super.didChangeDependencies();
@@ -106,20 +109,20 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
                 } else {
                   return Container(
                     child: Center(
-                      child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
+                      child: BlocBuilder<ComercioBloc, ComercioState>(
                         builder: (context, state) {
-                          if (!state.ifLocationExist)
+                          if (!miUbicacionBloc.state.ifLocationExist)
                             return Text('Ubicando...');
 
                           final camaraPosition = CameraPosition(
-                            target: state.latLng,
+                            target: miUbicacionBloc.state.latLng,
                             zoom: 17,
                           );
                           // return Container();
                           return GoogleMap(
                             onTap: (position) {
                               print(position);
-                              miUbicacionBloc.add(AddMarkers(position));
+                              comercioBloc.add(AddMarkers(position));
                             },
                             // indoorViewEnabled: false,
                             myLocationButtonEnabled: false,

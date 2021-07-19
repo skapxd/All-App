@@ -18,6 +18,10 @@ class EnterPhone extends StatelessWidget {
 
   final Pref _pref = Pref();
 
+  final mensaje = '''
+AllApp te enviará un código por WhatsApp para verificar tu número de teléfono. El código puede tardar algunos segundos en llegar.
+''';
+
   @override
   Widget build(BuildContext context) {
     // View Width
@@ -25,6 +29,7 @@ class EnterPhone extends StatelessWidget {
     // View Height
     final double vh = MediaQuery.of(context).size.height;
 
+    final phoneBloc = BlocProvider.of<PhoneBloc>(context);
     // String country = '+57';
 
     // String phone = '';
@@ -55,7 +60,9 @@ class EnterPhone extends StatelessWidget {
                   CountryCodePicker(
                     backgroundColor: hexaColor('#000000', opacity: 0),
                     barrierColor: hexaColor('#000000', opacity: 0.4),
-                    onChanged: (value) => _pref.prefix = value.dialCode,
+                    onChanged: (value) {
+                      phoneBloc.add(AddCountryCode(value.dialCode));
+                    },
                     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                     initialSelection: 'CO',
                     favorite: ['+57', 'CO'],
@@ -71,16 +78,12 @@ class EnterPhone extends StatelessWidget {
                   ),
                   _TextField(
                     onChange: (value) {
-                      _pref.phone = value.replaceAll(' ', '');
+                      value = value.replaceAll(' ', '');
+                      _pref.phone = value;
 
-                      print('EnterPhone: ${_pref.prefix + _pref.phone}');
+                      phoneBloc.add(AddPhone(value));
 
-                      BlocProvider.of<PhoneBloc>(context)
-                          .add(AddPhone(_pref.prefix + _pref.phone));
-
-                      int length = _pref.phone.length;
-
-                      if (length == 10) {
+                      if (value.length == 10) {
                         FocusScope.of(context).unfocus();
                       }
                     },
@@ -88,42 +91,43 @@ class EnterPhone extends StatelessWidget {
                 ],
               ),
             ),
-            BlocBuilder<PhoneBloc, PhoneState>(
-              builder: (context, state) {
-                return CustomOutLineButton(
-                  text: 'CONTINUAR',
-                  margin: EdgeInsets.only(top: vw * 0.1),
-                  onTap: () async {
-                    if (state.modelPhone.phone.length == 13) {
-                      Navigator.pushNamed(context, EnterCode.pathName);
+            CustomOutLineButton(
+              text: 'CONTINUAR',
+              margin: EdgeInsets.only(top: vw * 0.1),
+              onTap: () async {
+                final phone =
+                    '${phoneBloc.state.modelPhone.code}-${phoneBloc.state.modelPhone.phone}';
 
-                      AuthPhone().createPhoneCode(
-                        phone: state.modelPhone.phone,
-                        onSuccess: () {
-                          Pref().phone = state.modelPhone.phone;
-                          print(state.modelPhone.phone);
-                        },
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          backgroundColor: hexaColor('#303030'),
-                          title: Text(
-                            'Número invalido',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: hexaColor('#d5d5d5')),
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                );
+                print(phone);
+                if (phone.length > 8) {
+                  Navigator.pushNamed(context, EnterCode.pathName);
+
+                  AuthPhone().createPhoneCode(
+                    phone: phone,
+                    onSuccess: () {},
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: hexaColor('#303030'),
+                      title: Text(
+                        'Número invalido',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: hexaColor('#d5d5d5')),
+                      ),
+                    ),
+                  );
+                }
               },
             ),
             CustomText(
-              'AllApp te enviará un SMS para verificar\n tu número de teléfono. El código\n puede tardar algunos minutos en aparecer.',
-              margin: EdgeInsets.only(top: vw * 0.1),
+              mensaje,
+              margin: EdgeInsets.only(
+                top: vw * 0.1,
+                left: vw * 0.05,
+                right: vw * 0.05,
+              ),
               // width: vw * 0.83,
               textAlign: TextAlign.center,
               style: TextStyle(

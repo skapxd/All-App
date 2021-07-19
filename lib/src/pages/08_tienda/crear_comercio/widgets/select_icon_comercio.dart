@@ -1,24 +1,22 @@
 import 'dart:io';
 
-import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../data/shared/pref.dart';
-import '../../../../data/storage/storage.dart';
 import '../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SelecteIconComercio extends StatefulWidget {
-  ///Recibe 2 argumentos, ( String localPath, String cloudPath )
-  final void Function(String localPath, String cloudPath) onSelectedImage;
   final bool ifEnable;
   final String category;
+  final String initialImage;
+  final Function(File file) onSelected;
 
   SelecteIconComercio({
     @required this.category,
     this.ifEnable = true,
-    this.onSelectedImage,
+    this.initialImage,
+    this.onSelected,
   });
 
   @override
@@ -34,58 +32,34 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
 
   File _image;
 
-  Future getImage(
-    BuildContext context,
-  ) async {
+  Future getImage() async {
     //
 
-    print('SelecteIcon - _image: $_image');
-
-    final _miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
       maxWidth: 512,
     );
 
-    if (pickedFile != null) {
-      try {
-        setState(() {
-          //
-
-          _image = File(pickedFile.path);
-
-          DBFirebaseStorage()
-              .uploadLogo(
-            phone: _pref.phone,
-            filePath: _image.path,
-            categories: widget.category,
-            cityPath: _miUbicacion.address,
-            onSuccess: (url) => widget.onSelectedImage(
-              pickedFile.path,
-              url,
-            ),
-          )
-              .then((value) {
-            setState(() {
-              _image = File(pickedFile.path);
-            });
-          });
-        });
-      } catch (e) {
+    try {
+      setState(() {
         //
-        print('SelecteIcon - error: $e');
-      }
-    } else {
-      print('SelecteIcon - pickedFile is == null');
 
-      print('SelecteIcon - No image selected.');
+        _image = File(pickedFile.path);
+
+        if (widget.onSelected != null) {
+          widget.onSelected(_image);
+        }
+      });
+    } catch (e) {
+      //
+      print('SelecteIcon - error: $e');
     }
   }
 
   Widget imageIcon(double vw, double vh) {
     //
 
-    _image = _pref.iconLocalPath != null ? File(_pref.iconLocalPath) : null;
+    // _image = _pref.iconLocalPath != null ? File(_pref.iconLocalPath) : null;
 
     if (_image != null) {
       return Container(
@@ -144,7 +118,7 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
       onTap: !this.widget.ifEnable
           ? null
           : () async {
-              await getImage(context);
+              await getImage();
             },
       child: imageIcon(vw, vh),
     );

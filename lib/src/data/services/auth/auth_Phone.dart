@@ -1,3 +1,5 @@
+import 'package:allapp/src/models/address_model.dart';
+
 import '../../shared/pref.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,6 @@ class AuthPhone extends UrlBase {
     Function onError,
   }) async {
     //
-
-    phone = phone.replaceAll('+', '');
 
     Response res;
 
@@ -42,15 +42,14 @@ class AuthPhone extends UrlBase {
     return success;
   }
 
-  Future verifyPhoneCode({
+  Future<void> verifyPhoneCode({
     @required String phone,
     @required String code,
+    @required AddressModel addressModel,
     Function(String token) onSuccess,
-    Function onError,
+    Function(dynamic error) onError,
   }) async {
     //
-
-    phone = phone.replaceAll('+', '');
 
     Response res;
 
@@ -60,6 +59,9 @@ class AuthPhone extends UrlBase {
         data: {
           "smsCode": code,
           "phone": phone,
+          "country": addressModel.country,
+          "department": addressModel.department,
+          "city": addressModel.city,
         },
       );
     } catch (e) {
@@ -69,18 +71,14 @@ class AuthPhone extends UrlBase {
     final bool success = res.data['success'];
     final String token = res.data['token'];
 
-    _pref.token = token;
-
-    print(res.data);
-
     if (success && onSuccess != null) {
       onSuccess(token);
+      return;
     }
 
     if (!success && onError != null) {
-      onError();
+      onError(res.data);
+      return;
     }
-
-    return success;
   }
 }

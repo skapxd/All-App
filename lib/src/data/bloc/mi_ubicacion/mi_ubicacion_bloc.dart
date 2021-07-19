@@ -117,16 +117,16 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     this._positionSuscriptio?.cancel();
   }
 
-  @deprecated
-  Future<LatLng> getPosition() async {
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+  // @deprecated
+  // Future<LatLng> getPosition() async {
+  //   final position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
 
-    final latLng = LatLng(position.latitude, position.longitude);
+  //   final latLng = LatLng(position.latitude, position.longitude);
 
-    return latLng;
-  }
+  //   return latLng;
+  // }
 
   @override
   Stream<MiUbicacionState> mapEventToState(
@@ -147,23 +147,25 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
       //
 
       yield state.copyWith(initPosition: event.initPosition);
-    } else if (event is AddMarkers) {
-      //
+    }
+    //  else if (event is AddMarkers) {
+    //   //
 
-      final markerId = MarkerId(
-        this.state.markers.length.toString(),
-      );
+    //   final markerId = MarkerId(
+    //     this.state.markers.length.toString(),
+    //   );
 
-      final marker = Marker(markerId: markerId, position: event.marker);
+    //   final marker = Marker(markerId: markerId, position: event.marker);
 
-      final markers = Map<MarkerId, Marker>.from(this.state.markers);
+    //   final markers = Map<MarkerId, Marker>.from(this.state.markers);
 
-      markers[markerId] = marker;
+    //   markers[markerId] = marker;
 
-      print('MiUbicacionBloc - markers: ${markers}');
+    //   print('MiUbicacionBloc - markers: ${markers}');
 
-      yield state.copyWith(markers: markers);
-    } else if (event is ClearMArkers) {
+    //   yield state.copyWith(markers: markers);
+    // }
+    else if (event is ClearMArkers) {
       //
 
       final markers = Map<MarkerId, Marker>.from(this.state.markers);

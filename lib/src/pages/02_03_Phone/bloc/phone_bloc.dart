@@ -14,6 +14,7 @@ class PhoneBloc extends Bloc<PhoneEvent, PhoneState> {
               msg: '',
               phone: '',
               token: '',
+              code: '+57',
             ),
           ),
         );
@@ -28,6 +29,11 @@ class PhoneBloc extends Bloc<PhoneEvent, PhoneState> {
         modelPhone: state.modelPhone.copyWith(phone: event.phone),
       );
       //
+    } else if (event is AddCountryCode) {
+      //
+      yield PhoneState(
+        modelPhone: state.modelPhone.copyWith(code: event.code),
+      );
     } else if (event is AddMsg) {
       //
       yield PhoneState(

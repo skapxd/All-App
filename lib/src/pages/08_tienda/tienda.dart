@@ -1,5 +1,5 @@
-import 'package:allapp/src/pages/08_tienda/crear_comercio/grupo_productos/grupo_productos.dart';
-import 'package:allapp/src/utils/utils.dart';
+import 'crear_comercio/grupo_productos/grupo_productos.dart';
+import '../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

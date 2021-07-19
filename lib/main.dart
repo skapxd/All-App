@@ -1,5 +1,5 @@
-import 'package:allapp/src/provider.dart';
-import 'package:allapp/src/router.dart';
+import 'src/provider.dart';
+import 'src/router.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +67,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        initialRoute: Pref().lastPage,
-        // initialRoute: WelcomePage.pathName,
+        // initialRoute: Pref().lastPage,
+        initialRoute: WelcomePage.pathName,
         routes: router,
       ),
     );

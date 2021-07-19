@@ -85,12 +85,10 @@ class _TiendasState extends State<Tiendas>
       child: SafeArea(
         child: NestedScrollView(
           floatHeaderSlivers: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, isscrolled) {
             return [
-              BuscadorYPerfil(
-                tabController: _tabController,
-              ),
+              const BuscadorYPerfil(),
               new SliverPersistentHeader(
                 pinned: true,
                 delegate: _SliverCustomHeaderDelegate(
@@ -112,7 +110,7 @@ class _TiendasState extends State<Tiendas>
                           indicatorColor: hexaColor('#E6D29F'),
                           indicatorWeight: 4,
                           isScrollable: true,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           indicator: MD2Indicator(
                             indicatorHeight: 4,
                             indicatorColor: hexaColor('#E6D29F'),
@@ -192,7 +190,7 @@ class CustomTapBar extends StatelessWidget {
                 indicatorColor: hexaColor('#E6D29F'),
                 indicatorWeight: 4,
                 isScrollable: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 indicator: MD2Indicator(
                   indicatorHeight: 4,
                   indicatorColor: hexaColor('#E6D29F'),
@@ -213,13 +211,7 @@ class CustomTapBar extends StatelessWidget {
 }
 
 class BuscadorYPerfil extends StatelessWidget {
-  const BuscadorYPerfil({
-    Key key,
-    @required TabController tabController,
-  })  : _tabController = tabController,
-        super(key: key);
-
-  final TabController _tabController;
+  const BuscadorYPerfil();
 
   @override
   Widget build(BuildContext context) {
@@ -227,39 +219,24 @@ class BuscadorYPerfil extends StatelessWidget {
       floating: true,
       pinned: false,
       delegate: _SliverCustomHeaderDelegate(
+        minHeight: 60,
+        maxHeight: 60,
         child: Container(
           color: hexaColor('#232323'),
           alignment: Alignment.centerLeft,
-          child: AppBar(
-            tabController: _tabController,
-          ),
+          child: AppBar(),
         ),
-        minHeight: 60,
-        maxHeight: 60,
       ),
     );
   }
 }
 
 class AppBar extends StatelessWidget {
-  AppBar({
-    Key key,
-    @required TabController tabController,
-  })  : _tabController = tabController,
-        super(key: key);
-
-  final TabController _tabController;
-
-  // final String phone = '${}';
-
   @override
   Widget build(BuildContext context) {
-    final List<String> phoneTemp = Pref().phone.substring(3, 13).split('');
     final String nombre = Pref().nombe;
-    phoneTemp.insert(3, ' ');
-    phoneTemp.insert(7, ' ');
 
-    String phone = phoneTemp.join();
+    String phone = Pref().phone;
 
     // View Width
     final double vw = MediaQuery.of(context).size.width;
@@ -267,7 +244,6 @@ class AppBar extends StatelessWidget {
     final double vh = MediaQuery.of(context).size.height;
 
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
@@ -347,7 +323,6 @@ class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant _SliverCustomHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
     return this.maxHeight != oldDelegate.maxHeight ||
         this.minHeight != oldDelegate.minHeight ||
         this.child != oldDelegate.child;
