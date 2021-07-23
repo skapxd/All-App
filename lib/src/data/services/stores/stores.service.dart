@@ -19,6 +19,14 @@ class CustomGeoLocation {
   });
 }
 
+class ContactStore {
+  final String telegramStore;
+  final String phonCallStore;
+  final String whatsAppStore;
+
+  ContactStore({this.telegramStore, this.phonCallStore, this.whatsAppStore});
+}
+
 class StoresService extends UrlBase {
   //
 
@@ -156,17 +164,15 @@ class StoresService extends UrlBase {
   }
 
   Future<void> createStore({
-    String urlImage,
     String nameStore,
+    String categoryStore,
+    String urlImage,
+    bool visibility,
+    String addressStore,
+    ContactStore contactStore,
     void Function() onProgress,
     void Function({dynamic data}) onSuccess,
     void Function({dynamic data}) onFailed,
-    String addressStore,
-    String telegramStore,
-    String categoryStore,
-    String phonCallStore,
-    String whatsAppStore,
-    @required AddressModel addressModel,
     List<CustomGeoLocation> geolocationStore,
   }) async {
     //
@@ -185,26 +191,20 @@ class StoresService extends UrlBase {
       data.addAll({'addressStore': addressStore});
     }
 
-    if (telegramStore != null) {
-      data.addAll({'telegramStore': telegramStore});
+    if (contactStore.telegramStore != null) {
+      data.addAll({'telegramStore': contactStore.telegramStore});
     }
 
     if (categoryStore != null) {
       data.addAll({'categoryStore': categoryStore});
     }
 
-    if (phonCallStore != null) {
-      data.addAll({'phonCallStore': phonCallStore});
+    if (contactStore.phonCallStore != null) {
+      data.addAll({'phonCallStore': contactStore.phonCallStore});
     }
 
-    if (whatsAppStore != null) {
-      data.addAll({'whatsAppStore': whatsAppStore});
-    }
-
-    if (addressModel != null) {
-      data.addAll({'city': addressModel.city});
-      data.addAll({'country': addressModel.country});
-      data.addAll({'department': addressModel.department});
+    if (contactStore.whatsAppStore != null) {
+      data.addAll({'whatsAppStore': contactStore.whatsAppStore});
     }
 
     List<Map<String, double>> geolocation = [];

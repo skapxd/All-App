@@ -1,3 +1,4 @@
+import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -129,22 +130,27 @@ class _TiendasState extends State<Tiendas>
               ),
             ];
           },
-          body: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: homeBloc.page,
+          body: Stack(
             children: [
-              HomeTipoDeComercio(categories: null),
-              HomeTipoDeComercio(categories: 'supermercado'),
-              HomeTipoDeComercio(categories: 'comida rápida'),
-              HomeTipoDeComercio(categories: 'drogueria'),
-              HomeTipoDeComercio(categories: 'ferreteria'),
-              HomeTipoDeComercio(categories: 'restaurantes'),
-              HomeTipoDeComercio(categories: 'calzado'),
-              HomeTipoDeComercio(categories: 'cosmetiscos'),
-              HomeTipoDeComercio(categories: 'electrónicos'),
-              HomeTipoDeComercio(categories: 'licor'),
-              HomeTipoDeComercio(categories: 'carniceria'),
-              HomeTipoDeComercio(categories: 'minimercado'),
+              PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: homeBloc.page,
+                children: [
+                  HomeTipoDeComercio(categories: null),
+                  HomeTipoDeComercio(categories: 'supermercado'),
+                  HomeTipoDeComercio(categories: 'comida rápida'),
+                  HomeTipoDeComercio(categories: 'drogueria'),
+                  HomeTipoDeComercio(categories: 'ferreteria'),
+                  HomeTipoDeComercio(categories: 'restaurantes'),
+                  HomeTipoDeComercio(categories: 'calzado'),
+                  HomeTipoDeComercio(categories: 'cosmetiscos'),
+                  HomeTipoDeComercio(categories: 'electrónicos'),
+                  HomeTipoDeComercio(categories: 'licor'),
+                  HomeTipoDeComercio(categories: 'carniceria'),
+                  HomeTipoDeComercio(categories: 'minimercado'),
+                ],
+              ),
+              PopupRequestActivateGeolocation()
             ],
           ),
         ),

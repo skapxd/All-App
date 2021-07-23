@@ -28,6 +28,8 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
 
+    final _miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
     return BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
       builder: (context, state) {
         // if (state.address == null) {
@@ -56,9 +58,10 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
             //
 
             final data = snapshot.data;
+            print(state.initPosition);
 
             // print(data);
-            if (data == null) {
+            if (data == null || state.initPosition == null) {
               // return Container();
               return Container(
                 // margin: EdgeInsets.only(top: vw * 0.06),

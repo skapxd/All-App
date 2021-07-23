@@ -1,4 +1,5 @@
 import 'package:allapp/src/models/address_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../shared/pref.dart';
 import 'package:dio/dio.dart';
@@ -45,7 +46,7 @@ class AuthPhone extends UrlBase {
   Future<void> verifyPhoneCode({
     @required String phone,
     @required String code,
-    @required AddressModel addressModel,
+    @required LatLng latLng,
     Function(String token) onSuccess,
     Function(dynamic error) onError,
   }) async {
@@ -53,19 +54,23 @@ class AuthPhone extends UrlBase {
 
     Response res;
 
+    print(latLng);
+
     try {
       res = await urlBase.post(
         '/auth/verify-phone-code',
         data: {
           "smsCode": code,
           "phone": phone,
-          "country": addressModel.country,
-          "department": addressModel.department,
-          "city": addressModel.city,
+          "latLng": {
+            "lat": latLng.latitude,
+            "lng": latLng.longitude,
+          }
         },
       );
     } catch (e) {
       print('AuthPhoneForWhatsApp: verifyPhoneCode - error: $e');
+      onError(e);
     }
 
     final bool success = res.data['success'];

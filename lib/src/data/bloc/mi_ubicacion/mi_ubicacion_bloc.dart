@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:allapp/src/data/services/utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,79 +28,48 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
   final _pref = Pref();
 
-  Future<void> initPosition() async {
+  Future initPosition() async {
     //
     print('MiUbicacionBloc - initPosition - start');
 
-    final permissionGpsEnable = await Geolocator.isLocationServiceEnabled();
+    // final permissionGpsEnable = await Geolocator.isLocationServiceEnabled();
 
-    if (!permissionGpsEnable) {
-      // Geolocator.requestPermission();
-      return;
-    }
+    // if (!permissionGpsEnable) {
+    //   locationPermission = await Geolocator.requestPermission();
+    // }
 
     if (state.initPosition == null) {
+      // if ((locationPermission == LocationPermission.always ||
+      //         locationPermission == LocationPermission.whileInUse) &&
+      //     state.initPosition == null) {
       //
-
-      final initPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-
-      final latLng = LatLng(initPosition.latitude, initPosition.longitude);
-
-      print(
-          'MiUbicacionBloc - initPosition - lat:${latLng.latitude} lng:${latLng.longitude}');
-
-      _pref.latLanDeTienda = '${latLng.latitude}, ${latLng.longitude}';
-
-      add(AddInitPosition(latLng));
-
-      final googleAPI = Dio(
-        BaseOptions(baseUrl: 'https://maps.googleapis.com/maps/api/geocode'),
-      );
-
+      Position initPosition;
       try {
-        final respTemp = await googleAPI.get('/json', queryParameters: {
-          'key': 'AIzaSyAvrhAPN1yEHRSB_EFLVsfFUJyXe8gMEAs',
-          'latlng': '${latLng.latitude},${latLng.longitude}',
-          // 'latlng': '5.895947, -75.378383'
-        });
-
-        final resp = jsonEncode(respTemp.data);
-
-        final convertGeoLocationToAddress =
-            convertGeoLocationToAddressFromJson(resp);
-
-        final addressTemp =
-            convertGeoLocationToAddress.results[0].formattedAddress.split(',');
-
-        addressTemp.removeAt(0);
-
-        List<String> addressList = addressTemp.reversed.map((e) {
-          //
-
-          final f = e.replaceFirst(' ', '');
-
-          final g = f.replaceAll(' ', '_').toLowerCase();
-
-          return g;
-        }).toList();
-
-        final address = AddressModel(
-          city: addressList[2],
-          country: addressList[0],
-          department: addressList[1],
+        initPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
         );
 
+        final latLng = LatLng(initPosition.latitude, initPosition.longitude);
+
+        add(AddInitPosition(latLng));
         print(
-          'MiUbicacionBloc - initPosition - Address: ${address.country}/${address.department}/${address.city}',
-        );
+            'MiUbicacionBloc - initPosition - lat:${latLng.latitude} lng:${latLng.longitude}');
 
-        add(AddAddress(address));
+        final Future<void> Function() getAddressModel = () async {
+          final addressModel = await UtilsServices().getAddressModel(
+            lat: '${latLng.latitude}',
+            lng: '${latLng.longitude}',
+          );
+
+          add(AddAddress(addressModel));
+        };
+
+        getAddressModel();
       } catch (e) {
-        print('MiUbicacionBloc - initPosition - error: $e');
-        return;
+        print('Error to get current position');
       }
+
+      return true;
     }
   }
 

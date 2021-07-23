@@ -31,21 +31,22 @@ class EnterCode extends StatelessWidget {
     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return _Bg(
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Stack(
-          children: [
-            RequestPermisonWidget(vw: vw, phoneBloc: phoneBloc, pref: _pref),
-            PopupRequestActivateGeolocation(),
-          ],
-        ),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child:
+                RequesWhatsAppCode(vw: vw, phoneBloc: phoneBloc, pref: _pref),
+          ),
+          PopupRequestActivateGeolocation()
+        ],
       ),
     );
   }
 }
 
-class RequestPermisonWidget extends StatelessWidget {
-  const RequestPermisonWidget({
+class RequesWhatsAppCode extends StatelessWidget {
+  const RequesWhatsAppCode({
     Key key,
     @required this.vw,
     @required this.phoneBloc,
@@ -101,46 +102,32 @@ class RequestPermisonWidget extends StatelessWidget {
             final phone =
                 '${phoneBloc.state.modelPhone.code}-${phoneBloc.state.modelPhone.phone}';
 
-            print(msg);
-            print(phone);
+            final latLng = miUbicacionBloc.state.initPosition;
 
             if (msg.length == 6) {
+              if (latLng == null) {
+                await miUbicacionBloc.initPosition();
+              }
+
               AuthPhone().verifyPhoneCode(
                 phone: phone,
                 code: msg,
-                addressModel: miUbicacionBloc.state.address,
+                latLng: latLng,
                 onSuccess: (token) {
                   _pref.phone = phoneBloc.state.modelPhone.phone;
                   _pref.countryCode = phoneBloc.state.modelPhone.code;
                   _pref.token = token;
-                  // Navigator.pushNamedAndRemoveUntil(
-                  //   context,
-                  //   Home.pathName,
-                  //   (Route<dynamic> route) => false,
-                  // );
+                  print('success: $token');
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Home.pathName,
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 onError: (error) {
                   print(error);
                 },
               );
-
-              // await AuthPhone().enterMsg(
-              //   smsCode: state.modelPhone.msg,
-              //   token: state.modelPhone.token,
-              //   onSuccess: () {
-              //     //
-
-              //     Navigator.pushNamedAndRemoveUntil(
-              //       context,
-              //       Home.pathName,
-              //       (Route<dynamic> route) => false,
-              //     );
-              //     Pref().phone = state.modelPhone.phone;
-              //     DBFirestore().addUser(
-              //       phone: state.modelPhone.phone,
-              //     );
-              //   },
-              // );
             } else {
               showDialog(
                 context: context,
@@ -156,64 +143,6 @@ class RequestPermisonWidget extends StatelessWidget {
             }
           },
         ),
-        // BlocBuilder<PhoneBloc, PhoneState>(
-        //   builder: (context, state) {
-        //     return CustomOutLineButton(
-        //       text: 'CONTINUAR',
-        //       margin: EdgeInsets.only(top: vw * 0.15),
-        //       onTap: () async {
-        //         //
-
-        //         if (state.modelPhone.msg.length == 6) {
-        //           AuthPhone().verifyPhoneCode(
-        //             phone: state.modelPhone.phone,
-        //             code: state.modelPhone.msg,
-        //             onSuccess: (token) {
-        //               print(token);
-        //               Pref().phone = state.modelPhone.phone;
-        //               Pref().token = token;
-        //               Navigator.pushNamedAndRemoveUntil(
-        //                 context,
-        //                 Home.pathName,
-        //                 (Route<dynamic> route) => false,
-        //               );
-        //             },
-        //           );
-
-        //           // await AuthPhone().enterMsg(
-        //           //   smsCode: state.modelPhone.msg,
-        //           //   token: state.modelPhone.token,
-        //           //   onSuccess: () {
-        //           //     //
-
-        //           //     Navigator.pushNamedAndRemoveUntil(
-        //           //       context,
-        //           //       Home.pathName,
-        //           //       (Route<dynamic> route) => false,
-        //           //     );
-        //           //     Pref().phone = state.modelPhone.phone;
-        //           //     DBFirestore().addUser(
-        //           //       phone: state.modelPhone.phone,
-        //           //     );
-        //           //   },
-        //           // );
-        //         } else {
-        //           showDialog(
-        //             context: context,
-        //             builder: (context) => AlertDialog(
-        //               backgroundColor: hexaColor('#303030'),
-        //               title: Text(
-        //                 'Código invalido',
-        //                 textAlign: TextAlign.center,
-        //                 style: TextStyle(color: hexaColor('#d5d5d5')),
-        //               ),
-        //             ),
-        //           );
-        //         }
-        //       },
-        //     );
-        //   },
-        // ),
         CustomText(
           'Ingresa el código que te enviamos por WhatsApp\npara ingresar a los servicios de All App.',
           margin: EdgeInsets.only(

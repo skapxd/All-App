@@ -1,5 +1,7 @@
+import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import 'package:allapp/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
 
 class PopupRequestActivateGeolocation extends StatefulWidget {
@@ -22,6 +24,8 @@ class _PopupRequestActivateGeolocationState
 
   @override
   Widget build(BuildContext context) {
+    final _miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -29,6 +33,7 @@ class _PopupRequestActivateGeolocationState
 
     return StreamBuilder(
       stream: locationEventStream,
+      initialData: false,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (!snapshot.data) {
           return Container(
@@ -54,6 +59,14 @@ class _PopupRequestActivateGeolocationState
                 ),
               ],
             ),
+          );
+        }
+
+        if (_miUbicacionBloc.state.initPosition == null) {
+          accesoGps(
+            onGranted: () {
+              _miUbicacionBloc.initPosition();
+            },
           );
         }
 

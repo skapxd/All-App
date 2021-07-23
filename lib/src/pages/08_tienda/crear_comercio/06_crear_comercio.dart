@@ -444,12 +444,13 @@ Se asumirá que usted está de acuerdo si decide continuar
 
                           storesService.createStore(
                             nameStore: _pref.nombreDeTienda,
-                            addressModel: miUbicacion.state.address,
+                            contactStore: ContactStore(
+                              phonCallStore: _pref.telefotoDeTienda,
+                              telegramStore: _pref.telegramDeTienda,
+                              whatsAppStore: _pref.whatsAppDeTienda,
+                            ),
                             addressStore: _pref.direccionDeTienda,
                             categoryStore: _pref.categoriaDeTienda,
-                            phonCallStore: _pref.telefotoDeTienda,
-                            telegramStore: _pref.telegramDeTienda,
-                            whatsAppStore: _pref.whatsAppDeTienda,
                             geolocationStore: [
                               CustomGeoLocation(lat: 123.321, lng: 321.123),
                             ],
