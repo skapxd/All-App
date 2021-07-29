@@ -1,7 +1,8 @@
 // import 'package:allapp/src/models/cache_store_model/_cache_store_model.dart'
+// //     as Cache;
+// import 'package:allapp/src/models/cache_store_model/__cache_store_model.dart'
 //     as Cache;
-import 'package:allapp/src/models/cache_store_model/__cache_store_model.dart'
-    as Cache;
+import 'package:allapp/src/models/store_model.dart' as LP;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,7 +28,7 @@ class _VerMapaPageState extends State<VerMapaPage>
   void didChangeDependencies() {
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
-    miUbicacionBloc.iniciarSeguimiento();
+    // miUbicacionBloc.iniciarSeguimiento();
 
     super.didChangeDependencies();
   }
@@ -53,7 +54,7 @@ class _VerMapaPageState extends State<VerMapaPage>
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<Cache.LatLng> position = args['latLng'];
+    final List<LP.LatLng> position = args['latLng'];
 
     print('VerMapaPage - position: $position');
 

@@ -63,7 +63,7 @@ class _MenuList extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: vw * 0.07),
           width: vw * 0.9,
-          height: vh * 0.9,
+          // height: vh * 0.9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(vw * .05),
             color: hexaColor('#303030'),
@@ -113,7 +113,6 @@ class _MenuList extends StatelessWidget {
                 text: 'Eventos',
                 onTap: () => print('problema'),
               ),
-              // TODO: Crear pagina de administar otras tiendas
               _MenuListItem(
                 height: 30,
                 pathIcon: 'assets/icons/settings-shop-2.svg',
@@ -125,6 +124,18 @@ class _MenuList extends StatelessWidget {
                 height: 25,
                 pathIcon: 'assets/icons/report-issue.svg',
                 text: 'Reportar un problema',
+                onTap: () => print('problema'),
+              ),
+              _MenuListItem(
+                height: 25,
+                pathIcon: 'assets/icons/report-issue.svg',
+                text: 'Volverser un Usuario Privado',
+                onTap: () => print('problema'),
+              ),
+              _MenuListItem(
+                height: 25,
+                pathIcon: 'assets/icons/report-issue.svg',
+                text: 'Autenticacion de 2 pasos',
                 onTap: () => print('problema'),
               ),
             ],

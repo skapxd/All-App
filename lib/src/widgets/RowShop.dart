@@ -12,16 +12,11 @@ import 'package:transparent_image/transparent_image.dart';
 import '../utils/utils.dart';
 
 class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
-  // final ListModelImageUrls nameBusiness;
-  // final List<StoreModel> listStoreModel;
   final String titleRow;
   final String category;
-  // final String titleRow;
   FilaDeSubCategoriaDeTiendas({
-    // @required this.listStoreModel,
     @required this.titleRow,
     @required this.category,
-    // @required this.titleRow,
   });
   @override
   Widget build(BuildContext context) {
@@ -48,7 +43,9 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
               print(data);
             },
             onProgress: () {},
-            onSuccess: ({data}) {},
+            onSuccess: ({data}) {
+              print(data);
+            },
           ),
           // future: StoresService().getAllStores(cityPath: state.address),
           builder: (
@@ -306,7 +303,7 @@ class _Item extends StatelessWidget {
     final vw = MediaQuery.of(context).size.width;
     final vh = MediaQuery.of(context).size.height;
 
-    if (this.storeModel.visibilidad == false) {
+    if (this.storeModel.visibility == false) {
       return Container(
         margin: index == 0
             ? EdgeInsets.only(

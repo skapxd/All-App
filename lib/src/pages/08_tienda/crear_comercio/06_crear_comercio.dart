@@ -1,3 +1,4 @@
+import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
 import 'package:allapp/src/models/store_model.dart';
 
 import '../../../data/services/stores/stores.service.dart';
@@ -226,6 +227,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                       SelecteIconComercio(
                         category: 'todo',
                         ifEnable: _pref.ifHabilitarEdicion,
+                        initialImage: StorePrefLogo().getUrlLogo(),
                         onSelected: (file) {
                           comercioBloc.add(AddComercioIcon(file));
                           print(file);
@@ -246,46 +248,15 @@ Se asumirá que usted está de acuerdo si decide continuar
                         text: 'Visibilidad de la tienda',
                         initialIfEnable: _pref.ifVisibilidadDeTienda,
                         onChanged: (value) {
-                          if (_formKey.currentState.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            _pref.ifVisibilidadDeTienda = value;
-                            // comercioBloc.add(AddToggleViewStore(value));
-
-                            // final Map<String, Map<String, double>> mapLatLng =
-                            //     {};
-                            final List<Map<String, double>> mapLatLng = [];
-
-                            miUbicacion.state.markers.forEach((key, value) {
-                              mapLatLng.add({
-                                'lat': value.position.latitude,
-                                'lng': value.position.longitude,
-                              });
-                              // print('ComercioPage - mapLatLng: $mapLatLng');
-                            });
-
-                            // DBFirestore().addStore(
-                            //   categories: _pref.nombreTipoDeTienda,
-                            //   visibilidad: value,
-                            //   latLng: mapLatLng,
-                            //   phoneIdStore: _pref.phone,
-                            //   nameStore: _pref.nombreDeTienda,
-                            //   cityPath: miUbicacion.state.address,
-                            //   telegram: _pref.telegramDeTienda,
-                            //   phoneCall: _pref.telefotoDeTienda,
-                            //   direccion: _pref.direccionDeTienda,
-                            //   phoneWhatsApp: _pref.whatsAppDeTienda,
-                            //   urlImage: _pref.iconCludPath,
-                            // );
-                          } else {
-                            customShowSnackBar(
-                              context: context,
-                              text: Text(
-                                'La tienda no sera visible hasta llenar todos los campos',
-                                style: TextStyle(color: hexaColor('#303030')),
-                              ),
-                            );
-                          }
+                          comercioBloc.add(AddIfVisibility(value));
+                          _pref.ifVisibilidadDeTienda = value;
+                          // customShowSnackBar(
+                          //   context: context,
+                          //   text: Text(
+                          //     'La tienda no sera visible hasta llenar todos los campos',
+                          //     style: TextStyle(color: hexaColor('#303030')),
+                          //   ),
+                          // );
                         },
                       ),
                       Form(
@@ -389,18 +360,6 @@ Se asumirá que usted está de acuerdo si decide continuar
                                   print('ComercioPage $value');
                                 },
                               ),
-                              _CustomTextInput(
-                                ifEnable: _pref.ifHabilitarEdicion,
-                                initialValue: _pref.direccionDeTienda,
-                                text: 'Dirección ej: Cll ## ##',
-                                maxLength: null,
-                                margin: EdgeInsets.only(bottom: vw * 0.08),
-                                onChange: (value) {
-                                  _pref.direccionDeTienda = value;
-                                  print('ComercioPage $value');
-                                },
-                                iconPath: 'assets/icons/lat-lan.svg',
-                              ),
                             ],
                           ),
                         ),
@@ -414,7 +373,10 @@ Se asumirá que usted está de acuerdo si decide continuar
                           Navigator.pushNamed(
                             context,
                             ComercioMapaPage.pathName,
-                            arguments: {'latLng': List<LatLng>()},
+                            arguments: {
+                              'latLng': StorePrefPosition().getLatLngList()
+                            },
+                            // arguments: {'latLng': List<LatLng>()},
                           );
                           // DBFirestore().accesoGps(
                           // // DBFirestore().accesoGps(
@@ -432,62 +394,66 @@ Se asumirá que usted está de acuerdo si decide continuar
                           letterSpacing: 5,
                         ),
                         onTap: () {
-                          final phone = '${_pref.countryCode}-${_pref.phone}';
+                          if (_formKey.currentState.validate()) {
+                            final comercioBloc =
+                                BlocProvider.of<ComercioBloc>(context);
+                            final file = comercioBloc.state.icon?.path;
 
-                          final file = comercioBloc.state.icon?.path;
+                            if (file != null) {
+                              storesService.uploadLogo(
+                                file: file,
+                                onFailed: (error) {},
+                                onSuccess: (String urlLogo) {
+                                  StorePrefLogo().setUrlLogo(urlLogo);
+                                },
+                              );
+                            }
 
-                          if (file != null) {
-                            storesService.uploadLogo(
-                              file: file,
+                            storesService.createStore(
+                              nameStore: _pref.nombreDeTienda,
+                              categoryStore: _pref.categoriaDeTienda,
+                              visibility: _pref.ifVisibilidadDeTienda,
+                              contactStore: ContactStore(
+                                phonCallStore: _pref.telefotoDeTienda,
+                                telegramStore: _pref.telegramDeTienda,
+                                whatsAppStore: _pref.whatsAppDeTienda,
+                              ),
+                              onProgress: () {
+                                customShowSnackBar(
+                                  duration: Duration(seconds: 1),
+                                  context: context,
+                                  text: Text(
+                                    'Guardando datos',
+                                    style: TextStyle(
+                                      color: hexaColor('#666666'),
+                                    ),
+                                  ),
+                                );
+                              },
+                              onFailed: ({data}) {
+                                customShowSnackBar(
+                                  context: context,
+                                  text: Text(
+                                    'Error al guardar datos',
+                                    style: TextStyle(
+                                      color: hexaColor('#666666'),
+                                    ),
+                                  ),
+                                );
+                              },
+                              onSuccess: ({data}) {
+                                customShowSnackBar(
+                                  context: context,
+                                  text: Text(
+                                    'Datos guardados con exito',
+                                    style: TextStyle(
+                                      color: hexaColor('#666666'),
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           }
-
-                          storesService.createStore(
-                            nameStore: _pref.nombreDeTienda,
-                            contactStore: ContactStore(
-                              phonCallStore: _pref.telefotoDeTienda,
-                              telegramStore: _pref.telegramDeTienda,
-                              whatsAppStore: _pref.whatsAppDeTienda,
-                            ),
-                            addressStore: _pref.direccionDeTienda,
-                            categoryStore: _pref.categoriaDeTienda,
-                            geolocationStore: [
-                              CustomGeoLocation(lat: 123.321, lng: 321.123),
-                            ],
-                            onProgress: () {
-                              customShowSnackBar(
-                                context: context,
-                                text: Text(
-                                  'Guardando datos',
-                                  style: TextStyle(
-                                    color: hexaColor('#666666'),
-                                  ),
-                                ),
-                              );
-                            },
-                            onFailed: ({data}) {
-                              customShowSnackBar(
-                                context: context,
-                                text: Text(
-                                  'Error al guardar datos',
-                                  style: TextStyle(
-                                    color: hexaColor('#666666'),
-                                  ),
-                                ),
-                              );
-                            },
-                            onSuccess: ({data}) {
-                              customShowSnackBar(
-                                context: context,
-                                text: Text(
-                                  'Datos guardados con exito',
-                                  style: TextStyle(
-                                    color: hexaColor('#666666'),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
                         },
                       ),
                     ],

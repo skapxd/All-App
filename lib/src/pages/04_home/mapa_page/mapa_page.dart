@@ -22,14 +22,14 @@ class _MapaPageState extends State<MapaPage>
   void initState() {
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
-    miUbicacionBloc.iniciarSeguimiento();
+    miUbicacionBloc.initPosition();
 
     super.initState();
   }
 
   @override
   void dispose() {
-    miUbicacionBloc.cancelarSeguimiento();
+    // miUbicacionBloc.cancelarSeguimiento();
 
     super.dispose();
   }
@@ -63,10 +63,10 @@ class _MapaPageState extends State<MapaPage>
                   child: Center(
                     child: BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
                       builder: (context, state) {
-                        if (!state.ifLocationExist) return Text('Ubicando...');
+                        if (!state.existeUbicacion) return Text('Ubicando...');
 
                         final camaraPosition = CameraPosition(
-                          target: state.latLng,
+                          target: state.initPosition,
                         );
                         // return Container();
                         return GoogleMap(
@@ -121,7 +121,7 @@ class _MapaPageState extends State<MapaPage>
                 final miUbicacionBloc =
                     BlocProvider.of<MiUbicacionBloc>(context);
 
-                final destino = miUbicacionBloc.state.latLng;
+                final destino = miUbicacionBloc.state.initPosition;
                 mapaBloc.moverCamaraHome(destino);
               },
             ),

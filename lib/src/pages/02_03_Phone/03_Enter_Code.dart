@@ -69,13 +69,13 @@ class RequesWhatsAppCode extends StatelessWidget {
           'INGRESA EL CÓDIGO',
           width: vw * 0.56,
           margin: EdgeInsets.only(top: vw * 0.31),
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: hexaColor('#BEA07D'),
             fontWeight: FontWeight.w400,
             letterSpacing: 12,
             height: 1.5,
           ),
-          textAlign: TextAlign.center,
         ),
         Container(
           margin: EdgeInsets.only(top: vw * 0.85),
@@ -102,30 +102,28 @@ class RequesWhatsAppCode extends StatelessWidget {
             final phone =
                 '${phoneBloc.state.modelPhone.code}-${phoneBloc.state.modelPhone.phone}';
 
-            final latLng = miUbicacionBloc.state.initPosition;
-
             if (msg.length == 6) {
-              if (latLng == null) {
-                await miUbicacionBloc.initPosition();
-              }
-
-              AuthPhone().verifyPhoneCode(
-                phone: phone,
-                code: msg,
-                latLng: latLng,
-                onSuccess: (token) {
-                  _pref.phone = phoneBloc.state.modelPhone.phone;
-                  _pref.countryCode = phoneBloc.state.modelPhone.code;
-                  _pref.token = token;
-                  print('success: $token');
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Home.pathName,
-                    (Route<dynamic> route) => false,
+              miUbicacionBloc.initPosition(
+                onSuccess: (latLng) {
+                  AuthPhone().verifyPhoneCode(
+                    phone: phone,
+                    code: msg,
+                    latLng: latLng,
+                    onSuccess: (token) {
+                      _pref.phone = phoneBloc.state.modelPhone.phone;
+                      _pref.countryCode = phoneBloc.state.modelPhone.code;
+                      _pref.token = token;
+                      print('success: $token');
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Home.pathName,
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                    onError: (error) {
+                      print(error);
+                    },
                   );
-                },
-                onError: (error) {
-                  print(error);
                 },
               );
             } else {

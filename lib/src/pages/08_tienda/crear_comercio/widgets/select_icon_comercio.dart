@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:transparent_image/transparent_image.dart';
+
 import '../../../../data/shared/pref.dart';
 import '../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -59,8 +61,6 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
   Widget imageIcon(double vw, double vh) {
     //
 
-    // _image = _pref.iconLocalPath != null ? File(_pref.iconLocalPath) : null;
-
     if (_image != null) {
       return Container(
         height: vw * 0.25,
@@ -86,9 +86,9 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
       );
     } else {
       return Container(
-        padding: EdgeInsets.all(vw * 0.05),
-        height: vw * 0.25,
-        width: vw * 0.25,
+        // padding: EdgeInsets.all(vw * 0.05),
+        height: vw * 0.45,
+        width: vw * 0.45,
         decoration: BoxDecoration(
           color: hexaColor('#353535'),
           boxShadow: [
@@ -100,13 +100,17 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
           ],
           borderRadius: BorderRadius.circular(vw * 0.05),
         ),
-        child: SvgPicture.asset('assets/icons/placeholder.svg'),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(vw * 0.05),
+          child: _DefaultImageOrUrlLogo(widget.initialImage),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('SelecteIconComercio - initLogo: ${widget.initialImage}');
     // View Width
     final double vw = MediaQuery.of(context).size.width;
 
@@ -122,5 +126,33 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
             },
       child: imageIcon(vw, vh),
     );
+  }
+}
+
+class _DefaultImageOrUrlLogo extends StatelessWidget {
+  _DefaultImageOrUrlLogo(this.urlLogo);
+
+  final String urlLogo;
+
+  @override
+  Widget build(BuildContext context) {
+    final double vw = MediaQuery.of(context).size.width;
+
+    if (this.urlLogo != null) {
+      return FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: this.urlLogo,
+        fit: BoxFit.cover,
+        imageErrorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: vw * 0.25,
+            width: vw * 0.25,
+            color: Colors.pink,
+          );
+        },
+      );
+    } else {
+      return SvgPicture.asset('assets/icons/placeholder.svg');
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:allapp/src/pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+
 import 'src/provider.dart';
 import 'src/router.dart';
 
@@ -37,6 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+    // miUbicacionBloc.initPosition();
 
     super.initState();
   }
@@ -67,8 +70,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        // initialRoute: Pref().lastPage,
-        initialRoute: WelcomePage.pathName,
+        initialRoute: Pref().lastPage,
+        // initialRoute: WelcomePage.pathName,
         routes: router,
       ),
     );

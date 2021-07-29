@@ -6,7 +6,7 @@ class MiUbicacionState {
   final LatLng initPosition;
   final AddressModel address;
   final bool siguiendo;
-  final bool ifLocationExist;
+  final bool existeUbicacion;
 
   final Map<MarkerId, Marker> markers;
 
@@ -16,7 +16,7 @@ class MiUbicacionState {
     this.address,
     this.initPosition,
     this.siguiendo = true,
-    this.ifLocationExist = false,
+    this.existeUbicacion = false,
   });
 
   MiUbicacionState copyWith({
@@ -33,6 +33,6 @@ class MiUbicacionState {
         address: address ?? this.address,
         siguiendo: siguiendo ?? this.siguiendo,
         initPosition: initPosition ?? this.initPosition,
-        ifLocationExist: existeUbicacion ?? this.ifLocationExist,
+        existeUbicacion: existeUbicacion ?? this.existeUbicacion,
       );
 }

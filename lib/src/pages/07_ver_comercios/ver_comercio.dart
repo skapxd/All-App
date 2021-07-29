@@ -168,12 +168,6 @@ class VerComercios extends StatelessWidget {
                             listStoreModel: listStoreModel,
                             ruburo: ruburo,
                           );
-
-                        // return FilaDeSubCategoriaDeTiendas(
-                        //   titleRow: 'TIENDAS SIMILARES',
-                        //   listStoreModel: listStoreModel,
-                        //   categories: ruburo,
-                        // );
                       }
                     },
                   );
@@ -218,15 +212,15 @@ class _Links extends StatelessWidget {
           // color: Colors.red,
           child: Column(
             children: [
-              data.phoneCall == null || data.phoneCall == ''
+              data.contact.phoneCall == null || data.contact.phoneCall == ''
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/call.svg',
-                      text: data.phoneCall,
+                      text: data.contact.phoneCall,
                       onTap: () async {
                         final _url = Uri(
                           scheme: 'tel',
-                          path: data.phoneCall.replaceAll(' ', ''),
+                          path: data.contact.phoneCall.replaceAll(' ', ''),
                         ).toString();
 
                         await canLaunch(_url)
@@ -234,7 +228,7 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                     ),
-              data.phoneWhatsApp == null || data.phoneWhatsApp == ''
+              data.contact.whatsApp == null || data.contact.whatsApp == ''
                   ? Container()
                   : _Contact(
                       onTap: () async {
@@ -243,8 +237,8 @@ class _Links extends StatelessWidget {
                           host: 'api.whatsapp.com',
                           path: '/send',
                           queryParameters: {
-                            'phone':
-                                '57' + data.phoneWhatsApp.replaceAll(' ', ''),
+                            'phone': '57' +
+                                data.contact.whatsApp.replaceAll(' ', ''),
                             'text': '',
                             'app_absent': '0'
                           },
@@ -255,18 +249,18 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                       iconPath: 'assets/icons/whatsapp.svg',
-                      text: data.phoneWhatsApp,
+                      text: data.contact.whatsApp,
                     ),
-              data.telegram == null || data.telegram == ''
+              data.contact.telegram == null || data.contact.telegram == ''
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/telegram.svg',
-                      text: data.telegram,
+                      text: data.contact.telegram,
                       onTap: () async {
                         final _url = Uri(
                           scheme: 'https',
                           host: 't.me',
-                          path: data.telegram.replaceAll('@', ''),
+                          path: data.contact.telegram.replaceAll('@', ''),
                         ).toString();
 
                         await canLaunch(_url)
@@ -274,16 +268,16 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                     ),
-              data.direccion == null || data.direccion == ''
+              data.address.isEmpty
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/lat-lan.svg',
-                      text: data.direccion,
+                      text: '',
                       onTap: () {
                         Navigator.pushNamed(
                           context,
                           VerMapaPage.pathName,
-                          arguments: {'latLng': data.latLng},
+                          arguments: {'latLng': data.address[0].latLng},
                         );
                       },
                     ),

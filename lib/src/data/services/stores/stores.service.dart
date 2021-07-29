@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -8,6 +9,8 @@ import '../../../models/store_model.dart';
 import 'package:meta/meta.dart';
 
 import '../url_base.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CustomGeoLocation {
   final double lat;
@@ -47,64 +50,29 @@ class StoresService extends UrlBase {
     final path =
         '__cache__${cityPath.country}/${cityPath.department}/${cityPath.city}/$category';
 
-    String cacheString = pref.getAnyData(path: path);
-
-    CacheStoreModel cacheClass;
-
-    // En caso de que el cache no exista
-    if (cacheString == null) {
-      print('Cache no existe ');
-      cacheClass = await _getAllStores(
-        cityPath: cityPath,
-        category: category,
-        onFailed: onFailed,
-        onProgress: onProgress,
-        onSuccess: onSuccess,
-      );
-
-      cacheString = getStringCacheStoreModel(cacheClass);
-
-      pref.setAnyData(path: path, object: cacheString);
-
-      return cacheClass;
-    }
-
-    cacheClass = getObjectCacheStoreModel(cacheString);
-
-    final expire = DateTime.tryParse(cacheClass.expire);
-
-    // En caso de que el cache halla expirado
-    if (expire.isBefore(now)) {
-      print('Cache expirado');
-      cacheClass = await _getAllStores(
-        cityPath: cityPath,
-        category: category,
-        onFailed: onFailed,
-        onProgress: onProgress,
-        onSuccess: onSuccess,
-      );
-
-      cacheString = getStringCacheStoreModel(cacheClass);
-
-      pref.setAnyData(path: path, object: cacheString);
-
-      return cacheClass;
-    }
-
     // En caso de que el cache sea valido
-    print('Cache valido');
 
-    return cacheClass;
+    return await _getAllStores(
+      category: category,
+      cityPath: cityPath,
+      onFailed: onFailed,
+      onSuccess: onSuccess,
+    );
   }
 
   Future<CacheStoreModel> _getAllStores({
     @required AddressModel cityPath,
     @required String category,
-    @required Function() onProgress,
+    // @required Function() onProgress,
     @required Function({dynamic data}) onSuccess,
     @required Function({dynamic data}) onFailed,
   }) async {
     //
+    DioCacheManager _dioCacheManager = DioCacheManager(CacheConfig());
+    Dio _dio = Dio();
+    Options _cacheOptions = buildCacheOptions(Duration(days: 7));
+
+    _dio.interceptors.add(_dioCacheManager.interceptor);
 
     final path =
         '__cache__${cityPath.country}/${cityPath.department}/${cityPath.city}/$category';
@@ -114,23 +82,19 @@ class StoresService extends UrlBase {
       'country': cityPath.country,
       'department': cityPath.department,
     };
-
     if (category != null) {
-      data.addAll({'categoryStore': category});
+      data.addAll({'category': category});
     }
 
     dynamic res;
-
-    if (onProgress != null) {
-      onProgress();
-    }
-
+    Response resTemp;
     try {
-      res = (await this.urlBase.get(
-                '/api-v1/stores',
-                queryParameters: data,
-              ))
-          .data;
+      resTemp = await this.urlBase.get(
+            '/api-v1/stores',
+            queryParameters: data,
+            options: _cacheOptions,
+          );
+      res = json.encode(resTemp.data);
     } catch (e) {
       print('error: $e');
       if (onFailed != null) {
@@ -138,27 +102,15 @@ class StoresService extends UrlBase {
       }
     }
 
-    if (onSuccess != null && res['success']) {
+    if (onSuccess != null && resTemp.data['success']) {
       onSuccess(data: res);
     }
 
-    if (onFailed != null && !res['success']) {
+    if (onFailed != null && !resTemp.data['success']) {
       onFailed(data: res);
     }
-
-    final expire = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      now.hour,
-      (now.minute + 1),
-    );
-
-    final cache = CacheStoreModel.getObject(
-      expire: expire.toIso8601String(),
-      path: path,
-      storeModel: res,
-    );
+    // CacheStoreModel.fromMap(resTemp.data);
+    final cache = cacheStoreModelFromMap(res);
 
     return cache;
   }
@@ -166,46 +118,107 @@ class StoresService extends UrlBase {
   Future<void> createStore({
     String nameStore,
     String categoryStore,
-    String urlImage,
     bool visibility,
-    String addressStore,
     ContactStore contactStore,
     void Function() onProgress,
     void Function({dynamic data}) onSuccess,
     void Function({dynamic data}) onFailed,
-    List<CustomGeoLocation> geolocationStore,
   }) async {
     //
 
     Map<String, dynamic> data = {};
 
-    if (urlImage != null) {
-      data.addAll({'urlImage': urlImage});
+    final setData = () {
+      if (nameStore != null) {
+        data.addAll({'nameStore': nameStore});
+      }
+
+      if (categoryStore != null) {
+        data.addAll({'category': categoryStore});
+      }
+
+      if (visibility != null) {
+        data.addAll({'visibility': visibility});
+      }
+
+      print(visibility);
+
+      if (contactStore.telegramStore != null) {
+        data.addAll({'telegram': contactStore.telegramStore});
+      }
+
+      if (contactStore.phonCallStore != null) {
+        data.addAll({'phoneCall': contactStore.phonCallStore});
+      }
+
+      if (contactStore.whatsAppStore != null) {
+        data.addAll({'whatsApp': contactStore.whatsAppStore});
+      }
+    };
+
+    setData();
+
+    if (onProgress != null) {
+      onProgress();
     }
 
-    if (nameStore != null) {
-      data.addAll({'nameStore': nameStore});
+    dynamic res;
+
+    try {
+      //
+
+      res = (await this.urlBase.post('/api-v1/stores', data: data)).data;
+    } catch (e) {
+      //
+
+      if (onFailed != null) {
+        onFailed();
+      }
     }
 
-    if (addressStore != null) {
-      data.addAll({'addressStore': addressStore});
+    if (res['success'] && onSuccess != null) {
+      onSuccess(data: res);
+    } else if (!res['success'] && onFailed != null) {
+      onFailed(data: res);
     }
+  }
 
-    if (contactStore.telegramStore != null) {
-      data.addAll({'telegramStore': contactStore.telegramStore});
-    }
+  Future<void> uploadLogo({
+    @required String file,
+    @required Function(String urlLogo) onSuccess,
+    @required Function(dynamic error) onFailed,
+  }) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        file,
+        filename: 'logo.${file.split('.').last}',
+        // filename: file.split('/').last,
+      )
+      // 'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt')
+    });
 
-    if (categoryStore != null) {
-      data.addAll({'categoryStore': categoryStore});
-    }
+    Response res;
+    try {
+      res = await this.urlBase.post('/api-v1/stores/upload', data: formData);
 
-    if (contactStore.phonCallStore != null) {
-      data.addAll({'phonCallStore': contactStore.phonCallStore});
+      if (onSuccess != null && res.data['success']) {
+        onSuccess(res.data['urlImage']);
+      }
+    } catch (e) {
+      if (onFailed != null && !res.data['success']) {
+        onFailed(e);
+      }
+      print('StoresService - catch: $e');
     }
+  }
 
-    if (contactStore.whatsAppStore != null) {
-      data.addAll({'whatsAppStore': contactStore.whatsAppStore});
-    }
+  Future<void> setLocationInDB({
+    List<CustomGeoLocation> geolocationStore,
+    void Function() onProgress,
+    void Function({dynamic data}) onSuccess,
+    void Function({dynamic data}) onFailed,
+  }) async {
+    Map<String, dynamic> data = {};
 
     List<Map<String, double>> geolocation = [];
 
@@ -233,11 +246,12 @@ class StoresService extends UrlBase {
     try {
       //
 
-      res = (await this.urlBase.post('/api-v1/stores', data: data)).data;
+      res = (await this.urlBase.post('/api-v1/stores/set-location', data: data))
+          .data;
     } catch (e) {
       //
 
-      if (onProgress != null) {
+      if (onFailed != null) {
         onFailed();
       }
     }
@@ -246,25 +260,6 @@ class StoresService extends UrlBase {
       onSuccess(data: res);
     } else if (!res['success'] && onFailed != null) {
       onFailed(data: res);
-    }
-  }
-
-  Future<void> uploadLogo({
-    @required String file,
-  }) async {
-    final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(
-        file,
-        filename: 'logo.${file.split('.').last}',
-        // filename: file.split('/').last,
-      )
-      // 'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt')
-    });
-
-    try {
-      await this.urlBase.post('/api-v1/stores/upload', data: formData);
-    } catch (e) {
-      print(e);
     }
   }
 }

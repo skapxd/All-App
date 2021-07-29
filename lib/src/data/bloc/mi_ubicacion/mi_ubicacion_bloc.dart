@@ -17,7 +17,10 @@ part 'mi_ubicacion_event.dart';
 part 'mi_ubicacion_state.dart';
 
 class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
-  MiUbicacionBloc() : super(MiUbicacionState(markers: Map()));
+  MiUbicacionBloc()
+      : super(
+          MiUbicacionState(markers: Map()),
+        );
 
   StreamSubscription<Position> _positionSuscriptio;
 
@@ -28,75 +31,81 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
   final _pref = Pref();
 
-  Future initPosition() async {
+  Future initPosition({
+    Function(LatLng latLng) onSuccess,
+    Function(dynamic latLng) onError,
+  }) async {
     //
     print('MiUbicacionBloc - initPosition - start');
 
-    // final permissionGpsEnable = await Geolocator.isLocationServiceEnabled();
-
-    // if (!permissionGpsEnable) {
-    //   locationPermission = await Geolocator.requestPermission();
-    // }
-
     if (state.initPosition == null) {
-      // if ((locationPermission == LocationPermission.always ||
-      //         locationPermission == LocationPermission.whileInUse) &&
-      //     state.initPosition == null) {
-      //
       Position initPosition;
       try {
-        initPosition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high,
-        );
+        // Get Current Position of Sensors
+        final Future<LatLng> Function() getPositionOfSensors = () async {
+          initPosition = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high,
+          );
 
-        final latLng = LatLng(initPosition.latitude, initPosition.longitude);
+          final latLngTemp =
+              LatLng(initPosition.latitude, initPosition.longitude);
 
-        add(AddInitPosition(latLng));
+          add(AddInitPosition(latLngTemp));
+          if (onSuccess != null) {
+            onSuccess(latLngTemp);
+          }
+          return latLngTemp;
+        };
+
+        // Set Current Position  to Bloc Provider
+        final latLng = await getPositionOfSensors();
+
         print(
             'MiUbicacionBloc - initPosition - lat:${latLng.latitude} lng:${latLng.longitude}');
 
+        // Get Address Model of Service
         final Future<void> Function() getAddressModel = () async {
-          final addressModel = await UtilsServices().getAddressModel(
+          UtilsServices().getAddressModel(
             lat: '${latLng.latitude}',
             lng: '${latLng.longitude}',
+            onSuccess: (addressModel) {
+              add(AddAddress(addressModel));
+              print('MiUbicacionBloc: ${state.existeUbicacion}');
+            },
+            onError: (message) {
+              print('MiUbicacionBloc - getAddressModel - $message');
+            },
           );
-
-          add(AddAddress(addressModel));
         };
-
-        getAddressModel();
+        // Set Address Model To Bloc Provider
+        await getAddressModel();
       } catch (e) {
-        print('Error to get current position');
+        print('MiUbicacionBloc - Error to get current position');
+        if (onError != null) {
+          onError(e);
+        }
       }
-
-      return true;
+    } else {
+      if (onSuccess != null) {
+        onSuccess(state.initPosition);
+      }
     }
   }
 
-  void iniciarSeguimiento() {
-    this._positionSuscriptio = Geolocator.getPositionStream(
-      desiredAccuracy: LocationAccuracy.high,
-      distanceFilter: 10,
-    ).listen((Position position) {
-      final newPosition = new LatLng(position.latitude, position.longitude);
-      add(AddUbicacion(newPosition));
-    });
-  }
+  // void iniciarSeguimiento() {
+  //   this._positionSuscriptio = Geolocator.getPositionStream(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //     distanceFilter: 10,
+  //   ).listen((Position position) {
+  //     final newPosition = new LatLng(position.latitude, position.longitude);
+  //     add(AddUbicacion(newPosition));
+  //     print('MiUbicacionBloc: ${state.existeUbicacion}');
+  //   });
+  // }
 
   void cancelarSeguimiento() {
     this._positionSuscriptio?.cancel();
   }
-
-  // @deprecated
-  // Future<LatLng> getPosition() async {
-  //   final position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-
-  //   final latLng = LatLng(position.latitude, position.longitude);
-
-  //   return latLng;
-  // }
 
   @override
   Stream<MiUbicacionState> mapEventToState(
@@ -116,7 +125,10 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     } else if (event is AddInitPosition) {
       //
 
-      yield state.copyWith(initPosition: event.initPosition);
+      yield state.copyWith(
+        initPosition: event.initPosition,
+        existeUbicacion: true,
+      );
     }
     //  else if (event is AddMarkers) {
     //   //
@@ -135,14 +147,14 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
     //   yield state.copyWith(markers: markers);
     // }
-    else if (event is ClearMArkers) {
-      //
+    // else if (event is ClearMArkers) {
+    //   //
 
-      final markers = Map<MarkerId, Marker>.from(this.state.markers);
+    //   final markers = Map<MarkerId, Marker>.from(this.state.markers);
 
-      markers.clear();
+    //   markers.clear();
 
-      yield state.copyWith(markers: markers);
-    }
+    //   yield state.copyWith(markers: markers);
+    // }
   }
 }

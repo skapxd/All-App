@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:allapp/src/data/services/stores/stores.service.dart';
+import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
 import 'package:allapp/src/pages/08_tienda/crear_comercio/bloc/comercio_bloc.dart';
 
 import '../../../../data/bloc/mapa/mapa_bloc.dart';
@@ -20,35 +22,32 @@ class ComercioMapaPage extends StatefulWidget {
   _ComercioMapaPageState createState() => _ComercioMapaPageState();
 }
 
-class _ComercioMapaPageState extends State<ComercioMapaPage>
-// with AutomaticKeepAliveClientMixin
-{
+class _ComercioMapaPageState extends State<ComercioMapaPage> {
+  Stream<bool> locationEventStream;
+
   MiUbicacionBloc miUbicacionBloc;
   ComercioBloc comercioBloc;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
     comercioBloc = BlocProvider.of<ComercioBloc>(context);
-    miUbicacionBloc.iniciarSeguimiento();
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
+    locationEventStream = LP.LocationPermissions()
+        .serviceStatus
+        .asBroadcastStream()
+        .map((s) => s == LP.ServiceStatus.enabled ? true : false);
     super.initState();
   }
 
   @override
   void dispose() {
-    miUbicacionBloc.cancelarSeguimiento();
+    comercioBloc.add(ClearMarkers());
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -58,29 +57,11 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
 
     final List<Store.LatLng> position = args['latLng'];
 
-    print('VerMapaPage - position: $position');
+    print('VerMapaPage - position: ${position.toString()}');
 
-    Map<MarkerId, Marker> markers;
+    Map<MarkerId, Marker> markers = comercioBloc.state.markers;
 
-    int i = 0;
-
-    position.forEach((element) {
-      // if
-
-      if (markers == null) {
-        markers = {};
-      }
-
-      markers.addAll(
-        {
-          MarkerId('$i'): Marker(
-            markerId: MarkerId('$i'),
-            position: LatLng(element.lat, element.lng),
-          ),
-        },
-      );
-      i++;
-    });
+    initMarkers(context, position, markers);
 
     // final camaraPosition = CameraPosition(
     //   target: latLng,
@@ -95,9 +76,9 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
         child: Stack(
           children: [
             StreamBuilder(
-              stream: miUbicacionBloc.statusStream,
+              stream: locationEventStream,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.data == LP.ServiceStatus.disabled) {
+                if (!snapshot.data) {
                   // showCustomDialog(context);
                   return Center(
                     child: CustomText(
@@ -108,41 +89,53 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
                   );
                 } else {
                   return Container(
-                    child: Center(
-                      child: BlocBuilder<ComercioBloc, ComercioState>(
-                        builder: (context, state) {
-                          if (!miUbicacionBloc.state.ifLocationExist)
-                            return Text('Ubicando...');
+                    child: BlocBuilder<ComercioBloc, ComercioState>(
+                      builder: (context, state) {
+                        print(
+                            'ComercioMapaPage: ${miUbicacionBloc.state.existeUbicacion}');
+                        if (!miUbicacionBloc.state.existeUbicacion)
+                          return Text('Ubicando...');
 
-                          final camaraPosition = CameraPosition(
-                            target: miUbicacionBloc.state.latLng,
-                            zoom: 17,
-                          );
-                          // return Container();
-                          return GoogleMap(
-                            onTap: (position) {
-                              print(position);
-                              comercioBloc.add(AddMarkers(position));
-                            },
-                            // indoorViewEnabled: false,
-                            myLocationButtonEnabled: false,
-                            myLocationEnabled: true,
-                            zoomControlsEnabled: false,
-                            markers: markers ?? state.markers.values.toSet(),
-                            initialCameraPosition: camaraPosition,
-                            onMapCreated: (controller) {
-                              BlocProvider.of<MapaBloc>(context)
-                                  .initMapComercio(controller);
-                            },
-                          );
-                        },
-                      ),
+                        print(
+                            'ComercioMapaPage: ${miUbicacionBloc.state.initPosition}');
+
+                        final camaraPosition = CameraPosition(
+                          target: miUbicacionBloc.state.initPosition,
+                          zoom: 17,
+                        );
+                        return GoogleMap(
+                          onTap: (position) {
+                            print(position);
+                            comercioBloc.add(AddMarkers(position, context));
+                          },
+                          myLocationButtonEnabled: false,
+                          myLocationEnabled: true,
+                          zoomControlsEnabled: false,
+                          mapToolbarEnabled: false,
+                          markers: state.markers.values.toSet(),
+                          initialCameraPosition: camaraPosition,
+                          onMapCreated: (controller) {
+                            BlocProvider.of<MapaBloc>(context)
+                                .initMapComercio(controller);
+                          },
+                        );
+                      },
                     ),
                   );
                 }
               },
             ),
             _MarcadorManual(),
+            Positioned(
+              bottom: 20,
+              left: 100,
+              right: 100,
+              child: _SaveLocationButom(
+                onTap: () {
+                  comercioBloc.add(SaveMarkers());
+                },
+              ),
+            ),
             Positioned(
               bottom: 10,
               right: 10,
@@ -152,12 +145,8 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
                   final miUbicacionBloc =
                       BlocProvider.of<MiUbicacionBloc>(context);
 
-                  final destino = miUbicacionBloc.state.latLng;
+                  final destino = miUbicacionBloc.state.initPosition;
                   mapaBloc.moverCamaraComercio(destino);
-
-                  miUbicacionBloc.state.markers.forEach((key, value) {
-                    print(value.position.toString());
-                  });
                 },
               ),
             ),
@@ -167,8 +156,39 @@ class _ComercioMapaPageState extends State<ComercioMapaPage>
     );
   }
 
-  // @override
-  // bool get wantKeepAlive => true;
+  void initMarkers(
+    BuildContext context,
+    List<Store.LatLng> position,
+    // MarkerId markerId,
+    Map<MarkerId, Marker> markers,
+  ) {
+    int i = 0;
+
+    position.forEach((element) {
+      // if
+
+      if (markers == null) {
+        markers = {};
+      }
+
+      final markerId = MarkerId('$i');
+
+      markers.addAll(
+        {
+          MarkerId('$i'): Marker(
+            markerId: markerId,
+            position: LatLng(element.lat, element.lng),
+            onTap: () {
+              print('ComercioBloc - marker: delete $markerId');
+              comercioBloc.showMarkerDialog(context, markerId);
+            },
+          ),
+        },
+      );
+      comercioBloc.add(AddMapOfMarkers(markers, context));
+      i++;
+    });
+  }
 }
 
 class _MarcadorManual extends StatelessWidget {
@@ -177,19 +197,17 @@ class _MarcadorManual extends StatelessWidget {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
+    final comercioBloc = BlocProvider.of<ComercioBloc>(context);
 
     return Stack(
       children: [
         Positioned(
           top: 0,
-          // left: 30,
           child: ClipRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
               child: Container(
+                padding: EdgeInsets.only(top: 20),
                 height: 100,
                 width: vw,
                 decoration: BoxDecoration(
@@ -205,14 +223,16 @@ class _MarcadorManual extends StatelessWidget {
                         Icons.arrow_back,
                         color: hexaColor('#d5d5d5'),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     Expanded(
                       child: Container(),
                       flex: 1,
                     ),
                     Text(
-                      'Seleccione la ubicación \nde su comercio',
+                      'Seleccione la ubicación \nde sus comercios',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -229,7 +249,8 @@ class _MarcadorManual extends StatelessWidget {
                         color: hexaColor('#d5d5d5'),
                       ),
                       onPressed: () {
-                        miUbicacionBloc.add(ClearMArkers());
+                        comercioBloc.add(ClearMarkers());
+                        StorePrefPosition().deleteLatLngList();
                       },
                     ),
                     Expanded(
@@ -242,21 +263,34 @@ class _MarcadorManual extends StatelessWidget {
             ),
           ),
         ),
-
-        // Positioned(
-        //   bottom: 10,
-        //   child: Container(
-        //     width: vw * 0.3,
-        //     height: 50,
-        //     color: hexaColor('#FFFFFF'),
-        //   ),
-        // )
-        // Container(
-        //   height: 100,
-        //   width: 100,
-        //   color: Colors.pink,
-        // ),
       ],
+    );
+  }
+}
+
+class _SaveLocationButom extends StatelessWidget {
+  final Function() onTap;
+
+  const _SaveLocationButom({Key key, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (this.onTap != null) {
+          onTap();
+        }
+      },
+      child: Container(
+        height: 50,
+        width: 200,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        alignment: Alignment.center,
+        child: Text('GUARDAR'),
+      ),
     );
   }
 }

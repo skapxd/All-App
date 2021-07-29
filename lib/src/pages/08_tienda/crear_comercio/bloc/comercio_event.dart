@@ -15,6 +15,12 @@ class AddComercioIfEnableEditar extends ComercioEvent {
   AddComercioIfEnableEditar(this.ifEnable);
 }
 
+class AddIfVisibility extends ComercioEvent {
+  final bool ifVisibility;
+
+  AddIfVisibility(this.ifVisibility);
+}
+
 class AddAceptoTerminos extends ComercioEvent {
   final bool aceptoTerminos;
 
@@ -41,12 +47,27 @@ class AddPathTipoDeTienda extends ComercioEvent {
 
 class AddMarkers extends ComercioEvent {
   final LatLng marker;
+  final BuildContext context;
 
-  AddMarkers(this.marker);
+  AddMarkers(this.marker, this.context);
 }
 
-// class AddFileIcon extends ComercioEvent {
-//   final File icon;
+class AddMapOfMarkers extends ComercioEvent {
+  final BuildContext context;
+  final Map<MarkerId, Marker> markers;
 
-//   AddFileIcon(this.icon);
-// }
+  AddMapOfMarkers(this.markers, this.context);
+}
+
+class ClearMarkers extends ComercioEvent {
+  ClearMarkers();
+}
+
+class SaveMarkers extends ComercioEvent {
+  SaveMarkers();
+}
+
+class RemoveOneMarkers extends ComercioEvent {
+  final int index;
+  RemoveOneMarkers(this.index);
+}

@@ -27,6 +27,6 @@ class AddInitPosition extends MiUbicacionEvent {
 //   AddMarkers(this.marker);
 // }
 
-class ClearMArkers extends MiUbicacionEvent {
-  ClearMArkers();
-}
+// class ClearMArkers extends MiUbicacionEvent {
+//   ClearMArkers();
+// }

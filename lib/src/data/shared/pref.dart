@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../pages/01_wellcome/01_wellcome.dart';
-
+import 'package:meta/meta.dart';
 // class ApiPref {
 //   final Pref _pref = Pref();
 
@@ -37,12 +37,21 @@ class Pref {
   ////////////////////////////////////////////////////////////////////
 
   /// Get any data
-  String getAnyData({String path}) {
+  String getAnyData({@required String path}) {
     return _pref.get(path);
   }
 
-  Future<bool> setAnyData({String path, String object}) async {
+  /// Set any data
+  Future<bool> setAnyData({
+    @required String path,
+    @required String object,
+  }) async {
     return await _pref.setString(path, object);
+  }
+
+  /// Remove any data
+  void deleteAnyData({@required String path}) async {
+    await _pref.remove(path);
   }
 
   // GET & SET -> Ultima pagina
@@ -92,14 +101,14 @@ class Pref {
   ////////////////////////////////////////////////////////////////////
 
   // GET & SET -> Path de icon en la nube
-  String get iconCludPath => _pref.getString('iconCludPath') ?? '';
+  // String get iconCludPath => _pref.getString('iconCludPath') ?? '';
 
-  set iconCludPath(String value) => _pref.setString('iconCludPath', value);
+  // set iconCludPath(String value) => _pref.setString('iconCludPath', value);
 
   // GET & SET -> Path de icon en lcoal
-  String get iconLocalPath => _pref.getString('iconLocalPath');
+  // String get iconLocalPath => _pref.getString('iconLocalPath');
 
-  set iconLocalPath(String value) => _pref.setString('iconLocalPath', value);
+  // set iconLocalPath(String value) => _pref.setString('iconLocalPath', value);
 
   // GET & SET -> Habilitar edicion
   bool get ifHabilitarEdicion => _pref.getBool('ifHabilitarEdicion') ?? true;
