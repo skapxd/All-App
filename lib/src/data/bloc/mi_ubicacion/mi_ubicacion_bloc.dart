@@ -92,17 +92,6 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
     }
   }
 
-  // void iniciarSeguimiento() {
-  //   this._positionSuscriptio = Geolocator.getPositionStream(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //     distanceFilter: 10,
-  //   ).listen((Position position) {
-  //     final newPosition = new LatLng(position.latitude, position.longitude);
-  //     add(AddUbicacion(newPosition));
-  //     print('MiUbicacionBloc: ${state.existeUbicacion}');
-  //   });
-  // }
-
   void cancelarSeguimiento() {
     this._positionSuscriptio?.cancel();
   }
@@ -130,31 +119,5 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
         existeUbicacion: true,
       );
     }
-    //  else if (event is AddMarkers) {
-    //   //
-
-    //   final markerId = MarkerId(
-    //     this.state.markers.length.toString(),
-    //   );
-
-    //   final marker = Marker(markerId: markerId, position: event.marker);
-
-    //   final markers = Map<MarkerId, Marker>.from(this.state.markers);
-
-    //   markers[markerId] = marker;
-
-    //   print('MiUbicacionBloc - markers: ${markers}');
-
-    //   yield state.copyWith(markers: markers);
-    // }
-    // else if (event is ClearMArkers) {
-    //   //
-
-    //   final markers = Map<MarkerId, Marker>.from(this.state.markers);
-
-    //   markers.clear();
-
-    //   yield state.copyWith(markers: markers);
-    // }
   }
 }

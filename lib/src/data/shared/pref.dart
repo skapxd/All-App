@@ -56,45 +56,10 @@ class Pref {
 
   // GET & SET -> Ultima pagina
   String get lastPage {
-    if (phone == null) {
-      return WelcomePage.pathName;
-    }
-
     return _pref.getString('lastPage') ?? WelcomePage.pathName;
   }
 
-  // GET & SET -> Cache store
-  // String get cacheStore => _pref.getString('hola');
-
-  // set cacheStore(CacheStoreModel cacheStoreModel) {
-  //   final cache = cacheStoreModelToJson(cacheStoreModel);
-
-  //   // final cache = CacheStoreModel.(cacheStoreModel);
-
-  //   _pref.setString(cacheStoreModel.path, cache);
-  // }
-
   set lastPage(String value) => _pref.setString('lastPage', value);
-
-  // GET & SET -> Prefijo de pais
-  String get countryCode => _pref.getString('countryCode');
-
-  set countryCode(String value) => _pref.setString('countryCode', value);
-
-  // GET & SET -> Numero de telefono
-  String get phone => _pref.getString('phone') ?? '';
-
-  set phone(String value) => _pref.setString('phone', value);
-
-  // GET & SET -> Nombre de usuario
-  String get nombe => _pref.getString('nombe') ?? 'Nombre';
-
-  set nombe(String value) => _pref.setString('nombe', value);
-
-  // GET & SET -> Token
-  String get token => _pref.getString('token') ?? '';
-
-  set token(String value) => _pref.setString('token', value);
 
   ////////////////////////////////////////////////////////////////////
   /// Pref de tienda

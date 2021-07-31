@@ -1,17 +1,17 @@
-import '../../pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
+
 import '../../pages/08_tienda/tienda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import '../../data/shared/pref.dart';
 import '../../pages/05_favoritos/05_favoritos.dart';
 import '../../utils/utils.dart';
 import 'bloc/menu_bloc.dart';
 
 class MenuButton extends StatelessWidget {
-  final String nombre = Pref().nombe;
+  final String nombre = UserNamePref().getName();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class MenuButton extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          Pref().nombe[0],
+          nombre[0],
           style: TextStyle(
             color: hexaColor('#383838'),
           ),
@@ -50,8 +50,6 @@ class MenuButton extends StatelessWidget {
 class _MenuList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String phone = Pref().phone;
-
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -114,6 +112,12 @@ class _MenuList extends StatelessWidget {
                 onTap: () => print('problema'),
               ),
               _MenuListItem(
+                height: 25,
+                pathIcon: 'assets/icons/calendar.svg',
+                text: 'Mi ubicación',
+                onTap: () => print('problema'),
+              ),
+              _MenuListItem(
                 height: 30,
                 pathIcon: 'assets/icons/settings-shop-2.svg',
                 text: 'Administrar otras tiendas',
@@ -129,7 +133,7 @@ class _MenuList extends StatelessWidget {
               _MenuListItem(
                 height: 25,
                 pathIcon: 'assets/icons/report-issue.svg',
-                text: 'Volverser un Usuario Privado',
+                text: 'Privacidad',
                 onTap: () => print('problema'),
               ),
               _MenuListItem(
@@ -206,8 +210,6 @@ class _MenuListItem extends StatelessWidget {
 class _MenuListProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String phone = Pref().phone;
-
     // View Width
     final double vw = MediaQuery.of(context).size.width;
     // View Height
@@ -243,7 +245,7 @@ class _MenuListProfile extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  phone,
+                  UserPhonePref().getPhone(),
                   style: TextStyle(
                     color: hexaColor('#A3A3A3'),
                   ),
@@ -295,12 +297,12 @@ class _MenuListProfile extends StatelessWidget {
                       ),
                       TextField(
                         controller: TextEditingController(
-                          text: Pref().nombe,
+                          text: UserNamePref().getName(),
                         ),
                         onChanged: (value) {
                           BlocProvider.of<MenuBloc>(context)
                               .add(AddMenuName(value));
-                          Pref().nombe = value;
+                          UserNamePref().setName(name: value);
                         },
                         style: TextStyle(color: Colors.white),
                         maxLength: 18,

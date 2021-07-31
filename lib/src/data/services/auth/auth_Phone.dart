@@ -1,4 +1,5 @@
 import 'package:allapp/src/models/address_model.dart';
+import 'package:allapp/src/models/user_login_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../shared/pref.dart';
@@ -47,7 +48,7 @@ class AuthPhone extends UrlBase {
     @required String phone,
     @required String code,
     @required LatLng latLng,
-    Function(String token) onSuccess,
+    Function(LoginModel loginModel) onSuccess,
     Function(dynamic error) onError,
   }) async {
     //
@@ -73,15 +74,14 @@ class AuthPhone extends UrlBase {
       onError(e);
     }
 
-    final bool success = res.data['success'];
-    final String token = res.data['token'];
+    final login = LoginModel.fromJson(res.data);
 
-    if (success && onSuccess != null) {
-      onSuccess(token);
+    if (login.success && onSuccess != null) {
+      onSuccess(login);
       return;
     }
 
-    if (!success && onError != null) {
+    if (!login.success && onError != null) {
       onError(res.data);
       return;
     }

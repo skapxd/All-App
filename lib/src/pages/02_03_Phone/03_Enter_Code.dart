@@ -1,4 +1,5 @@
 import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
 import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
 
 import '../../data/services/auth/auth_Phone.dart';
@@ -109,11 +110,15 @@ class RequesWhatsAppCode extends StatelessWidget {
                     phone: phone,
                     code: msg,
                     latLng: latLng,
-                    onSuccess: (token) {
-                      _pref.phone = phoneBloc.state.modelPhone.phone;
-                      _pref.countryCode = phoneBloc.state.modelPhone.code;
-                      _pref.token = token;
-                      print('success: $token');
+                    onSuccess: (login) {
+                      UserPhonePref()
+                          .setPhone(phone: phoneBloc.state.modelPhone.phone);
+
+                      UserCountryCodePref().setCountryCode(
+                          countryCode: phoneBloc.state.modelPhone.code);
+                      // _pref.countryCode = phoneBloc.state.modelPhone.code;
+                      UserTokenPref().setToken(token: login.token);
+                      print('success: $login');
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         Home.pathName,

@@ -70,8 +70,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        initialRoute: Pref().lastPage,
-        // initialRoute: WelcomePage.pathName,
+        // initialRoute: Pref().lastPage,
+        initialRoute: WelcomePage.pathName,
         routes: router,
       ),
     );

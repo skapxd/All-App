@@ -250,7 +250,7 @@ class _MarcadorManual extends StatelessWidget {
                       ),
                       onPressed: () {
                         comercioBloc.add(ClearMarkers());
-                        StorePrefPosition().deleteLatLngList();
+                        // StorePrefPosition().deleteLatLngList();
                       },
                     ),
                     Expanded(

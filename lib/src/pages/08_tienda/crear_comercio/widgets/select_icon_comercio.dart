@@ -63,8 +63,8 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
 
     if (_image != null) {
       return Container(
-        height: vw * 0.25,
-        width: vw * 0.25,
+        height: vw * 0.35,
+        width: vw * 0.35,
         decoration: BoxDecoration(
           color: hexaColor('#353535'),
           boxShadow: [
@@ -87,8 +87,8 @@ class _SelecteIconComercioState extends State<SelecteIconComercio> {
     } else {
       return Container(
         // padding: EdgeInsets.all(vw * 0.05),
-        height: vw * 0.45,
-        width: vw * 0.45,
+        height: vw * 0.35,
+        width: vw * 0.35,
         decoration: BoxDecoration(
           color: hexaColor('#353535'),
           boxShadow: [
@@ -145,8 +145,8 @@ class _DefaultImageOrUrlLogo extends StatelessWidget {
         fit: BoxFit.cover,
         imageErrorBuilder: (context, error, stackTrace) {
           return Container(
-            height: vw * 0.25,
-            width: vw * 0.25,
+            height: vw * 0.35,
+            width: vw * 0.35,
             color: Colors.pink,
           );
         },

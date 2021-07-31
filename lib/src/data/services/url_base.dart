@@ -1,4 +1,5 @@
-import '../shared/pref.dart';
+import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
+
 import 'package:dio/dio.dart';
 
 abstract class UrlBase {
@@ -7,7 +8,7 @@ abstract class UrlBase {
   final Dio urlBase = Dio(
     BaseOptions(
       headers: {
-        'Authorization': 'Bearer ${Pref().token}',
+        'Authorization': 'Bearer ${UserTokenPref().getToken()}',
       },
       // baseUrl: 'https://allapp.app',
       baseUrl: 'http://192.168.221.1:3000',

@@ -16,8 +16,6 @@ import 'bloc/phone_bloc.dart';
 class EnterPhone extends StatelessWidget {
   static final String pathName = '/EnterPhone';
 
-  final Pref _pref = Pref();
-
   final mensaje = '''
 AllApp te enviará un código por WhatsApp para verificar tu número de teléfono. El código puede tardar algunos segundos en llegar.
 ''';
@@ -79,7 +77,6 @@ AllApp te enviará un código por WhatsApp para verificar tu número de teléfon
                   _TextField(
                     onChange: (value) {
                       value = value.replaceAll(' ', '');
-                      _pref.phone = value;
 
                       phoneBloc.add(AddPhone(value));
 

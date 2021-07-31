@@ -1,3 +1,4 @@
+import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
 import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -240,9 +241,7 @@ class BuscadorYPerfil extends StatelessWidget {
 class AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String nombre = Pref().nombe;
-
-    String phone = Pref().phone;
+    final String nombre = UserNamePref().getName();
 
     // View Width
     final double vw = MediaQuery.of(context).size.width;
