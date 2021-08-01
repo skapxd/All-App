@@ -1,4 +1,4 @@
-import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
+import '../../data/shared/user_pref/user_pref.dart';
 
 import '../../pages/08_tienda/tienda.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +15,6 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
     return InkWell(
       onTap: () {
         showMaterialModalBottomSheet(
@@ -52,8 +47,6 @@ class _MenuList extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +162,6 @@ class _MenuListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return InkWell(
       onTap: this.onTap,

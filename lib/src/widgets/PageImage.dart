@@ -29,11 +29,6 @@ class _PageImageState extends State<PageImage> {
 
   @override
   Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: CustomBackgroundGradient(
         child: PageView.builder(

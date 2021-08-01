@@ -1,17 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:allapp/src/data/services/utils.dart';
+import '../../services/utils.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
 import 'package:meta/meta.dart';
 
-import '../../../models/ConverGeoLocationToAdress.dart';
 import '../../../models/address_model.dart';
-import '../../shared/pref.dart';
 
 part 'mi_ubicacion_event.dart';
 part 'mi_ubicacion_state.dart';
@@ -28,8 +24,6 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
       LP.LocationPermissions().serviceStatus.asBroadcastStream();
 
   final gpsStatus = LP.ServiceStatus;
-
-  final _pref = Pref();
 
   Future initPosition({
     Function(LatLng latLng) onSuccess,

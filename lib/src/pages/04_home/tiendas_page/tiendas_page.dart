@@ -1,11 +1,9 @@
-import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
-import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
+import '../../../widgets/Popup_Request_Activate_Geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
-import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/BackgroundGradient.dart';
 import '../../../widgets/Menu/Menu.dart';
@@ -77,11 +75,6 @@ class _TiendasState extends State<Tiendas>
     //
 
     final homeBloc = BlocProvider.of<HomeBloc>(context);
-
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return CustomBackgroundGradient(
       child: SafeArea(
@@ -241,12 +234,8 @@ class BuscadorYPerfil extends StatelessWidget {
 class AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String nombre = UserNamePref().getName();
-
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

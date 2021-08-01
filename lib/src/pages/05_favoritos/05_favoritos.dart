@@ -11,8 +11,6 @@ class FavoritosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

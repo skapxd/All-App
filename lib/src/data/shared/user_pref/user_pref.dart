@@ -1,4 +1,4 @@
-import 'package:allapp/src/data/shared/pref.dart';
+import '../pref.dart';
 
 part 'user_country_code_pref.dart';
 part 'user_phone_pref.dart';

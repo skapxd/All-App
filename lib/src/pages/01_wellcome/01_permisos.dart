@@ -1,4 +1,4 @@
-import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
+import '../../widgets/Popup_Request_Activate_Geolocation.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../02_03_Phone/02_Enter_Phone.dart';
@@ -15,8 +15,6 @@ class PermisosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: CustomBackgroundGradient(
@@ -205,8 +203,6 @@ class _Permisos extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: vw * 0.08),

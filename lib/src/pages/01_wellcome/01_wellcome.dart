@@ -6,7 +6,6 @@ import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
 import '../../widgets/CustomText.dart';
 import '../../widgets/OutLineButton.dart';
-import '../02_03_Phone/02_Enter_Phone.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage();
@@ -16,8 +15,6 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: CustomBackgroundGradient(

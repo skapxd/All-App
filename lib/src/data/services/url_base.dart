@@ -1,4 +1,4 @@
-import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
+import '../shared/user_pref/user_pref.dart';
 
 import 'package:dio/dio.dart';
 

@@ -12,7 +12,6 @@ class BannerInicial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     return Container(
       alignment: Alignment.center,

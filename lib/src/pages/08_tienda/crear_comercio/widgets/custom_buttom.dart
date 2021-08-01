@@ -20,8 +20,6 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Container(
       margin: EdgeInsets.only(bottom: vw * 0.08),

@@ -11,6 +11,6 @@ class UserNamePref {
   }
 
   String getName() {
-    return _pref.getAnyData(path: this._userName);
+    return _pref.getAnyData(path: this._userName) ?? 'Nombre';
   }
 }

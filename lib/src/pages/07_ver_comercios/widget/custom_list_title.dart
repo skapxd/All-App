@@ -21,11 +21,6 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
     return MaterialButton(
       onPressed: this.onTap,
       padding: this.padding,

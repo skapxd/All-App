@@ -1,7 +1,6 @@
 import '../../models/store_model.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../data/db/firestore.dart';
 // import '../../models/cache_store_model/cache_store_model.dart';
 import 'ver_galeria_fotos/ver_galeria_fotos.dart';
 import 'ver_mapa_page/ver_mapa_page.dart';
@@ -24,8 +23,6 @@ class VerComercios extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
@@ -193,8 +190,6 @@ class _Links extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Column(
       children: [
@@ -303,10 +298,6 @@ class _Contact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
     return MaterialButton(
       // padding: EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 0),
       onPressed: onTap,

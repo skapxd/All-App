@@ -7,7 +7,7 @@ class BloqueDePago extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
+
     return Container(
       margin: EdgeInsets.only(
         top: vw * 0.02,

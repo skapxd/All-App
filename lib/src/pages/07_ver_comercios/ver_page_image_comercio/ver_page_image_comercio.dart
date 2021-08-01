@@ -35,11 +35,6 @@ class _VerPageImageComercioState extends State<VerPageImageComercio> {
 
   @override
   Widget build(BuildContext context) {
-    // View Width
-    final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
     args = ModalRoute.of(context).settings.arguments;
 
     data = args['data'];

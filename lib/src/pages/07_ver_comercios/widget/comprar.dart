@@ -15,8 +15,6 @@ class Comprar extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: vw * 0.06),

@@ -1,17 +1,13 @@
-import 'package:allapp/src/models/address_model.dart';
-import 'package:allapp/src/models/user_login_model.dart';
+import '../../../models/user_login_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../shared/pref.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../url_base.dart';
 
-class AuthPhone extends UrlBase {
+class AuthPhoneService extends UrlBase {
   //
-
-  final _pref = Pref();
 
   Future createPhoneCode({
     @required String phone,
@@ -74,7 +70,7 @@ class AuthPhone extends UrlBase {
       onError(e);
     }
 
-    final login = LoginModel.fromJson(res.data);
+    final login = LoginModel.fromMap(res.data);
 
     if (login.success && onSuccess != null) {
       onSuccess(login);

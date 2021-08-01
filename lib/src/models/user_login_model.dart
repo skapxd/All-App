@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final loginModel = loginModelFromJson(jsonString);
+//     final loginModel = loginModelFromMap(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) =>
-    LoginModel.fromJson(json.decode(str));
+LoginModel loginModelFromMap(String str) =>
+    LoginModel.fromMap(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String loginModelToMap(LoginModel data) => json.encode(data.toMap());
 
 class LoginModel {
   LoginModel({
@@ -23,49 +23,18 @@ class LoginModel {
   final LoginUser user;
   final LoginStore store;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory LoginModel.fromMap(Map<String, dynamic> json) => LoginModel(
         success: json["success"],
         token: json["token"],
-        user: json["user"] != null
-            ? LoginUser.fromJson(json["user"])
-            : LoginUser(
-                id: '',
-                phone: '',
-                create: LoginCreate(
-                  city: '',
-                  country: '',
-                  createDateUser: '',
-                  department: '',
-                  latLng: LoginLatLng(
-                    lat: 0,
-                    lng: 0,
-                  ),
-                ),
-              ),
-        store: json["store"] != null
-            ? LoginStore.fromJson(json["store"])
-            : LoginStore(
-                category: '',
-                createData: '',
-                id: '',
-                nameStore: '',
-                storeId: '',
-                urlImage: '',
-                visibility: false,
-                address: [],
-                contact: LoginContact(
-                  phoneCall: '',
-                  telegram: '',
-                  whatsApp: '',
-                ),
-              ),
+        user: LoginUser.fromMap(json["user"]),
+        store: LoginStore.fromMap(json["store"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "success": success,
         "token": token,
-        "user": user.toJson(),
-        "store": store.toJson(),
+        "user": user.toMap(),
+        "store": store.toMap(),
       };
 }
 
@@ -74,10 +43,11 @@ class LoginStore {
     @required this.id,
     @required this.storeId,
     @required this.category,
+    @required this.iconPathCategory,
     @required this.urlImage,
+    @required this.description,
     @required this.nameStore,
     @required this.visibility,
-    @required this.createData,
     @required this.address,
     @required this.contact,
   });
@@ -85,36 +55,39 @@ class LoginStore {
   final String id;
   final String storeId;
   final String category;
+  final String iconPathCategory;
   final String urlImage;
+  final String description;
   final String nameStore;
   final bool visibility;
-  final String createData;
   final List<LoginCreate> address;
   final LoginContact contact;
 
-  factory LoginStore.fromJson(Map<String, dynamic> json) => LoginStore(
+  factory LoginStore.fromMap(Map<String, dynamic> json) => LoginStore(
         id: json["_id"],
         storeId: json["id"],
         category: json["category"],
+        iconPathCategory: json["iconPathCategory"],
         urlImage: json["urlImage"],
+        description: json["description"],
         nameStore: json["nameStore"],
         visibility: json["visibility"],
-        createData: json["createData"],
         address: List<LoginCreate>.from(
-            json["address"].map((x) => LoginCreate.fromJson(x))),
-        contact: LoginContact.fromJson(json["contact"]),
+            json["address"].map((x) => LoginCreate.fromMap(x))),
+        contact: LoginContact.fromMap(json["contact"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "_id": id,
         "id": storeId,
         "category": category,
+        "iconPathCategory": iconPathCategory,
         "urlImage": urlImage,
+        "description": description,
         "nameStore": nameStore,
         "visibility": visibility,
-        "createData": createData,
-        "address": List<dynamic>.from(address.map((x) => x.toJson())),
-        "contact": contact.toJson(),
+        "address": List<dynamic>.from(address.map((x) => x.toMap())),
+        "contact": contact.toMap(),
       };
 }
 
@@ -133,20 +106,20 @@ class LoginCreate {
   final LoginLatLng latLng;
   final String createDateUser;
 
-  factory LoginCreate.fromJson(Map<String, dynamic> json) => LoginCreate(
+  factory LoginCreate.fromMap(Map<String, dynamic> json) => LoginCreate(
         city: json["city"],
         country: json["country"],
         department: json["department"],
-        latLng: LoginLatLng.fromJson(json["latLng"]),
+        latLng: LoginLatLng.fromMap(json["latLng"]),
         createDateUser:
             json["createDateUser"] == null ? null : json["createDateUser"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "city": city,
         "country": country,
         "department": department,
-        "latLng": latLng.toJson(),
+        "latLng": latLng.toMap(),
         "createDateUser": createDateUser == null ? null : createDateUser,
       };
 }
@@ -160,12 +133,12 @@ class LoginLatLng {
   final double lat;
   final double lng;
 
-  factory LoginLatLng.fromJson(Map<String, dynamic> json) => LoginLatLng(
+  factory LoginLatLng.fromMap(Map<String, dynamic> json) => LoginLatLng(
         lat: json["lat"].toDouble(),
         lng: json["lng"].toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "lat": lat,
         "lng": lng,
       };
@@ -182,13 +155,13 @@ class LoginContact {
   final String phoneCall;
   final String whatsApp;
 
-  factory LoginContact.fromJson(Map<String, dynamic> json) => LoginContact(
+  factory LoginContact.fromMap(Map<String, dynamic> json) => LoginContact(
         telegram: json["telegram"],
         phoneCall: json["phoneCall"],
         whatsApp: json["whatsApp"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "telegram": telegram,
         "phoneCall": phoneCall,
         "whatsApp": whatsApp,
@@ -198,23 +171,27 @@ class LoginContact {
 class LoginUser {
   LoginUser({
     @required this.id,
+    @required this.name,
     @required this.phone,
     @required this.create,
   });
 
   final String id;
+  final String name;
   final String phone;
   final LoginCreate create;
 
-  factory LoginUser.fromJson(Map<String, dynamic> json) => LoginUser(
+  factory LoginUser.fromMap(Map<String, dynamic> json) => LoginUser(
         id: json["id"],
+        name: json["name"],
         phone: json["phone"],
-        create: LoginCreate.fromJson(json["create"]),
+        create: LoginCreate.fromMap(json["create"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
+        "name": name,
         "phone": phone,
-        "create": create.toJson(),
+        "create": create.toMap(),
       };
 }

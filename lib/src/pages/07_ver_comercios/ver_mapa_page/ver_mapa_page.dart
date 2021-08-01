@@ -54,7 +54,7 @@ class _VerMapaPageState extends State<VerMapaPage>
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<LP.LatLng> position = args['latLng'];
+    final List<LP.StoreLatLng> position = args['latLng'];
 
     print('VerMapaPage - position: $position');
 

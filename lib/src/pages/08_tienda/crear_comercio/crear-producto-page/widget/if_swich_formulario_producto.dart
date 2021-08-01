@@ -31,8 +31,7 @@ class _IfSwichFormularioProductoState extends State<IfSwichFormularioProducto> {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
+
     return Container(
       width: vw * 0.7,
       margin: EdgeInsets.only(bottom: vw * 0.08),

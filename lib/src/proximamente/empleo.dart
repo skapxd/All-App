@@ -1,5 +1,4 @@
-import 'package:allapp/src/utils/utils.dart';
-import 'package:allapp/src/widgets/BackgroundGradient.dart';
+import '../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,8 +28,6 @@ Además podrá hacerlo de forma automática, basándose en parámetros (cantidad
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

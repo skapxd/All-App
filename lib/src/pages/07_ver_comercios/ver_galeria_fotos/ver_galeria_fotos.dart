@@ -4,7 +4,6 @@ import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../data/db/db_ver_tienda.dart';
 import '../ver_page_image_comercio/ver_page_image_comercio.dart';
 import '../../../utils/utils.dart';
-import '../../../widgets/page_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,8 +40,6 @@ class _VerGaleriaFotosState extends State<VerGaleriaFotos> {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 

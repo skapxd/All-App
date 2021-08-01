@@ -1,5 +1,5 @@
-import 'package:allapp/src/data/services/url_base.dart';
-import 'package:allapp/src/models/address_model.dart';
+import 'url_base.dart';
+import '../../models/address_model.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 

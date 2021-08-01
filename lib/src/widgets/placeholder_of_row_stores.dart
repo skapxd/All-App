@@ -11,7 +11,6 @@ class PlaceHolderOfFilaDeSubCategoriaDeTiendas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     return Container(
       // height: vw * 0.4,
@@ -58,7 +57,6 @@ class _PlaceHolderOfFilaDeSubCategoriaDeTiendasItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     return Container(
       margin: EdgeInsets.only(

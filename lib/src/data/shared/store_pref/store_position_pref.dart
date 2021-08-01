@@ -1,13 +1,13 @@
-part of './store_pref.dart';
+part of 'store_pref.dart';
 
-class StorePrefPosition {
+class StorePositionPref {
   final _pref = Pref();
 
   final pathLatLngList = 'LatLngList';
 
-  void setLatLngList({List<LatLng> listOfLatLng}) async {
-    if (listOfLatLng != null) {
-      final dataToMap = listOfLatLng.map((e) {
+  void setLatLngList({List<LatLng> value}) {
+    if (value != null) {
+      final dataToMap = value.map((e) {
         return {
           "lat": e.latitude,
           "lng": e.longitude,
@@ -24,16 +24,16 @@ class StorePrefPosition {
     }
   }
 
-  List<StoreModel.LatLng> getLatLngList() {
+  List<StoreModel.StoreLatLng> getLatLngList() {
     final getDataAsString = _pref.getAnyData(path: pathLatLngList);
     if (getDataAsString == null) {
-      return List<StoreModel.LatLng>.empty();
+      return List<StoreModel.StoreLatLng>.empty();
     }
     final List<dynamic> getDataAsList =
         // final List<Map<String, double>> getDataAsList =
         json.decode(getDataAsString);
-    final List<StoreModel.LatLng> listLatLng = getDataAsList.map((e) {
-      return StoreModel.LatLng(
+    final List<StoreModel.StoreLatLng> listLatLng = getDataAsList.map((e) {
+      return StoreModel.StoreLatLng(
         lat: e['lat'],
         lng: e['lng'],
       );

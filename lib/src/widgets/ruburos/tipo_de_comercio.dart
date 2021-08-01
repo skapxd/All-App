@@ -21,9 +21,6 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -66,13 +63,4 @@ class _HomeTipoDeComercioState extends State<HomeTipoDeComercio>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class _PlaceHolder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-    );
-  }
 }

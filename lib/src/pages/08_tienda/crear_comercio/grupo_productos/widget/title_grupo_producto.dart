@@ -1,7 +1,5 @@
-import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TitleGrupoProductos extends StatelessWidget {
   final String name;
@@ -14,7 +12,6 @@ class TitleGrupoProductos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return ListTile(
       title: Text(

@@ -1,5 +1,5 @@
 import '../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../data/services/stores/stores.service.dart';
+import '../data/services/stores/stores_service.dart';
 import '../models/store_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,9 +21,6 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
-
-    final _miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
       builder: (context, state) {
@@ -36,18 +33,22 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
           //   cityPath: state.address,
           //   categories: this.categories,
           // ),
-          future: StoresService().getCacheAllStores(
+          // future: StoresService().getCacheAllStores(
+          //   cityPath: state.address,
+          //   category: this.category,
+          //   onFailed: ({data}) {
+          //     print(data);
+          //   },
+          //   onProgress: () {},
+          //   onSuccess: ({data}) {
+          //     print(data);
+          //   },
+          // ),
+
+          future: StoreGetAllService().getStore(
             cityPath: state.address,
             category: this.category,
-            onFailed: ({data}) {
-              print(data);
-            },
-            onProgress: () {},
-            onSuccess: ({data}) {
-              print(data);
-            },
           ),
-          // future: StoresService().getAllStores(cityPath: state.address),
           builder: (
             BuildContext context,
             AsyncSnapshot<CacheStoreModel> snapshot,
@@ -166,7 +167,6 @@ class FilaDeTiendas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     return Container(
       height: vw * 0.39,
@@ -205,7 +205,6 @@ class PlaceHolderFilasDeTiendas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     return Container(
       height: vw * 0.39,
@@ -301,7 +300,6 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
 
     if (this.storeModel.visibility == false) {
       return Container(
@@ -381,7 +379,6 @@ class _ImageBusiness extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
     if (this.storeModel.urlImage != null && this.storeModel.urlImage != '') {
       return InkWell(
         onTap: () {

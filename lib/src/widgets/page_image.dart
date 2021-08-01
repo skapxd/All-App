@@ -1,11 +1,7 @@
-import '../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../data/db/firestore.dart';
-import '../data/shared/pref.dart';
 import '../utils/utils.dart';
 import 'BackgroundGradient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -43,12 +39,8 @@ class _PageImageComercioState extends State<PageImageComercio> {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     args = ModalRoute.of(context).settings.arguments;
-
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     data = args['data'];
 

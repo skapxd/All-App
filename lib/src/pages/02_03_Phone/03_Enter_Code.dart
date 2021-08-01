@@ -1,14 +1,17 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
-import 'package:allapp/src/widgets/Popup_Request_Activate_Geolocation.dart';
+import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
+import 'package:allapp/src/models/user_login_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../data/services/auth/auth_Phone.dart';
+import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../../data/shared/user_pref/user_pref.dart';
+import '../../widgets/Popup_Request_Activate_Geolocation.dart';
+
+import '../../data/services/auth/auth_phone_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
 import '../../widgets/CustomText.dart';
@@ -19,25 +22,19 @@ import 'bloc/phone_bloc.dart';
 class EnterCode extends StatelessWidget {
   static final String pathName = '/EnterCode';
 
-  final _pref = Pref();
-
   @override
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     final phoneBloc = BlocProvider.of<PhoneBloc>(context);
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return _Bg(
       child: Stack(
         children: [
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child:
-                RequesWhatsAppCode(vw: vw, phoneBloc: phoneBloc, pref: _pref),
+            child: RequesWhatsAppCode(vw: vw, phoneBloc: phoneBloc),
           ),
           PopupRequestActivateGeolocation()
         ],
@@ -51,13 +48,10 @@ class RequesWhatsAppCode extends StatelessWidget {
     Key key,
     @required this.vw,
     @required this.phoneBloc,
-    @required Pref pref,
-  })  : _pref = pref,
-        super(key: key);
+  });
 
   final double vw;
   final PhoneBloc phoneBloc;
-  final Pref _pref;
 
   @override
   Widget build(BuildContext context) {
@@ -106,24 +100,12 @@ class RequesWhatsAppCode extends StatelessWidget {
             if (msg.length == 6) {
               miUbicacionBloc.initPosition(
                 onSuccess: (latLng) {
-                  AuthPhone().verifyPhoneCode(
+                  AuthPhoneService().verifyPhoneCode(
                     phone: phone,
                     code: msg,
                     latLng: latLng,
                     onSuccess: (login) {
-                      UserPhonePref()
-                          .setPhone(phone: phoneBloc.state.modelPhone.phone);
-
-                      UserCountryCodePref().setCountryCode(
-                          countryCode: phoneBloc.state.modelPhone.code);
-                      // _pref.countryCode = phoneBloc.state.modelPhone.code;
-                      UserTokenPref().setToken(token: login.token);
-                      print('success: $login');
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Home.pathName,
-                        (Route<dynamic> route) => false,
-                      );
+                      this.setPreferences(context, login);
                     },
                     onError: (error) {
                       print(error);
@@ -163,6 +145,44 @@ class RequesWhatsAppCode extends StatelessWidget {
       ],
     );
   }
+
+  void setPreferences(BuildContext context, LoginModel login) {
+    //
+
+    UserPhonePref().setPhone(phone: phoneBloc.state.modelPhone.phone);
+    UserCountryCodePref()
+        .setCountryCode(countryCode: phoneBloc.state.modelPhone.code);
+    UserTokenPref().setToken(token: login.token);
+    UserNamePref().setName(name: login.user.name);
+
+    //
+
+    StoreIfVisiblePref().setIfVisible(value: login.store.visibility);
+    StoreLogoPref().setUrlLogo(value: login.store.urlImage);
+    StoreNamePref().setName(value: login.store.nameStore);
+    StoreCategoryPref().setCategory(category: login.store.category);
+    StoreIconCategoryPref()
+        .setIconCategory(value: login.store.iconPathCategory);
+
+    StorePhonePref().setPhone(value: login.store.contact.phoneCall);
+    StoreWhatsAppPref().setWhatsApp(value: login.store.contact.whatsApp);
+    StoreTelegramPref().setTelegram(value: login.store.contact.telegram);
+
+    StoreDescriptionPref().setDescription(value: login.store.description);
+
+    final latLngList = login.store.address.map((e) {
+      final temp = LatLng(e.latLng.lat, e.latLng.lng);
+      return temp;
+    }).toList();
+
+    StorePositionPref().setLatLngList(value: latLngList);
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      Home.pathName,
+      (Route<dynamic> route) => false,
+    );
+  }
 }
 
 class _TextField extends StatelessWidget {
@@ -181,8 +201,6 @@ class _TextField extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Container(
       width: vw * 0.5,
@@ -246,8 +264,7 @@ class _Bg extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: CustomBackgroundGradient(
         child: Stack(

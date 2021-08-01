@@ -1,10 +1,8 @@
-import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
-import 'package:allapp/src/models/store_model.dart';
+import '../../../data/shared/store_pref/store_pref.dart';
+import 'store_description/store_description.dart';
 
-import '../../../data/services/stores/stores.service.dart';
+import '../../../data/services/stores/stores_service.dart';
 
-import '../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../data/shared/pref.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/OutLineButton.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,9 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import 'add-photos-page/Photos_Page.dart';
 import 'bloc/comercio_bloc.dart';
-import 'grupo_productos/grupo_productos.dart';
 import 'mapa_page/mapa_page.dart';
 import 'widgets/custom_buttom.dart';
 import 'widgets/if_swich_formulario_comercio.dart';
@@ -59,8 +55,6 @@ All App se reserva el derecho a cambiar estos términos en cualquier momento, po
 Se asumirá que usted está de acuerdo si decide continuar
 ''';
 
-  Pref _pref;
-
   StoresService storesService;
 
   GlobalKey<FormState> _formKey;
@@ -71,12 +65,13 @@ Se asumirá que usted está de acuerdo si decide continuar
 
     storesService = StoresService();
 
-    _pref = Pref();
-
     _formKey = GlobalKey<FormState>();
 
-    Future.delayed(Duration.zero,
-        () => _pref.ifVerInfoDeTienda ? showCustomDialog(context) : null);
+    Future.delayed(
+        Duration.zero,
+        () => !StoreIfUserTermPref().getUserTerm()
+            ? showCustomDialog(context)
+            : null);
   }
 
   showCustomDialog(BuildContext context) {
@@ -119,14 +114,13 @@ Se asumirá que usted está de acuerdo si decide continuar
             ),
             actions: [
               IfSwichFormularioComercio(
-                initialIfEnable: !_pref.ifVerInfoDeTienda,
+                initialIfEnable: StoreIfUserTermPref().getUserTerm(),
                 text: 'Aceptar términos',
                 onChanged: (value) {
                   print('ComercioPage - Swich of termns $value');
-                  _pref.ifVerInfoDeTienda = !value;
+                  StoreIfUserTermPref().setUserTerm(value: value);
                   final bloc = BlocProvider.of<ComercioBloc>(context);
-                  bloc.add(AddAceptoTerminos(!value));
-                  print('ComercioPage - bloc:  ${bloc.state.aceptoTerminos}');
+                  bloc.add(AddAceptoTerminos(value));
                 },
               ),
             ],
@@ -140,11 +134,9 @@ Se asumirá que usted está de acuerdo si decide continuar
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     final comercioBloc = BlocProvider.of<ComercioBloc>(context);
-    final miUbicacion = BlocProvider.of<MiUbicacionBloc>(context);
+    // final miUbicacion = BlocProvider.of<MiUbicacionBloc>(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -210,12 +202,12 @@ Se asumirá que usted está de acuerdo si decide continuar
             child: BlocBuilder<ComercioBloc, ComercioState>(
               builder: (context, state) {
                 final _controllerTelefonoTienda =
-                    TextEditingController(text: _pref.telefotoDeTienda);
+                    TextEditingController(text: StorePhonePref().getPhone());
 
-                final _controllerWhatsAppTienda =
-                    TextEditingController(text: _pref.whatsAppDeTienda);
+                final _controllerWhatsAppTienda = TextEditingController(
+                    text: StoreWhatsAppPref().getWhatsApp());
 
-                if (state.aceptoTerminos) {
+                if (!state.aceptoTerminos) {
                   return Container();
                 } else {
                   return Column(
@@ -226,8 +218,8 @@ Se asumirá que usted está de acuerdo si decide continuar
                       ),
                       SelecteIconComercio(
                         category: 'todo',
-                        ifEnable: _pref.ifHabilitarEdicion,
-                        initialImage: StorePrefLogo().getUrlLogo(),
+                        ifEnable: StoreIfFormEditPref().getIfFormEdit(),
+                        initialImage: StoreLogoPref().getUrlLogo(),
                         onSelected: (file) {
                           comercioBloc.add(AddComercioIcon(file));
                           print(file);
@@ -238,25 +230,18 @@ Se asumirá que usted está de acuerdo si decide continuar
                       ),
                       IfSwichFormularioComercio(
                         text: 'Habilitar edición',
-                        initialIfEnable: _pref.ifHabilitarEdicion,
+                        initialIfEnable: StoreIfFormEditPref().getIfFormEdit(),
                         onChanged: (value) {
-                          _pref.ifHabilitarEdicion = value;
+                          StoreIfFormEditPref().setIfFormEdit(value: value);
                           comercioBloc.add(AddComercioIfEnableEditar(value));
                         },
                       ),
                       IfSwichFormularioComercio(
                         text: 'Visibilidad de la tienda',
-                        initialIfEnable: _pref.ifVisibilidadDeTienda,
+                        initialIfEnable: StoreIfVisiblePref().getIfVisible(),
                         onChanged: (value) {
                           comercioBloc.add(AddIfVisibility(value));
-                          _pref.ifVisibilidadDeTienda = value;
-                          // customShowSnackBar(
-                          //   context: context,
-                          //   text: Text(
-                          //     'La tienda no sera visible hasta llenar todos los campos',
-                          //     style: TextStyle(color: hexaColor('#303030')),
-                          //   ),
-                          // );
+                          StoreIfVisiblePref().setIfVisible(value: value);
                         },
                       ),
                       Form(
@@ -267,28 +252,31 @@ Se asumirá que usted está de acuerdo si decide continuar
                             children: [
                               _CustomTextInput(
                                 iconPath: 'assets/icons/settings-shop-2.svg',
-                                initialValue: _pref.nombreDeTienda,
+                                initialValue: StoreNamePref().getName(),
                                 maskTextInputFormatter: null,
-                                ifEnable: _pref.ifHabilitarEdicion,
+                                ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                                 text: 'Nombre de tienda',
                                 margin: EdgeInsets.only(bottom: vw * 0.03),
                                 onChange: (value) {
-                                  _pref.nombreDeTienda = value;
+                                  StoreNamePref().setName(value: value);
                                   print('ComercioPage $value');
                                 },
                               ),
                               CustomButton(
-                                ifData: _pref.pathIconTipoDeTienda != null ||
-                                        state.pathTipoDeTienda != null
-                                    ? true
-                                    : false,
-                                iconPath: _pref.pathIconTipoDeTienda ??
-                                    state.pathTipoDeTienda ??
-                                    'assets/icons/settings-shop-2.svg',
-                                text: _pref.categoriaDeTienda ??
+                                ifData:
+                                    StoreIconCategoryPref().getIconCategory() !=
+                                                null ||
+                                            state.pathTipoDeTienda != null
+                                        ? true
+                                        : false,
+                                iconPath:
+                                    StoreIconCategoryPref().getIconCategory() ??
+                                        state.pathTipoDeTienda ??
+                                        'assets/icons/settings-shop-2.svg',
+                                text: StoreCategoryPref().getCategory() ??
                                     state.nombreTipoDeTienda ??
                                     'Tipo de tienda',
-                                ifEnable: _pref.ifHabilitarEdicion,
+                                ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                                 onTap: () {
                                   showModalBottomSheet(
                                     isScrollControlled: true,
@@ -304,7 +292,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 textEditingController:
                                     _controllerTelefonoTienda,
                                 // initialValue: _pref.telefotoDeTienda,
-                                ifEnable: _pref.ifHabilitarEdicion,
+                                ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                                 keyboardType: TextInputType.phone,
                                 text: 'Teléfono',
                                 maxLength: 13,
@@ -317,7 +305,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                   )
                                 ],
                                 onChange: (value) {
-                                  _pref.telefotoDeTienda = value;
+                                  StorePhonePref().setPhone(value: value);
 
                                   if (value.length == 13) {
                                     FocusScope.of(context).unfocus();
@@ -325,7 +313,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 },
                               ),
                               _CustomTextInput(
-                                ifEnable: _pref.ifHabilitarEdicion,
+                                ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                                 keyboardType: TextInputType.phone,
                                 maxLength: 13,
                                 textEditingController:
@@ -340,7 +328,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                                   )
                                 ],
                                 onChange: (value) {
-                                  _pref.whatsAppDeTienda = value;
+                                  StoreWhatsAppPref().setWhatsApp(value: value);
 
                                   if (value.length == 13) {
                                     FocusScope.of(context).unfocus();
@@ -348,16 +336,15 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 },
                               ),
                               _CustomTextInput(
-                                ifEnable: _pref.ifHabilitarEdicion,
-                                initialValue: _pref.telegramDeTienda,
+                                ifEnable: StoreIfFormEditPref().getIfFormEdit(),
+                                initialValue: StoreTelegramPref().getTelegram(),
                                 maxLength: null,
                                 iconPath: 'assets/icons/telegram.svg',
                                 text: 'Telegram ej: @Nombre',
                                 margin: EdgeInsets.only(bottom: vw * 0.08),
                                 onChange: (value) {
-                                  _pref.telegramDeTienda =
-                                      value.replaceAll('@', '');
-                                  print('ComercioPage $value');
+                                  StoreTelegramPref().setTelegram(
+                                      value: value.replaceAll('@', ''));
                                 },
                               ),
                             ],
@@ -365,24 +352,36 @@ Se asumirá que usted está de acuerdo si decide continuar
                         ),
                       ),
                       CustomButton(
-                        ifData: _pref.ifHabilitarEdicion != null ? true : false,
+                        ifData: StoreIfFormEditPref().getIfFormEdit() != null
+                            ? true
+                            : false,
+                        text: 'Descripción',
+                        iconPath: 'assets/icons/lat-lan.svg',
+                        ifEnable: StoreIfFormEditPref().getIfFormEdit(),
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            DescriptionPage.pathName,
+                          );
+                        },
+                      ),
+                      CustomButton(
+                        ifData: StoreIfFormEditPref().getIfFormEdit() != null
+                            ? true
+                            : false,
                         text: 'Ubicación',
                         iconPath: 'assets/icons/lat-lan.svg',
-                        ifEnable: _pref.ifHabilitarEdicion,
+                        ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                         onTap: () {
                           Navigator.pushNamed(
                             context,
                             ComercioMapaPage.pathName,
                             arguments: {
-                              'latLng': StorePrefPosition().getLatLngList()
+                              'latLng': StorePositionPref().getLatLngList()
+                              // 'latLng': StorePositionPref().getLatLngList()
                             },
                             // arguments: {'latLng': List<LatLng>()},
                           );
-                          // DBFirestore().accesoGps(
-                          // // DBFirestore().accesoGps(
-                          //   onGranted: () {
-                          // }
-                          // );
                         },
                       ),
                       CustomOutLineButton(
@@ -393,30 +392,37 @@ Se asumirá que usted está de acuerdo si decide continuar
                             CustomOutLineButton.defaultTextStyle.copyWith(
                           letterSpacing: 5,
                         ),
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState.validate()) {
                             final comercioBloc =
                                 BlocProvider.of<ComercioBloc>(context);
                             final file = comercioBloc.state.icon?.path;
 
                             if (file != null) {
-                              storesService.uploadLogo(
+                              await storesService.uploadLogo(
                                 file: file,
                                 onFailed: (error) {},
                                 onSuccess: (String urlLogo) {
-                                  StorePrefLogo().setUrlLogo(urlLogo);
+                                  StoreLogoPref().setUrlLogo(value: urlLogo);
                                 },
                               );
                             }
 
-                            storesService.createStore(
-                              nameStore: _pref.nombreDeTienda,
-                              categoryStore: _pref.categoriaDeTienda,
-                              visibility: _pref.ifVisibilidadDeTienda,
+                            print(
+                                'crear comercio page ${StoreIconCategoryPref().getIconCategory()}');
+
+                            StoreCreateService(
+                              iconPathCategory:
+                                  StoreIconCategoryPref().getIconCategory(),
+                              description:
+                                  StoreDescriptionPref().getDescription(),
+                              name: StoreNamePref().getName(),
+                              category: StoreCategoryPref().getCategory(),
+                              visibility: StoreIfVisiblePref().getIfVisible(),
                               contactStore: ContactStore(
-                                phonCallStore: _pref.telefotoDeTienda,
-                                telegramStore: _pref.telegramDeTienda,
-                                whatsAppStore: _pref.whatsAppDeTienda,
+                                phonCall: StorePhonePref().getPhone(),
+                                telegram: StoreTelegramPref().getTelegram(),
+                                whatsApp: StoreWhatsAppPref().getWhatsApp(),
                               ),
                               onProgress: () {
                                 customShowSnackBar(
@@ -453,6 +459,51 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 );
                               },
                             );
+
+                            // storesService.createStore(
+                            //   nameStore: StoreNamePref().getName(),
+                            //   categoryStore: StoreCategoryPref().getCategory(),
+                            //   visibility: StoreIfVisiblePref().getIfVisible(),
+                            //   contactStore: ContactStore(
+                            //     phonCall: StorePhonePref().getPhone(),
+                            //     telegram: StoreTelegramPref().getTelegram(),
+                            //     whatsApp: StoreWhatsAppPref().getWhatsApp(),
+                            //   ),
+                            //   onProgress: () {
+                            //     customShowSnackBar(
+                            //       duration: Duration(seconds: 1),
+                            //       context: context,
+                            //       text: Text(
+                            //         'Guardando datos',
+                            //         style: TextStyle(
+                            //           color: hexaColor('#666666'),
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            //   onFailed: ({data}) {
+                            //     customShowSnackBar(
+                            //       context: context,
+                            //       text: Text(
+                            //         'Error al guardar datos',
+                            //         style: TextStyle(
+                            //           color: hexaColor('#666666'),
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            //   onSuccess: ({data}) {
+                            //     customShowSnackBar(
+                            //       context: context,
+                            //       text: Text(
+                            //         'Datos guardados con exito',
+                            //         style: TextStyle(
+                            //           color: hexaColor('#666666'),
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            // );
                           }
                         },
                       ),
@@ -498,8 +549,7 @@ class _CustomTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
+
     return Container(
       margin: this.margin,
       child: TextFormField(

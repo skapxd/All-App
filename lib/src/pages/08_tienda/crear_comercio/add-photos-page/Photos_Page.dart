@@ -1,10 +1,8 @@
-import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widgets/page_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -40,10 +38,6 @@ class _PhotosPageState extends State<PhotosPage> {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

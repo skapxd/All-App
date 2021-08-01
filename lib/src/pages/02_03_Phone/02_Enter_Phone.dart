@@ -1,11 +1,10 @@
-import '../../data/services/auth/auth_Phone.dart';
+import '../../data/services/auth/auth_phone_service.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
 import '../../widgets/CustomText.dart';
@@ -24,8 +23,6 @@ AllApp te enviará un código por WhatsApp para verificar tu número de teléfon
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     final phoneBloc = BlocProvider.of<PhoneBloc>(context);
     // String country = '+57';
@@ -99,7 +96,7 @@ AllApp te enviará un código por WhatsApp para verificar tu número de teléfon
                 if (phone.length > 8) {
                   Navigator.pushNamed(context, EnterCode.pathName);
 
-                  AuthPhone().createPhoneCode(
+                  AuthPhoneService().createPhoneCode(
                     phone: phone,
                     onSuccess: () {},
                   );
@@ -154,8 +151,6 @@ class _TextField extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return Container(
       width: vw * 0.47,
@@ -225,8 +220,7 @@ class _Bg extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: CustomBackgroundGradient(
         child: Stack(

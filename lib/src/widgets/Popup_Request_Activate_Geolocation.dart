@@ -1,5 +1,5 @@
-import 'package:allapp/src/data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import 'package:allapp/src/utils/utils.dart';
+import '../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
+import '../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_permissions/location_permissions.dart' as LP;
@@ -20,6 +20,7 @@ class _PopupRequestActivateGeolocationState
         .serviceStatus
         .asBroadcastStream()
         .map((s) => s == LP.ServiceStatus.enabled ? true : false);
+    super.initState();
   }
 
   @override
@@ -28,8 +29,6 @@ class _PopupRequestActivateGeolocationState
 
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return StreamBuilder(
       stream: locationEventStream,

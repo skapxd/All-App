@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:allapp/src/data/services/stores/stores.service.dart';
-import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
+// import 'package:allapp/src/data/services/stores/stores_service.dart';
+// import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
 import 'package:allapp/src/pages/08_tienda/crear_comercio/bloc/comercio_bloc.dart';
 
 import '../../../../data/bloc/mapa/mapa_bloc.dart';
 import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../../models/store_model.dart' as Store;
+import '../../../../models/store_model.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widgets/CustomText.dart';
 import '../../../../widgets/CustonFloatingActionButton.dart';
@@ -30,13 +30,13 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
 
   @override
   void initState() {
+    super.initState();
     miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
     comercioBloc = BlocProvider.of<ComercioBloc>(context);
     locationEventStream = LP.LocationPermissions()
         .serviceStatus
         .asBroadcastStream()
         .map((s) => s == LP.ServiceStatus.enabled ? true : false);
-    super.initState();
   }
 
   @override
@@ -55,7 +55,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<Store.LatLng> position = args['latLng'];
+    final List<StoreLatLng> position = args['latLng'];
 
     print('VerMapaPage - position: ${position.toString()}');
 
@@ -76,6 +76,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
         child: Stack(
           children: [
             StreamBuilder(
+              initialData: false,
               stream: locationEventStream,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.data) {
@@ -158,7 +159,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
 
   void initMarkers(
     BuildContext context,
-    List<Store.LatLng> position,
+    List<StoreLatLng> position,
     // MarkerId markerId,
     Map<MarkerId, Marker> markers,
   ) {

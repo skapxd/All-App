@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../../utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -25,18 +23,8 @@ class ItemProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //
-
-    final r = random.nextInt(150) + 50;
-    final g = random.nextInt(150) + 50;
-    final b = random.nextInt(150) + 50;
-
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
-
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return Container(
       // height: 80,

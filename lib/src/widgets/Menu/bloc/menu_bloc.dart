@@ -1,4 +1,4 @@
-import 'package:allapp/src/data/shared/user_pref/user_pref.dart';
+import '../../../data/shared/user_pref/user_pref.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 

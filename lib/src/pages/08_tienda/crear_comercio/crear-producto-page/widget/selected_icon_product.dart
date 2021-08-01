@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import '../../../../../data/shared/pref.dart';
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,8 +22,6 @@ class SelectedIconProduct extends StatefulWidget {
 
 class _SelectedIconProductState extends State<SelectedIconProduct> {
   //
-
-  final _pref = Pref();
 
   final picker = ImagePicker();
 

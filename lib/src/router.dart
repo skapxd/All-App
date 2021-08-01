@@ -1,6 +1,7 @@
-import 'package:allapp/src/proximamente/analiticas.dart';
-import 'package:allapp/src/proximamente/historial_de_clientes.dart';
-import 'package:allapp/src/proximamente/historial_de_ventas.dart';
+import 'pages/08_tienda/crear_comercio/store_description/store_description.dart';
+import 'proximamente/analiticas.dart';
+import 'proximamente/historial_de_clientes.dart';
+import 'proximamente/historial_de_ventas.dart';
 
 import 'pages/01_wellcome/01_permisos.dart';
 import 'pages/01_wellcome/01_wellcome.dart';
@@ -46,6 +47,8 @@ Map<String, Widget Function(BuildContext)> router = {
   VerGaleriaFotos.pathName: (_) => VerGaleriaFotos(),
   VerMapaPage.pathName: (_) => VerMapaPage(),
   TiendaPage.pathName: (_) => TiendaPage(),
+
+  DescriptionPage.pathName: (_) => DescriptionPage(),
 
   // Proximamente
   HistorialDeVentasPage.pathName: (_) => HistorialDeVentasPage(),

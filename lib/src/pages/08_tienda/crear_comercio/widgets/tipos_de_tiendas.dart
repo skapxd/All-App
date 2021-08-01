@@ -1,5 +1,5 @@
-import '../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../../data/shared/pref.dart';
+import '../../../../data/shared/store_pref/store_pref.dart';
+
 import '../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -128,7 +128,6 @@ class _ListItems extends StatelessWidget {
 class _Item extends StatelessWidget {
   final String iconPath;
   final String name;
-  final _pref = Pref();
 
   _Item({
     @required this.iconPath,
@@ -139,8 +138,6 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //
-
-    final miUbicacion = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     final comercioBloc = BlocProvider.of<ComercioBloc>(context);
 
@@ -166,9 +163,9 @@ class _Item extends StatelessWidget {
         //   phoneIdStore: _pref.phone,
         //   cityPath: miUbicacion.address,
         // );
-
-        _pref.categoriaDeTienda = this.name.toLowerCase();
-        _pref.pathIconTipoDeTienda = this.iconPath.toLowerCase();
+        StoreCategoryPref().setCategory(category: this.name.toLowerCase());
+        StoreIconCategoryPref()
+            .setIconCategory(value: this.iconPath.toLowerCase());
       },
     );
   }

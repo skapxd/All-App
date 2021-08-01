@@ -22,8 +22,9 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
-    final vh = MediaQuery.of(context).size.height;
+
     print('Logo - _ImageBusiness: $url');
+
     if (url != '') {
       return Container(
         decoration: BoxDecoration(

@@ -1,6 +1,3 @@
-import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
-import '../../../../../data/shared/pref.dart';
-import '../../../../../data/storage/storage.dart';
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,7 +70,6 @@ class _ModalButtomProductoState extends State<ModalButtomProducto> {
     final double vh = MediaQuery.of(context).size.height;
     final double vw = MediaQuery.of(context).size.width;
 
-    final _miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
     final _productoBloc = BlocProvider.of<CrearProductoBloc>(context);
 
     return FutureBuilder(

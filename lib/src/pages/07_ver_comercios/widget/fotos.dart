@@ -23,11 +23,8 @@ class Fotos extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
 
     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
-
-    final double vh = MediaQuery.of(context).size.height;
     return Container(
       height: vw * 0.4,
       child: StreamBuilder(

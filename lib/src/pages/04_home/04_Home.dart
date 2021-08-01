@@ -70,8 +70,6 @@ class _HomeState extends State<Home>
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     Pref().lastPage = Home.pathName;
 

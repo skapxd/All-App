@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:allapp/src/data/services/stores/stores.service.dart';
-import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
-import 'package:allapp/src/utils/utils.dart';
+import '../../../../data/services/stores/stores_service.dart';
+import '../../../../data/shared/store_pref/store_pref.dart';
+import '../../../../utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../data/shared/pref.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -19,7 +18,7 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
   ComercioBloc()
       : super(
           ComercioState(
-            aceptoTerminos: Pref().ifVerInfoDeTienda,
+            aceptoTerminos: StoreIfUserTermPref().getUserTerm(),
             markers: Map(),
             ifVisible: false,
           ),
@@ -168,7 +167,7 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
         return e.value.position;
       }).toList();
 
-      StorePrefPosition().setLatLngList(listOfLatLng: listOfLatLng);
+      StorePositionPref().setLatLngList(value: listOfLatLng);
 
       final customGeoLocation = listOfLatLng.map((e) {
         return CustomGeoLocation(lat: e.latitude, lng: e.longitude);

@@ -1,6 +1,6 @@
-import 'package:allapp/src/proximamente/analiticas.dart';
-import 'package:allapp/src/proximamente/historial_de_clientes.dart';
-import 'package:allapp/src/proximamente/historial_de_ventas.dart';
+import '../../proximamente/analiticas.dart';
+import '../../proximamente/historial_de_clientes.dart';
+import '../../proximamente/historial_de_ventas.dart';
 import 'package:flutter/services.dart';
 
 import 'crear_comercio/grupo_productos/grupo_productos.dart';
@@ -18,8 +18,6 @@ class TiendaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
-    // View Height
-    final double vh = MediaQuery.of(context).size.height;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

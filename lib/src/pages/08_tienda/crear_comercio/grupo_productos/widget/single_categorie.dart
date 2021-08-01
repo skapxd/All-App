@@ -1,9 +1,7 @@
 import 'dart:math';
 
-import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../crear-producto-page/crear_producto_page.dart';
 
@@ -25,8 +23,6 @@ class SingleCategorie extends StatelessWidget {
     final r = random.nextInt(150) + 50;
     final g = random.nextInt(150) + 50;
     final b = random.nextInt(150) + 50;
-
-    final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
 
     return Container(
       margin: EdgeInsets.only(
