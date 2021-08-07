@@ -174,7 +174,7 @@ class ComercioBloc extends Bloc<ComercioEvent, ComercioState> {
       }).toList();
 
       print('ComercioBloc - listOfLatLng: ${state.listOfLatLng}');
-      StoresService().setLocationInDB(
+      SetLocationStoreService().push(
         geolocationStore: customGeoLocation,
         onProgress: () {
           customShowSnackBar(

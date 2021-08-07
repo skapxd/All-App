@@ -150,28 +150,31 @@ class RequesWhatsAppCode extends StatelessWidget {
     //
 
     UserPhonePref().setPhone(phone: phoneBloc.state.modelPhone.phone);
-    UserCountryCodePref()
+    UserCountryCodePref()asd
         .setCountryCode(countryCode: phoneBloc.state.modelPhone.code);
     UserTokenPref().setToken(token: login.token);
-    UserNamePref().setName(name: login.user.name);
+    UserNamePref().setName(name: login.userLogin?.name);
 
     //
 
-    StoreIfVisiblePref().setIfVisible(value: login.store.visibility);
-    StoreLogoPref().setUrlLogo(value: login.store.urlImage);
-    StoreNamePref().setName(value: login.store.nameStore);
-    StoreCategoryPref().setCategory(category: login.store.category);
+    StoreIfVisiblePref().setIfVisible(value: login.storeLogin?.visibilityStore);
+    StoreLogoPref().setUrlLogo(value: login.storeLogin.urlImageStore);
+    StoreNamePref().setName(value: login.storeLogin.nameStore);
+    StoreCategoryPref().setCategory(category: login.storeLogin.categoryStore);
     StoreIconCategoryPref()
-        .setIconCategory(value: login.store.iconPathCategory);
+        .setIconCategory(value: login.storeLogin.iconPathCategoryStore);
 
-    StorePhonePref().setPhone(value: login.store.contact.phoneCall);
-    StoreWhatsAppPref().setWhatsApp(value: login.store.contact.whatsApp);
-    StoreTelegramPref().setTelegram(value: login.store.contact.telegram);
+    StorePhonePref().setPhone(value: login.storeLogin.contactStore.phoneCall);
+    StoreWhatsAppPref()
+        .setWhatsApp(value: login.storeLogin.contactStore.whatsApp);
+    StoreTelegramPref()
+        .setTelegram(value: login.storeLogin.contactStore.telegram);
 
-    StoreDescriptionPref().setDescription(value: login.store.description);
+    StoreDescriptionPref()
+        .setDescription(value: login.storeLogin.descriptionStore);
 
-    final latLngList = login.store.address.map((e) {
-      final temp = LatLng(e.latLng.lat, e.latLng.lng);
+    final latLngList = login.storeLogin.addressStore.map((e) {
+      final temp = LatLng(e.latLngStore.lat, e.latLngStore.lng);
       return temp;
     }).toList();
 

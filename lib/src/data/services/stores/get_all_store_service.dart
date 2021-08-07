@@ -1,6 +1,6 @@
-part of './stores_service.dart';
+part of 'stores_service.dart';
 
-class StoreGetAllService extends UrlBase {
+class GetAllStoreService extends UrlBase {
   Future<CacheStoreModel> getStore({
     @required AddressModel cityPath,
     @required String category,
@@ -13,6 +13,9 @@ class StoreGetAllService extends UrlBase {
       'department': cityPath.department,
     };
 
+    print('GetAllStoreService $data');
+    print('GetAllStoreService $category');
+
     if (category != null) {
       data.addAll({'category': category});
     }
@@ -21,6 +24,9 @@ class StoreGetAllService extends UrlBase {
           '/api-v1/stores',
           queryParameters: data,
         );
+
+    print(res);
+
     return CacheStoreModel.fromMap(res.data);
   }
 }

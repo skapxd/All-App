@@ -29,55 +29,6 @@ class PermisosPage extends StatelessWidget {
   }
 }
 
-// class PopupRequestActivateGeolocation extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     // View Width
-//     final double vw = MediaQuery.of(context).size.width;
-//     // View Height
-//     final double vh = MediaQuery.of(context).size.height;
-
-//     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context);
-
-//     return StreamBuilder(
-//       stream: miUbicacionBloc.statusStream,
-//       builder:
-//           (BuildContext context, AsyncSnapshot<LP.ServiceStatus> snapshot) {
-//         print(snapshot.data);
-//         if (snapshot.data == LP.ServiceStatus.disabled ||
-//             snapshot.data == null) {
-//           return Container(
-//             alignment: Alignment.center,
-//             height: double.infinity,
-//             width: double.infinity,
-//             color: rgbColor(0, 0, 0, 0.4),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Container(
-//                   width: vw * 0.5,
-//                   height: vw * 0.5,
-//                   color: Colors.white,
-//                   child: Center(
-//                     child: Text(
-//                       'Por favor active el geolocalizador',
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(color: hexaColor('#303030')),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           );
-//         }
-
-//         return Container();
-//       },
-//     );
-//   }
-// }
-
 class RequestPermisionPage extends StatelessWidget {
   const RequestPermisionPage({
     Key key,

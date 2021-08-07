@@ -1,6 +1,8 @@
+import 'package:allapp/src/pages/08_tienda/crear_comercio/crear_producto_page/bloc/crear_producto_page_bloc.dart';
+import 'package:allapp/src/pages/08_tienda/crear_comercio/create_category_product/bloc/create_category_product_bloc.dart';
+
 import 'pages/02_03_Phone/bloc/phone_bloc.dart';
 import 'pages/04_home/bloc/home_bloc.dart';
-import 'pages/08_tienda/crear_comercio/crear-producto-page/bloc/crear_producto_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +26,7 @@ class MainProvider extends StatelessWidget {
         BlocProvider(create: (_) => new MapaBloc()),
         BlocProvider(create: (_) => new HomeBloc()),
         BlocProvider(create: (_) => new CrearProductoBloc()),
+        BlocProvider(create: (_) => new CreateCategoryProductBloc()),
       ],
       child: this.child,
     );

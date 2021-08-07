@@ -2,7 +2,7 @@
 // //     as Cache;
 // import 'package:allapp/src/models/cache_store_model/__cache_store_model.dart'
 //     as Cache;
-import 'package:allapp/src/models/store_model.dart' as LP;
+import 'package:allapp/src/models/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -54,7 +54,7 @@ class _VerMapaPageState extends State<VerMapaPage>
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<LP.StoreLatLng> position = args['latLng'];
+    final List<LatLngStore> position = args['latLng'];
 
     print('VerMapaPage - position: $position');
 

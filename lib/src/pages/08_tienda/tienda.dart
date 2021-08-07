@@ -3,13 +3,13 @@ import '../../proximamente/historial_de_clientes.dart';
 import '../../proximamente/historial_de_ventas.dart';
 import 'package:flutter/services.dart';
 
-import 'crear_comercio/grupo_productos/grupo_productos.dart';
 import '../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'crear_comercio/06_crear_comercio.dart';
 import 'crear_comercio/add-photos-page/Photos_Page.dart';
+import 'crear_comercio/create_category_product/category_product_page.dart';
 
 class TiendaPage extends StatelessWidget {
   static final String pathName = '/TiendaPage';
@@ -72,7 +72,7 @@ class TiendaPage extends StatelessWidget {
               ),
               onTap: () => Navigator.pushNamed(
                 context,
-                GrupoProductosPage.pathName,
+                CategoryProductPage.pathName,
               ),
             ),
             ListTile(

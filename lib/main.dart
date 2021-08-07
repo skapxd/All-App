@@ -1,3 +1,6 @@
+import 'package:allapp/src/pages/01_wellcome/01_wellcome.dart';
+import 'package:allapp/src/pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+
 import 'src/provider.dart';
 import 'src/router.dart';
 
@@ -67,8 +70,8 @@ class _MyAppState extends State<MyApp> {
             selectionHandleColor: hexaColor('#FFFFFF'),
           ),
         ),
-        initialRoute: Pref().lastPage,
-        // initialRoute: WelcomePage.pathName,
+        // initialRoute: Pref().lastPage,
+        initialRoute: WelcomePage.pathName,
         routes: router,
       ),
     );
@@ -76,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 // flutter build appbundle --target-platform android-arm,android-arm64,android-x64
-// flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --obfuscate
+// flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --obfuscate --split-debug-info=/app-ofuscate
 // Construir apk   flutter build apk --release 
 
 // Comando para cambiar el icono

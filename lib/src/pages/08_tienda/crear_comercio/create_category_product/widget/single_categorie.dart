@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:allapp/src/pages/08_tienda/crear_comercio/crear_producto_page/crear_producto_page.dart';
+
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../crear-producto-page/crear_producto_page.dart';
 
 class SingleCategorie extends StatelessWidget {
   final int index;

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:allapp/src/models/store_model.dart';
+
 import '../pref.dart';
-import '../../../models/store_model.dart' as StoreModel;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'store_logo_pref.dart';

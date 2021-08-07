@@ -1,3 +1,6 @@
+import 'package:allapp/src/data/shared/produc_store_pref/product_store_pref.dart';
+import 'package:allapp/src/pages/08_tienda/crear_comercio/create_category_product/bloc/create_category_product_bloc.dart';
+
 import '../../../../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
 import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -13,94 +16,54 @@ class ModalButtomGrupoProductos extends StatelessWidget {
     final double vh = MediaQuery.of(context).size.height;
     final double vw = MediaQuery.of(context).size.width;
     final miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
+    final categoryProductBloc =
+        BlocProvider.of<CreateCategoryProductBloc>(context);
 
-    return FutureBuilder(
-      // future: DBFirestore().getCategory(categories: 'supermercado'),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        //
-
-        final data = snapshot.data;
-
-        if (data == null) {
-          return Container(
-            height: vh * 0.8,
-            padding: EdgeInsets.only(
-              top: vw * 0.07,
-              left: vw * 0.07,
-              right: vw * 0.07,
-            ),
-            decoration: BoxDecoration(
-              color: hexaColor('#333333'),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(vw * 0.05),
-                topRight: Radius.circular(vw * 0.05),
-              ),
-            ),
-          );
-        }
-
-        return Container(
-          height: vh * 0.8,
-          padding: EdgeInsets.only(
-            top: vw * 0.07,
-            left: vw * 0.07,
-            right: vw * 0.07,
+    return Container(
+      height: vh * 0.3,
+      padding: EdgeInsets.only(
+        top: vw * 0.07,
+        left: vw * 0.07,
+        right: vw * 0.07,
+      ),
+      decoration: BoxDecoration(
+        color: hexaColor('#303030'),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(vw * 0.05),
+          topRight: Radius.circular(vw * 0.05),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: vw * 0.05,
           ),
-          decoration: BoxDecoration(
-            color: hexaColor('#303030'),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(vw * 0.05),
-              topRight: Radius.circular(vw * 0.05),
-            ),
+          _CrearCategoria(
+            vw: vw,
+            miUbicacionBloc: miUbicacionBloc,
+            onPress: (value) {
+              Navigator.pop(context);
+              categoryProductBloc.add(AddCategory(value));
+            },
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Text(
-                  'Elige un grupo de productos',
-                  style: TextStyle(
-                    color: hexaColor('#FFFFFF'),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: vw * 0.05,
-              ),
-              Expanded(
-                child: Container(
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return TitleGrupoProductos(
-                        name: data[index],
-                      );
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: vw * 0.05,
-              ),
-              _CrearCategoria(vw: vw, miUbicacionBloc: miUbicacionBloc),
-            ],
-          ),
-        );
-      },
+        ],
+      ),
     );
   }
 }
 
 class _CrearCategoria extends StatefulWidget {
-  const _CrearCategoria({
+  _CrearCategoria({
     Key key,
     @required this.vw,
     @required this.miUbicacionBloc,
+    this.onPress,
   }) : super(key: key);
 
   final double vw;
   final MiUbicacionState miUbicacionBloc;
+  final void Function(String value) onPress;
 
   @override
   __CrearCategoriaState createState() => __CrearCategoriaState();
@@ -117,7 +80,9 @@ class __CrearCategoriaState extends State<_CrearCategoria> {
       children: [
         Container(
           child: Text(
-            'Si no encuentras un grupo de productos apropiado, puedes crearlo',
+            'Crear categoria',
+            // 'Si no encuentras un grupo de productos apropiado, puedes crearlo',
+            textAlign: TextAlign.left,
             style: TextStyle(
               color: hexaColor('#FFFFFF'),
             ),
@@ -171,8 +136,6 @@ class __CrearCategoriaState extends State<_CrearCategoria> {
               onPressed: () {
                 //
 
-                print(this._nombreCategoria);
-
                 if (this._nombreCategoria != null &&
                     this._nombreCategoria != '') {
                   // DBFirestore().addMyCategori(
@@ -180,7 +143,10 @@ class __CrearCategoriaState extends State<_CrearCategoria> {
                   //   cityPath: widget.miUbicacionBloc.address,
                   //   categories: this._nombreCategoria,
                   // );
-                  Navigator.pop(context);
+
+                  if (widget.onPress != null) {
+                    widget.onPress(this._nombreCategoria);
+                  }
                 }
               },
               child: Text(

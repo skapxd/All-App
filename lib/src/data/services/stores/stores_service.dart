@@ -7,8 +7,9 @@ import 'package:meta/meta.dart';
 
 import '../url_base.dart';
 
-part 'store_create_service.dart';
-part 'store_get_all_service.dart';
+part 'create_store_service.dart';
+part 'get_all_store_service.dart';
+part 'set_location_store_service.dart';
 
 class CustomGeoLocation {
   final double lat;
@@ -142,54 +143,55 @@ class StoresService extends UrlBase {
     }
   }
 
-  Future<void> setLocationInDB({
-    List<CustomGeoLocation> geolocationStore,
-    void Function() onProgress,
-    void Function({dynamic data}) onSuccess,
-    void Function({dynamic data}) onFailed,
-  }) async {
-    Map<String, dynamic> data = {};
+  // Future<void> setLocationInDB({
+  //   List<CustomGeoLocation> geolocationStore,
+  //   void Function() onProgress,
+  //   void Function({dynamic data}) onSuccess,
+  //   void Function({dynamic data}) onFailed,
+  // }) async {
+  //   Map<String, dynamic> data = {};
 
-    List<Map<String, double>> geolocation = [];
+  //   List<Map<String, double>> geolocation = [];
 
-    if (geolocationStore != null) {
-      //
+  //   if (geolocationStore != null) {
+  //     //
 
-      geolocation = geolocationStore.map((e) {
-        final Map<String, double> i = {
-          'lat': e.lat,
-          'lng': e.lng,
-        };
+  //     geolocation = geolocationStore.map((e) {
+  //       final Map<String, double> i = {
+  //         'lat': e.lat,
+  //         'lng': e.lng,
+  //       };
 
-        return i;
-      }).toList();
+  //       return i;
+  //     }).toList();
 
-      data.addAll({'latLng': geolocation});
-    }
+  //     data.addAll({'latLng': geolocation});
+  //   }
 
-    if (onProgress != null) {
-      onProgress();
-    }
+  //   if (onProgress != null) {
+  //     onProgress();
+  //   }
 
-    dynamic res;
+  //   dynamic res;
 
-    try {
-      //
+  //   try {
+  //     //
 
-      res = (await this.urlBase.post('/api-v1/stores/set-location', data: data))
-          .data;
-    } catch (e) {
-      //
+  //     res = (await this.urlBase.post('/api-v1/stores/set-location', data: data))
+  //         .data;
+  //   } catch (e) {
+  //     //
 
-      if (onFailed != null) {
-        onFailed();
-      }
-    }
+  //     if (onFailed != null) {
+  //       onFailed();
+  //     }
+  //   }
 
-    if (res['success'] && onSuccess != null) {
-      onSuccess(data: res);
-    } else if (!res['success'] && onFailed != null) {
-      onFailed(data: res);
-    }
-  }
+  //   if (res['success'] && onSuccess != null) {
+  //     onSuccess(data: res);
+  //   } else if (!res['success'] && onFailed != null) {
+  //     onFailed(data: res);
+  //   }
+  // }
+
 }

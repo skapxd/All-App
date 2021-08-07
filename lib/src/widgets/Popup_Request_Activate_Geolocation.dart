@@ -61,13 +61,13 @@ class _PopupRequestActivateGeolocationState
           );
         }
 
-        if (_miUbicacionBloc.state.initPosition == null) {
-          accesoGps(
-            onGranted: () {
-              _miUbicacionBloc.initPosition();
-            },
-          );
-        }
+        // if (_miUbicacionBloc.state.initPosition == null) {
+        //   accesoGps(
+        //     onGranted: () {
+        //       _miUbicacionBloc.initPosition();
+        //     },
+        //   );
+        // }
 
         return Container();
       },

@@ -135,7 +135,7 @@ class _DefaultImageOrUrlLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final double vw = MediaQuery.of(context).size.width;
 
-    if (this.urlLogo != null) {
+    if (this.urlLogo != '') {
       return FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,
         image: this.urlLogo,

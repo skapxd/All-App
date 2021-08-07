@@ -5,7 +5,7 @@ class StoreLogoPref {
 
   final _pathUrlLogo = 'UrlLogo';
 
-  void setUrlLogo({String value}) {
+  void setUrlLogo({String value = ''}) {
     _pref.setAnyData(
       path: this._pathUrlLogo,
       object: value,

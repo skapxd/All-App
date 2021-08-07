@@ -5,7 +5,7 @@ class StorePositionPref {
 
   final pathLatLngList = 'LatLngList';
 
-  void setLatLngList({List<LatLng> value}) {
+  void setLatLngList({List<LatLng> value = const []}) {
     if (value != null) {
       final dataToMap = value.map((e) {
         return {
@@ -24,16 +24,17 @@ class StorePositionPref {
     }
   }
 
-  List<StoreModel.StoreLatLng> getLatLngList() {
+  List<LatLngStore> getLatLngList() {
+    // List<LatLngStore> getLatLngList() {
     final getDataAsString = _pref.getAnyData(path: pathLatLngList);
     if (getDataAsString == null) {
-      return List<StoreModel.StoreLatLng>.empty();
+      return List<LatLngStore>.empty();
     }
     final List<dynamic> getDataAsList =
         // final List<Map<String, double>> getDataAsList =
         json.decode(getDataAsString);
-    final List<StoreModel.StoreLatLng> listLatLng = getDataAsList.map((e) {
-      return StoreModel.StoreLatLng(
+    final List<LatLngStore> listLatLng = getDataAsList.map((e) {
+      return LatLngStore(
         lat: e['lat'],
         lng: e['lng'],
       );

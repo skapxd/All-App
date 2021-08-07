@@ -55,7 +55,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
 
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    final List<StoreLatLng> position = args['latLng'];
+    final List<LatLngStore> position = args['latLng'];
 
     print('VerMapaPage - position: ${position.toString()}');
 
@@ -159,7 +159,7 @@ class _ComercioMapaPageState extends State<ComercioMapaPage> {
 
   void initMarkers(
     BuildContext context,
-    List<StoreLatLng> position,
+    List<LatLngStore> position,
     // MarkerId markerId,
     Map<MarkerId, Marker> markers,
   ) {

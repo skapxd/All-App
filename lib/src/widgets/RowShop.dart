@@ -45,7 +45,7 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
           //   },
           // ),
 
-          future: StoreGetAllService().getStore(
+          future: GetAllStoreService().getStore(
             cityPath: state.address,
             category: this.category,
           ),
@@ -56,13 +56,9 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
             //
 
             final data = snapshot.data;
-            print(state.initPosition);
 
-            // print(data);
             if (data == null || state.initPosition == null) {
-              // return Container();
               return Container(
-                // margin: EdgeInsets.only(top: vw * 0.06),
                 margin: EdgeInsets.only(top: vw * 0.02),
                 child: Column(
                   children: [
@@ -110,8 +106,6 @@ class FilaDeSubCategoriaDeTiendas extends StatelessWidget {
                     ),
                   ),
                   FilaDeTiendas(
-                    // nameBusiness: this.nameBusiness,
-                    // listStoreModel: listStoreModel,
                     listStoreModel: data.storeModel,
                     ruburo: this.category,
                   ),
@@ -301,7 +295,7 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     final vw = MediaQuery.of(context).size.width;
 
-    if (this.storeModel.visibility == false) {
+    if (this.storeModel.visibilityStore == false) {
       return Container(
         margin: index == 0
             ? EdgeInsets.only(
@@ -378,8 +372,11 @@ class _ImageBusiness extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('_ImageBusiness - ${storeModel.urlImageStore}');
+
     final vw = MediaQuery.of(context).size.width;
-    if (this.storeModel.urlImage != null && this.storeModel.urlImage != '') {
+    if (this.storeModel.urlImageStore != null &&
+        this.storeModel.urlImageStore != '') {
       return InkWell(
         onTap: () {
           print(storeModel.nameStore);
@@ -408,7 +405,7 @@ class _ImageBusiness extends StatelessWidget {
             borderRadius: BorderRadius.circular(vw * 0.05),
             child: FadeInImage.memoryNetwork(
               placeholder: kTransparentImage,
-              image: this.storeModel.urlImage,
+              image: this.storeModel.urlImageStore,
               height: vw * 0.25,
               width: vw * 0.25,
               fit: BoxFit.cover,

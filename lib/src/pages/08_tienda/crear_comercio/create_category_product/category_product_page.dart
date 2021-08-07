@@ -1,24 +1,35 @@
+import 'package:allapp/src/data/shared/produc_store_pref/product_store_pref.dart';
+import 'package:allapp/src/pages/08_tienda/crear_comercio/create_category_product/widget/title_grupo_producto.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'bloc/create_category_product_bloc.dart';
 import 'widget/modal_buttom_grupo_productos.dart';
 import 'widget/single_categorie.dart';
 
-class GrupoProductosPage extends StatelessWidget {
-  static final String pathName = '/CrearProductosPage';
+class CategoryProductPage extends StatelessWidget {
+  static final String pathName = '/CategoryProductPage';
+
+  // final colorBase = hexaColor('#ffffff', opacity: 0);
+  // final colorActivate = hexaColor('#ffffff', opacity: 1);
 
   @override
   Widget build(BuildContext context) {
     // View Width
     final double vw = MediaQuery.of(context).size.width;
 
+    final categoryProductBloc =
+        BlocProvider.of<CreateCategoryProductBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'GRUPO DE PRODUCTOS',
+          'CATEGORIAS',
           // textAlign: TextAlign.center,
           style: TextStyle(
             height: 1.5,
@@ -29,7 +40,13 @@ class GrupoProductosPage extends StatelessWidget {
         ),
         leading: InkWell(
           borderRadius: BorderRadius.circular(vw),
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            if (categoryProductBloc.state.toggleColor) {
+              categoryProductBloc.add(ClearItemSelected());
+            } else {
+              Navigator.pop(context);
+            }
+          },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 15),
             child: SvgPicture.asset(
@@ -37,6 +54,14 @@ class GrupoProductosPage extends StatelessWidget {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                print('CategoryProductPage delete');
+                categoryProductBloc.add(DeleteAllCategories());
+              }),
+        ],
         elevation: 0,
         centerTitle: true,
         backgroundColor: hexaColor('#303030'),
@@ -53,37 +78,63 @@ class GrupoProductosPage extends StatelessWidget {
         sized: false,
         child: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
-              child: StreamBuilder(
-                // stream: DBFirestore().getMyCategori(
-                //   cityPath: miUbicacionBloc.address,
-                //   phoneIdStore: Pref().phone,
+            Expanded(
+              child: Container(
+                child: ListView.builder(
+                  itemCount: categoryProductBloc.state.listCategory.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final list =
+                        categoryProductBloc.state.listCategory.toList();
+                    return TitleGrupoProductos(
+                      name: list[index],
+                      // color: ,
+                    );
+                    //                       return SingleCategorie(
+                    //   index: index,
+                    //   data:  state.listCategory[index].id,
+                    // );
+                  },
+                ),
+                // child: BlocBuilder<CreateCategoryProductBloc,
+                //     CreateCategoryProductState>(
+                //   builder: (context, state) {
+
+                //   },
                 // ),
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-                ) {
-                  //
-
-                  if (snapshot.data == null) {
-                    return Container();
-                  }
-                  final data = snapshot.data.docs;
-
-                  return ListView.builder(
-                    itemCount: data.length,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return SingleCategorie(
-                        index: index,
-                        data: data[index].id,
-                      );
-                    },
-                  );
-                },
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.only(left: 20, right: 20),
+            //   child: StreamBuilder(
+            //     // stream: DBFirestore().getMyCategori(
+            //     //   cityPath: miUbicacionBloc.address,
+            //     //   phoneIdStore: Pref().phone,
+            //     // ),
+            //     builder: (
+            //       BuildContext context,
+            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+            //     ) {
+            //       //
+
+            //       if (snapshot.data == null) {
+            //         return Container();
+            //       }
+            //       final data = snapshot.data.docs;
+
+            //       return ListView.builder(
+            //         itemCount: data.length,
+            //         physics: BouncingScrollPhysics(),
+            //         itemBuilder: (context, index) {
+            //           return SingleCategorie(
+            //             index: index,
+            //             data: data[index].id,
+            //           );
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
             Positioned(
               bottom: 14.5,
               right: 14.5,

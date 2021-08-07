@@ -3,7 +3,7 @@ part of 'store_pref.dart';
 class StoreIfVisiblePref {
   final _pref = Pref();
   final _storeIfVisible = 'StoreIfVisible';
-  void setIfVisible({bool value}) {
+  void setIfVisible({bool value = true}) {
     _pref.setAnyData(
       path: this._storeIfVisible,
       object: value.toString(),

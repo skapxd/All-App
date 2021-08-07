@@ -36,6 +36,14 @@ class VerComercios extends StatelessWidget {
       nameSplit.insert(16, '\n');
     }
 
+    String description;
+
+    if (data.descriptionStore.length >= 90) {
+      description = data.descriptionStore.substring(0, 90) + '...';
+    } else {
+      description = data.descriptionStore;
+    }
+
     return Scaffold(
       body: CustomBackgroundGradient(
         child: SingleChildScrollView(
@@ -54,7 +62,7 @@ class VerComercios extends StatelessWidget {
                       onTap: () {},
                       storeModel: data,
                       ruburo: ruburo,
-                      url: data.urlImage,
+                      url: data.urlImageStore,
                     ),
                     SizedBox(
                       width: 20,
@@ -115,9 +123,7 @@ class VerComercios extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: vw * 0.06),
                 child: Text(
-                  'Nisi excepteur id laboris quis tempor. Incididunt sit excepteur dolor mollit mollit nostrud qui est laboris nostrud dolor non velit dolore. Qui culpa aute sunt officia Lorem. Aliquip Lorem non excepteur sunt ipsum sint pariatur deserunt fugiat in qui eiusmod proident quis. Consequat cupidatat deserunt nisi quis tempor velit aliquip occaecat aliquip culpa.'
-                          .substring(0, 90) +
-                      '...',
+                  description,
                   style: TextStyle(color: hexaColor('#777777')),
                 ),
               ),
@@ -207,15 +213,16 @@ class _Links extends StatelessWidget {
           // color: Colors.red,
           child: Column(
             children: [
-              data.contact.phoneCall == null || data.contact.phoneCall == ''
+              data.contactStore.phoneCall == null ||
+                      data.contactStore.phoneCall == ''
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/call.svg',
-                      text: data.contact.phoneCall,
+                      text: data.contactStore.phoneCall,
                       onTap: () async {
                         final _url = Uri(
                           scheme: 'tel',
-                          path: data.contact.phoneCall.replaceAll(' ', ''),
+                          path: data.contactStore.phoneCall.replaceAll(' ', ''),
                         ).toString();
 
                         await canLaunch(_url)
@@ -223,7 +230,8 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                     ),
-              data.contact.whatsApp == null || data.contact.whatsApp == ''
+              data.contactStore.whatsApp == null ||
+                      data.contactStore.whatsApp == ''
                   ? Container()
                   : _Contact(
                       onTap: () async {
@@ -233,7 +241,7 @@ class _Links extends StatelessWidget {
                           path: '/send',
                           queryParameters: {
                             'phone': '57' +
-                                data.contact.whatsApp.replaceAll(' ', ''),
+                                data.contactStore.whatsApp.replaceAll(' ', ''),
                             'text': '',
                             'app_absent': '0'
                           },
@@ -244,18 +252,19 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                       iconPath: 'assets/icons/whatsapp.svg',
-                      text: data.contact.whatsApp,
+                      text: data.contactStore.whatsApp,
                     ),
-              data.contact.telegram == null || data.contact.telegram == ''
+              data.contactStore.telegram == null ||
+                      data.contactStore.telegram == ''
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/telegram.svg',
-                      text: data.contact.telegram,
+                      text: data.contactStore.telegram,
                       onTap: () async {
                         final _url = Uri(
                           scheme: 'https',
                           host: 't.me',
-                          path: data.contact.telegram.replaceAll('@', ''),
+                          path: data.contactStore.telegram.replaceAll('@', ''),
                         ).toString();
 
                         await canLaunch(_url)
@@ -263,7 +272,7 @@ class _Links extends StatelessWidget {
                             : throw 'Could not launch $_url';
                       },
                     ),
-              data.address.isEmpty
+              data.addressStore.isEmpty
                   ? Container()
                   : _Contact(
                       iconPath: 'assets/icons/lat-lan.svg',
@@ -272,7 +281,9 @@ class _Links extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           VerMapaPage.pathName,
-                          arguments: {'latLng': data.address[0].latLng},
+                          arguments: {
+                            'latLng': data.addressStore[0].latLngStore
+                          },
                         );
                       },
                     ),

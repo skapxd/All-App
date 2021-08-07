@@ -222,6 +222,7 @@ Se asumirá que usted está de acuerdo si decide continuar
                         initialImage: StoreLogoPref().getUrlLogo(),
                         onSelected: (file) {
                           comercioBloc.add(AddComercioIcon(file));
+
                           print(file);
                         },
                       ),
@@ -263,19 +264,28 @@ Se asumirá que usted está de acuerdo si decide continuar
                                 },
                               ),
                               CustomButton(
+                                // ifData: false,
+                                // iconPath: 'assets/icons/settings-shop-2.svg',
                                 ifData:
                                     StoreIconCategoryPref().getIconCategory() !=
-                                                null ||
+                                                '' ||
                                             state.pathTipoDeTienda != null
                                         ? true
                                         : false,
-                                iconPath:
-                                    StoreIconCategoryPref().getIconCategory() ??
-                                        state.pathTipoDeTienda ??
-                                        'assets/icons/settings-shop-2.svg',
-                                text: StoreCategoryPref().getCategory() ??
-                                    state.nombreTipoDeTienda ??
-                                    'Tipo de tienda',
+
+                                iconPath: StoreIconCategoryPref()
+                                                .getIconCategory() !=
+                                            '' &&
+                                        state.pathTipoDeTienda != null
+                                    ? StoreIconCategoryPref().getIconCategory()
+                                    : 'assets/icons/settings-shop-2.svg',
+
+                                text:
+                                    StoreCategoryPref().getCategory() != null &&
+                                            state.nombreTipoDeTienda != null
+                                        ? StoreCategoryPref().getCategory()
+                                        : 'Tipo de tienda',
+                                // text: 'Tipo de tienda',
                                 ifEnable: StoreIfFormEditPref().getIfFormEdit(),
                                 onTap: () {
                                   showModalBottomSheet(
@@ -396,22 +406,23 @@ Se asumirá que usted está de acuerdo si decide continuar
                           if (_formKey.currentState.validate()) {
                             final comercioBloc =
                                 BlocProvider.of<ComercioBloc>(context);
+
                             final file = comercioBloc.state.icon?.path;
 
                             if (file != null) {
                               await storesService.uploadLogo(
                                 file: file,
-                                onFailed: (error) {},
+                                onFailed: (error) {
+                                  print('storesService.uploadLogo $error');
+                                },
                                 onSuccess: (String urlLogo) {
+                                  print('storesService.uploadLogo $urlLogo');
                                   StoreLogoPref().setUrlLogo(value: urlLogo);
                                 },
                               );
                             }
 
-                            print(
-                                'crear comercio page ${StoreIconCategoryPref().getIconCategory()}');
-
-                            StoreCreateService(
+                            CreateStoreService(
                               iconPathCategory:
                                   StoreIconCategoryPref().getIconCategory(),
                               description:
