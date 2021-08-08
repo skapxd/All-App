@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 
 class TitleGrupoProductos extends StatefulWidget {
   final String name;
+  final int index;
 
   TitleGrupoProductos({
     @required this.name,
+    @required this.index,
     Key key,
   }) : super(key: key);
 
@@ -26,24 +28,25 @@ class _TitleGrupoProductosState extends State<TitleGrupoProductos> {
   Stream<bool> get changeColor => _streamController.stream;
 
   bool toggleColorLocal;
-  bool ifInit = true;
+  bool listOfSelected;
   CreateCategoryProductBloc categoryProductBloc;
 
   @override
   void initState() {
     super.initState();
-    categoryProductBloc = BlocProvider.of<CreateCategoryProductBloc>(context);
-    toggleColorLocal = false;
-    print('TitleGrupoProductos ${categoryProductBloc.state.toggleColor}');
 
-    // categoryProductBloc.stream.listen((event) {
-    //   print('TitleGrupoProductos ${event.toggleColor}');
-    //   if (event.toggleColor == false && ifInit == false) {
-    //     setState(() {
-    //       toggleColorLocal = false;
-    //     });
-    //   }
-    // });
+    categoryProductBloc = BlocProvider.of<CreateCategoryProductBloc>(context);
+
+    toggleColorLocal = false;
+    listOfSelected = false;
+
+    categoryProductBloc.stream.listen((event) {
+      listOfSelected = event.mapToggleColor.containsValue(true);
+      if (!listOfSelected) {
+        toggleColorLocal = false;
+      }
+      print('TitleGrupoProductos listOfSelected $listOfSelected');
+    });
   }
 
   @override
@@ -69,14 +72,16 @@ class _TitleGrupoProductosState extends State<TitleGrupoProductos> {
           // print(object)
           setState(() {
             this.toggleColorLocal = !this.toggleColorLocal;
-            // categoryProductBloc.add(AddItemSelected());
+            categoryProductBloc
+                .add(MapToggleColor({widget.index: this.toggleColorLocal}));
           });
         },
         onTap: () {
-          if (categoryProductBloc.state.toggleColor) {
+          if (listOfSelected) {
             setState(() {
-              this.toggleColorLocal = true;
-              this.ifInit = false;
+              this.toggleColorLocal = !this.toggleColorLocal;
+              categoryProductBloc
+                  .add(MapToggleColor({widget.index: this.toggleColorLocal}));
             });
           }
           // DBFirestore().addMyCategori(

@@ -4,6 +4,7 @@ class StoreNamePref {
   final _pref = Pref();
   final _storeName = 'StoreName';
   void setName({String value = ''}) {
+    value = value ?? '';
     _pref.setAnyData(
       path: this._storeName,
       object: value,

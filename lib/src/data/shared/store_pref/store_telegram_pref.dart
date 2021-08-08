@@ -4,6 +4,7 @@ class StoreTelegramPref {
   final _pref = Pref();
   final _storeTelegram = 'StoreTelegram';
   void setTelegram({String value = ''}) {
+    value = value ?? '';
     _pref.setAnyData(
       path: this._storeTelegram,
       object: value,

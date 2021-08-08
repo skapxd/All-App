@@ -3,7 +3,8 @@ part of 'store_pref.dart';
 class StoreCategoryPref {
   final _pref = Pref();
   final _storeCategory = 'StoreCategory';
-  void setCategory({String category = ''}) {
+  void setCategory({String category}) {
+    category = category ?? '';
     _pref.setAnyData(
       path: this._storeCategory,
       object: category,

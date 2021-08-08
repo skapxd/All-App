@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:allapp/src/data/shared/produc_store_pref/product_store_pref.dart';
 import 'package:bloc/bloc.dart';
@@ -23,37 +22,44 @@ class CreateCategoryProductBloc
   ) async* {
     if (event is AddCategory) {
       //
+
       listCategory.add(value: event.category);
 
       final listCategoryTemp = listCategory.get();
 
       yield state.copyWith(listCategory: listCategoryTemp);
-    } else if (event is ToggleColor) {
+    } else if (event is MapToggleColor) {
       //
 
-      if (state.itemsSelected > 0) {
-        yield state.copyWith(toggleColor: true);
-      } else {
-        yield state.copyWith(toggleColor: false);
-      }
-    } else if (event is AddItemSelected) {
-      //
+      final newToggleColor = Map<int, bool>.from(state.mapToggleColor);
+      newToggleColor.addAll(event.mapToggleColor);
 
-      final itemsSelected = state.itemsSelected + 1;
-      add(ToggleColor());
-      yield state.copyWith(itemsSelected: itemsSelected);
-    } else if (event is ClearItemSelected) {
-      //
-
-      yield state.copyWith(itemsSelected: 0);
-      print('CreateCategoryProductBloc ${state.itemsSelected}');
-      add(ToggleColor());
+      print('CreateCategoryProductBloc toggle $newToggleColor');
+      yield state.copyWith(mapToggleColor: newToggleColor);
     } else if (event is DeleteAllCategories) {
       //
 
-      listCategory.delete();
+      listCategory.deleteAll();
 
       yield state.copyWith(listCategory: listCategory.get());
+    } else if (event is DeleteGroupCategories) {
+      //
+
+      final getList = ListCategoryProductStorePref().get();
+
+      final List<String> deleteWord = [];
+
+      event.groupCategories.forEach((element) {
+        deleteWord.add(
+          getList[element],
+        );
+      });
+
+      listCategory.deleteGroup(values: deleteWord);
+
+      deleteWord.clear();
+      event.groupCategories.clear();
+      yield state.copyWith(listCategory: ListCategoryProductStorePref().get());
     }
   }
 }

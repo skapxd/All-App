@@ -5,7 +5,8 @@ class StorePositionPref {
 
   final pathLatLngList = 'LatLngList';
 
-  void setLatLngList({List<LatLng> value = const []}) {
+  void setLatLngList({List<LatLng> value}) {
+    value = value ?? [];
     if (value != null) {
       final dataToMap = value.map((e) {
         return {

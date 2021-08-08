@@ -4,6 +4,7 @@ class StoreWhatsAppPref {
   final _pref = Pref();
   final _storeWhatsApp = 'StoreWhatsApp';
   void setWhatsApp({String value = ''}) {
+    value = value ?? '';
     _pref.setAnyData(
       path: this._storeWhatsApp,
       object: value,

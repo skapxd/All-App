@@ -4,6 +4,7 @@ class StoreIfVisiblePref {
   final _pref = Pref();
   final _storeIfVisible = 'StoreIfVisible';
   void setIfVisible({bool value = true}) {
+    value = value ?? true;
     _pref.setAnyData(
       path: this._storeIfVisible,
       object: value.toString(),

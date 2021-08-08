@@ -1,45 +1,59 @@
 part of 'product_store_pref.dart';
 
-// class CategoryProductStore {
-//   final String name;
-
-//   CategoryProductStore(this.name);
-// }
-
 class ListCategoryProductStorePref {
   final _pref = Pref();
   final _pathListCategoryProductStore = 'ListCategoryProductStore';
-  void set({Set<String> value}) {
+  void set({List<String> value}) {
     //
 
-    final setToJson = json.encode(value);
+    final listToJson = json.encode(value);
 
     _pref.setAnyData(
       path: this._pathListCategoryProductStore,
-      object: setToJson,
+      object: listToJson,
     );
   }
 
   void add({String value}) {
-    final listOfClass = get();
+    final listOfString = get();
 
-    listOfClass.add(value);
+    listOfString.add(value);
 
-    set(value: listOfClass);
+    set(value: listOfString);
   }
 
-  void delete() {
+  void deleteAll() {
     this._pref.deleteAnyData(path: this._pathListCategoryProductStore);
   }
 
-  Set<String> get() {
+  void deleteGroup({List<String> values}) {
+    List<String> listOfCategories = get();
+
+    print('ListCategoryProductStorePref delete group $listOfCategories');
+
+    values.forEach((element) {
+      listOfCategories.remove(element);
+    });
+
+    set(value: listOfCategories);
+  }
+
+  List<String> get() {
     //
 
     final mapAsJson =
-        _pref.getAnyData(path: this._pathListCategoryProductStore) ?? '[]';
+        _pref.getAnyData(path: this._pathListCategoryProductStore);
 
-    final Set jsonToSet = json.decode(mapAsJson);
+    List jsonToList;
 
-    return jsonToSet ?? Set<String>.from([]);
+    try {
+      jsonToList = json.decode(mapAsJson);
+    } catch (e) {
+      jsonToList = List<String>.from([]);
+    }
+
+    final listToSet = Set<String>.from(jsonToList.cast<String>());
+
+    return listToSet.toList();
   }
 }

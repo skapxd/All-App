@@ -149,36 +149,46 @@ class RequesWhatsAppCode extends StatelessWidget {
   void setPreferences(BuildContext context, LoginModel login) {
     //
 
-    UserPhonePref().setPhone(phone: phoneBloc.state.modelPhone.phone);
-    UserCountryCodePref()asd
-        .setCountryCode(countryCode: phoneBloc.state.modelPhone.code);
-    UserTokenPref().setToken(token: login.token);
-    UserNamePref().setName(name: login.userLogin?.name);
+    try {
+      UserPhonePref().setPhone(phone: phoneBloc.state.modelPhone.phone);
+      UserCountryCodePref()
+          .setCountryCode(countryCode: phoneBloc.state.modelPhone.code);
+      UserTokenPref().setToken(token: login.token);
+      UserNamePref().setName(name: login.userLogin?.name);
 
-    //
+      //
 
-    StoreIfVisiblePref().setIfVisible(value: login.storeLogin?.visibilityStore);
-    StoreLogoPref().setUrlLogo(value: login.storeLogin.urlImageStore);
-    StoreNamePref().setName(value: login.storeLogin.nameStore);
-    StoreCategoryPref().setCategory(category: login.storeLogin.categoryStore);
-    StoreIconCategoryPref()
-        .setIconCategory(value: login.storeLogin.iconPathCategoryStore);
+      StoreIfVisiblePref()
+          .setIfVisible(value: login.storeLogin?.visibilityStore);
+      StoreLogoPref().setUrlLogo(value: login.storeLogin?.urlImageStore);
+      StoreNamePref().setName(value: login.storeLogin?.nameStore);
+      StoreCategoryPref()
+          .setCategory(category: login.storeLogin?.categoryStore);
+      StoreIconCategoryPref()
+          .setIconCategory(value: login.storeLogin?.iconPathCategoryStore);
 
-    StorePhonePref().setPhone(value: login.storeLogin.contactStore.phoneCall);
-    StoreWhatsAppPref()
-        .setWhatsApp(value: login.storeLogin.contactStore.whatsApp);
-    StoreTelegramPref()
-        .setTelegram(value: login.storeLogin.contactStore.telegram);
+      StorePhonePref()
+          .setPhone(value: login.storeLogin?.contactStore?.phoneCall);
+      StoreWhatsAppPref()
+          .setWhatsApp(value: login.storeLogin?.contactStore?.whatsApp);
+      StoreTelegramPref()
+          .setTelegram(value: login.storeLogin?.contactStore?.telegram);
 
-    StoreDescriptionPref()
-        .setDescription(value: login.storeLogin.descriptionStore);
+      StoreDescriptionPref()
+          .setDescription(value: login.storeLogin?.descriptionStore);
 
-    final latLngList = login.storeLogin.addressStore.map((e) {
-      final temp = LatLng(e.latLngStore.lat, e.latLngStore.lng);
-      return temp;
-    }).toList();
+      List latLngList;
+      if (login.storeLogin?.addressStore != null) {
+        latLngList = login.storeLogin.addressStore.map((e) {
+          final temp = LatLng(e.latLngStore.lat, e.latLngStore.lng);
+          return temp;
+        }).toList();
+      }
 
-    StorePositionPref().setLatLngList(value: latLngList);
+      StorePositionPref().setLatLngList(value: latLngList);
+    } catch (e) {
+      print('EnterCode Error $e');
+    }
 
     Navigator.pushNamedAndRemoveUntil(
       context,

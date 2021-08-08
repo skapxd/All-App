@@ -2,25 +2,26 @@ part of 'create_category_product_bloc.dart';
 
 @immutable
 class CreateCategoryProductState {
-  final Set<String> listCategory;
+  final List<String> listCategory;
+  final Map<int, bool> mapToggleColor;
   final bool toggleColor;
-  final int itemsSelected;
 
   CreateCategoryProductState({
     this.listCategory,
-    this.itemsSelected = 0,
+    this.mapToggleColor = const {},
     this.toggleColor = false,
   });
 
   CreateCategoryProductState copyWith({
-    Set<String> listCategory,
-    bool toggleColor,
+    List<String> listCategory,
+    Map<int, bool> mapToggleColor,
     int itemsSelected,
+    bool toggleColor,
   }) {
     return CreateCategoryProductState(
       listCategory: listCategory ?? this.listCategory,
+      mapToggleColor: mapToggleColor ?? this.mapToggleColor,
       toggleColor: toggleColor ?? this.toggleColor,
-      itemsSelected: itemsSelected ?? this.itemsSelected,
     );
   }
 }

@@ -9,12 +9,9 @@ class AddCategory extends CreateCategoryProductEvent {
   AddCategory(this.category);
 }
 
-class ToggleColor extends CreateCategoryProductEvent {
-  ToggleColor();
-}
-
-class AddItemSelected extends CreateCategoryProductEvent {
-  AddItemSelected();
+class MapToggleColor extends CreateCategoryProductEvent {
+  final Map<int, bool> mapToggleColor;
+  MapToggleColor(this.mapToggleColor);
 }
 
 class ClearItemSelected extends CreateCategoryProductEvent {
@@ -23,4 +20,10 @@ class ClearItemSelected extends CreateCategoryProductEvent {
 
 class DeleteAllCategories extends CreateCategoryProductEvent {
   DeleteAllCategories();
+}
+
+class DeleteGroupCategories extends CreateCategoryProductEvent {
+  final List<int> groupCategories;
+
+  DeleteGroupCategories(this.groupCategories);
 }

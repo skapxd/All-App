@@ -6,8 +6,6 @@ import '../../../../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'title_grupo_producto.dart';
-
 class ModalButtomGrupoProductos extends StatelessWidget {
   //
 
@@ -94,7 +92,7 @@ class __CrearCategoriaState extends State<_CrearCategoria> {
           },
           style: TextStyle(color: Colors.white),
           maxLength: 30,
-          autofocus: false,
+          autofocus: true,
           decoration: InputDecoration(
             counterStyle: TextStyle(
               color: hexaColor('#CCCCCC'),

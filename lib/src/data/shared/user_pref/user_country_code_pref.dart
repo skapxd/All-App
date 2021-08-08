@@ -3,7 +3,8 @@ part of 'user_pref.dart';
 class UserCountryCodePref {
   final _pref = Pref();
   final _userCountryCode = 'UserCountryCode';
-  void setCountryCode({String countryCode = ''}) {
+  void setCountryCode({String countryCode}) {
+    countryCode = countryCode ?? '';
     _pref.setAnyData(
       path: this._userCountryCode,
       object: countryCode,

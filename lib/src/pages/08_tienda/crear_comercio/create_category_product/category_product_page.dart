@@ -41,8 +41,11 @@ class CategoryProductPage extends StatelessWidget {
         leading: InkWell(
           borderRadius: BorderRadius.circular(vw),
           onTap: () {
-            if (categoryProductBloc.state.toggleColor) {
-              categoryProductBloc.add(ClearItemSelected());
+            if (categoryProductBloc.state.mapToggleColor.containsValue(true)) {
+              categoryProductBloc.state.mapToggleColor.forEach((key, value) {
+                print('CategoryProductPage back $key $value');
+                categoryProductBloc.add(MapToggleColor({key: false}));
+              });
             } else {
               Navigator.pop(context);
             }
@@ -55,12 +58,36 @@ class CategoryProductPage extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                print('CategoryProductPage delete');
-                categoryProductBloc.add(DeleteAllCategories());
-              }),
+          BlocBuilder<CreateCategoryProductBloc, CreateCategoryProductState>(
+            builder: (context, state) {
+              if (!state.mapToggleColor.containsValue(true)) {
+                return Container();
+              }
+              return IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  print('CategoryProductPage delete');
+                  List<int> deleteGroup = [];
+                  deleteGroup.clear();
+                  state.mapToggleColor.forEach((key, value) {
+                    if (value == true) {
+                      deleteGroup.add(key);
+                    }
+                  });
+                  categoryProductBloc.add(DeleteGroupCategories(deleteGroup));
+                  if (categoryProductBloc.state.mapToggleColor
+                      .containsValue(true)) {
+                    categoryProductBloc.state.mapToggleColor
+                        .forEach((key, value) {
+                      print('CategoryProductPage back $key $value');
+                      categoryProductBloc.add(MapToggleColor({key: false}));
+                    });
+                  }
+                  // categoryProductBloc.add(DeleteAllCategories());
+                },
+              );
+            },
+          )
         ],
         elevation: 0,
         centerTitle: true,
@@ -78,63 +105,24 @@ class CategoryProductPage extends StatelessWidget {
         sized: false,
         child: Stack(
           children: [
-            Expanded(
-              child: Container(
-                child: ListView.builder(
-                  itemCount: categoryProductBloc.state.listCategory.length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final list =
-                        categoryProductBloc.state.listCategory.toList();
-                    return TitleGrupoProductos(
-                      name: list[index],
-                      // color: ,
-                    );
-                    //                       return SingleCategorie(
-                    //   index: index,
-                    //   data:  state.listCategory[index].id,
-                    // );
-                  },
-                ),
-                // child: BlocBuilder<CreateCategoryProductBloc,
-                //     CreateCategoryProductState>(
-                //   builder: (context, state) {
-
-                //   },
-                // ),
+            Container(
+              child: BlocBuilder<CreateCategoryProductBloc,
+                  CreateCategoryProductState>(
+                builder: (context, state) {
+                  return ListView.builder(
+                    itemCount: state.listCategory.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return TitleGrupoProductos(
+                        name: categoryProductBloc.state.listCategory[index],
+                        index: index,
+                        // color: ,
+                      );
+                    },
+                  );
+                },
               ),
             ),
-            // Container(
-            //   margin: EdgeInsets.only(left: 20, right: 20),
-            //   child: StreamBuilder(
-            //     // stream: DBFirestore().getMyCategori(
-            //     //   cityPath: miUbicacionBloc.address,
-            //     //   phoneIdStore: Pref().phone,
-            //     // ),
-            //     builder: (
-            //       BuildContext context,
-            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-            //     ) {
-            //       //
-
-            //       if (snapshot.data == null) {
-            //         return Container();
-            //       }
-            //       final data = snapshot.data.docs;
-
-            //       return ListView.builder(
-            //         itemCount: data.length,
-            //         physics: BouncingScrollPhysics(),
-            //         itemBuilder: (context, index) {
-            //           return SingleCategorie(
-            //             index: index,
-            //             data: data[index].id,
-            //           );
-            //         },
-            //       );
-            //     },
-            //   ),
-            // ),
             Positioned(
               bottom: 14.5,
               right: 14.5,

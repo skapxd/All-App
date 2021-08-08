@@ -4,6 +4,8 @@ class StoreIconCategoryPref {
   final _pref = Pref();
   final _storeIconCategory = 'StoreIconCategory';
   void setIconCategory({String value = ''}) {
+    value = value ?? '';
+
     _pref.setAnyData(
       path: this._storeIconCategory,
       object: value,
