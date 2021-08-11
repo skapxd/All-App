@@ -61,113 +61,11 @@ class _ItemProductState extends State<ItemProduct> {
 
     return Container(
       color: !this.toggleColorLocal ? colorBase : colorActivate,
-      padding: EdgeInsets.symmetric(
-        vertical: 12,
-      ),
+      // padding: EdgeInsets.symmetric(
+      //   vertical: 12,
+      // ),
       child: ListTile(
-        onLongPress: () {
-          // print(object)
-          setState(() {
-            this.toggleColorLocal = !this.toggleColorLocal;
-            productoBloc
-                .add(MapToggleColor({widget.index: this.toggleColorLocal}));
-          });
-        },
-        onTap: () {
-          if (listOfSelected) {
-            this.toggleColorLocal = !this.toggleColorLocal;
-            productoBloc
-                .add(MapToggleColor({widget.index: this.toggleColorLocal}));
-          } else {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              backgroundColor: rgbColor(0, 0, 0, 0),
-              barrierColor: rgbColor(0, 0, 0, 0),
-              builder: (BuildContext context) {
-                return ModalButtomProducto(
-                  textButtom: 'MODIFICAR',
-                  idProduct: this.widget.data.id,
-                  category: widget.category,
-                  cantidad: this.widget.data.quantityProductStore,
-                  disponibilidad: this.widget.data.availabilityProductStore,
-                  nombre: this.widget.data.nameProductStore,
-                  precio: this.widget.data.priceProductStore,
-                  urlImage: this.widget.data.urlImageProductStore,
-                );
-              },
-            );
-          }
-        },
-        trailing: Container(
-          child: IconButton(
-            icon: Icon(
-              Icons.delete_forever,
-              color: hexaColor('#DDDDDD'),
-            ),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    backgroundColor: hexaColor('#303030'),
-                    title: Text(
-                      'Confirme la eliminación del producto',
-                      style: TextStyle(
-                        color: hexaColor('#DDDDDD'),
-                      ),
-                    ),
-                    actions: [
-                      OutlinedButton(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                            hexaColor('#DDDDDD', opacity: 0.1),
-                          ),
-                        ),
-                        onPressed: () {
-                          //
-
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Mejor no',
-                          style: TextStyle(
-                            color: hexaColor('#DDDDDD'),
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            hexaColor('#DDDDDD'),
-                          ),
-                        ),
-                        onPressed: () {
-                          //
-
-                          // DBFirestore().deleteProducInMyCategori(
-                          //   productName: data.id,
-                          //   categories: category,
-                          //   phoneIdStore: Pref().phone,
-                          //   cityPath: miUbicacionBloc.address,
-                          // );
-
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Borrar',
-                          style: TextStyle(
-                            color: hexaColor('#303030'),
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         leading: Container(
           // height: 80,
           width: 60,
@@ -208,6 +106,109 @@ class _ItemProductState extends State<ItemProduct> {
             color: hexaColor('#DDDDDD'),
           ),
         ),
+        onLongPress: () {
+          // print(object)
+          setState(() {
+            this.toggleColorLocal = !this.toggleColorLocal;
+            productoBloc
+                .add(MapToggleColor({widget.index: this.toggleColorLocal}));
+          });
+        },
+        onTap: () {
+          if (listOfSelected) {
+            this.toggleColorLocal = !this.toggleColorLocal;
+            productoBloc
+                .add(MapToggleColor({widget.index: this.toggleColorLocal}));
+          } else {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              backgroundColor: rgbColor(0, 0, 0, 0),
+              barrierColor: rgbColor(0, 0, 0, 0),
+              builder: (BuildContext context) {
+                return ModalButtomProducto(
+                  textButtom: 'MODIFICAR',
+                  idProduct: this.widget.data.id,
+                  category: widget.category,
+                  cantidad: this.widget.data.quantityProductStore,
+                  disponibilidad: this.widget.data.availabilityProductStore,
+                  nombre: this.widget.data.nameProductStore,
+                  precio: this.widget.data.priceProductStore,
+                  urlImage: this.widget.data.urlImageProductStore,
+                );
+              },
+            );
+          }
+        },
+        // trailing: Container(
+        //   child: IconButton(
+        //     icon: Icon(
+        //       Icons.delete_forever,
+        //       color: hexaColor('#DDDDDD'),
+        //     ),
+        //     onPressed: () {
+        //       showDialog(
+        //         context: context,
+        //         builder: (context) {
+        //           return AlertDialog(
+        //             backgroundColor: hexaColor('#303030'),
+        //             title: Text(
+        //               'Confirme la eliminación del producto',
+        //               style: TextStyle(
+        //                 color: hexaColor('#DDDDDD'),
+        //               ),
+        //             ),
+        //             actions: [
+        //               OutlinedButton(
+        //                 style: ButtonStyle(
+        //                   overlayColor: MaterialStateProperty.all(
+        //                     hexaColor('#DDDDDD', opacity: 0.1),
+        //                   ),
+        //                 ),
+        //                 onPressed: () {
+        //                   //
+
+        //                   Navigator.pop(context);
+        //                 },
+        //                 child: Text(
+        //                   'Mejor no',
+        //                   style: TextStyle(
+        //                     color: hexaColor('#DDDDDD'),
+        //                   ),
+        //                 ),
+        //               ),
+        //               ElevatedButton(
+        //                 style: ButtonStyle(
+        //                   backgroundColor: MaterialStateProperty.all(
+        //                     hexaColor('#DDDDDD'),
+        //                   ),
+        //                 ),
+        //                 onPressed: () {
+        //                   //
+
+        //                   // DBFirestore().deleteProducInMyCategori(
+        //                   //   productName: data.id,
+        //                   //   categories: category,
+        //                   //   phoneIdStore: Pref().phone,
+        //                   //   cityPath: miUbicacionBloc.address,
+        //                   // );
+
+        //                   Navigator.pop(context);
+        //                 },
+        //                 child: Text(
+        //                   'Borrar',
+        //                   style: TextStyle(
+        //                     color: hexaColor('#303030'),
+        //                   ),
+        //                 ),
+        //               )
+        //             ],
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
       ),
     );
   }

@@ -59,9 +59,9 @@ class CrearProductoPage extends StatelessWidget {
           actions: [
             BlocBuilder<CrearProductoBloc, CrearProductoState>(
               builder: (context, state) {
-                // if (!state.mapToggleColor.containsValue(true)) {
-                //   return Container();
-                // }
+                if (!state.mapToggleColor.containsValue(true)) {
+                  return Container();
+                }
                 return IconButton(
                   icon: Icon(Icons.delete),
                   // onPressed: () {},
@@ -74,6 +74,7 @@ class CrearProductoPage extends StatelessWidget {
                         deleteGroup.add(key);
                       }
                     });
+                    print(deleteGroup);
                     productoBloc.add(DeleteGroupCategories(deleteGroup));
                     if (productoBloc.state.mapToggleColor.containsValue(true)) {
                       productoBloc.state.mapToggleColor.forEach((key, value) {

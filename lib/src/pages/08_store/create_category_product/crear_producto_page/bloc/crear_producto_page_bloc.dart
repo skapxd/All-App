@@ -75,9 +75,11 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
     } else if (event is DeleteGroupCategories) {
       //
 
-      final getList = ListCategoryProductStorePref().get();
+      print('object');
 
-      final List<String> deleteWord = [];
+      final getList = ListProductStorePrefPref().get();
+
+      // final List<String> deleteWord = [];
 
       event.groupCategories.forEach((element) {
         deleteWord.add(
@@ -85,15 +87,15 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
         );
       });
 
-      listCategory.deleteGroup(values: deleteWord);
+      // listCategory.deleteGroup(values: deleteWord);
 
-      deleteWord.clear();
-      event.groupCategories.clear();
+      // deleteWord.clear();
+      // event.groupCategories.clear();
 
-      final listCategoryTemp = listCategory.get();
-      SendListProductsCategory().send(productsCategories: listCategoryTemp);
+      // final listCategoryTemp = listCategory.get();
+      // SendListProductsCategory().send(productsCategories: listCategoryTemp);
 
-      yield state.copyWith(listCategory: listCategoryTemp);
+      // yield state.copyWith(listCategory: listCategoryTemp);
     }
   }
 }
