@@ -22,6 +22,7 @@ class CrearProductoPage extends StatelessWidget {
     final double vw = MediaQuery.of(context).size.width;
 
     final category = ModalRoute.of(context).settings.arguments;
+    final productoBloc = BlocProvider.of<CrearProductoBloc>(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -63,27 +64,25 @@ class CrearProductoPage extends StatelessWidget {
                 // }
                 return IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () {},
-                  // onPressed: () {
-                  //   print('CategoryProductPage delete');
-                  //   List<int> deleteGroup = [];
-                  //   deleteGroup.clear();
-                  //   state.mapToggleColor.forEach((key, value) {
-                  //     if (value == true) {
-                  //       deleteGroup.add(key);
-                  //     }
-                  //   });
-                  //   categoryProductBloc.add(DeleteGroupCategories(deleteGroup));
-                  //   if (categoryProductBloc.state.mapToggleColor
-                  //       .containsValue(true)) {
-                  //     categoryProductBloc.state.mapToggleColor
-                  //         .forEach((key, value) {
-                  //       print('CategoryProductPage back $key $value');
-                  //       categoryProductBloc.add(MapToggleColor({key: false}));
-                  //     });
-                  //   }
-                  //   // categoryProductBloc.add(DeleteAllCategories());
-                  // },
+                  // onPressed: () {},
+                  onPressed: () {
+                    print('CategoryProductPage delete');
+                    List<int> deleteGroup = [];
+                    deleteGroup.clear();
+                    state.mapToggleColor.forEach((key, value) {
+                      if (value == true) {
+                        deleteGroup.add(key);
+                      }
+                    });
+                    productoBloc.add(DeleteGroupCategories(deleteGroup));
+                    if (productoBloc.state.mapToggleColor.containsValue(true)) {
+                      productoBloc.state.mapToggleColor.forEach((key, value) {
+                        print('CategoryProductPage back $key $value');
+                        productoBloc.add(MapToggleColor({key: false}));
+                      });
+                    }
+                    // categoryProductBloc.add(DeleteAllCategories());
+                  },
                 );
               },
             )
