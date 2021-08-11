@@ -1,6 +1,7 @@
+import '../../pages/08_store/tienda.dart';
+
 import '../../data/shared/user_pref/user_pref.dart';
 
-import '../../pages/08_tienda/tienda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

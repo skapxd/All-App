@@ -1,7 +1,12 @@
-import 'package:allapp/src/pages/08_tienda/crear_comercio/create_category_product/category_product_page.dart';
+import 'pages/08_store/create_category_product/category_product_page.dart';
+import 'pages/08_store/create_category_product/crear_producto_page/crear_producto_page.dart';
+import 'pages/08_store/create_store/06_crear_comercio.dart';
+import 'pages/08_store/create_store/add-photos-page/Image_Page.dart';
+import 'pages/08_store/create_store/add-photos-page/Photos_Page.dart';
+import 'pages/08_store/create_store/mapa_page/mapa_page.dart';
+import 'pages/08_store/create_store/store_description/store_description.dart';
+import 'pages/08_store/tienda.dart';
 
-import 'pages/08_tienda/crear_comercio/crear_producto_page/crear_producto_page.dart';
-import 'pages/08_tienda/crear_comercio/store_description/store_description.dart';
 import 'proximamente/analiticas.dart';
 import 'proximamente/historial_de_clientes.dart';
 import 'proximamente/historial_de_ventas.dart';
@@ -13,9 +18,6 @@ import 'pages/04_home/04_Home.dart';
 import 'pages/05_favoritos/05_favoritos.dart';
 import 'pages/07_ver_comercios/ver_mapa_page/ver_mapa_page.dart';
 import 'pages/07_ver_comercios/ver_page_image_comercio/ver_page_image_comercio.dart';
-import 'pages/08_tienda/crear_comercio/06_crear_comercio.dart';
-import 'pages/08_tienda/crear_comercio/add-photos-page/Image_Page.dart';
-import 'pages/08_tienda/tienda.dart';
 import 'widgets/PageImage.dart';
 import 'widgets/SliverPage.dart';
 import 'widgets/page_image.dart';
@@ -24,8 +26,6 @@ import 'package:flutter/material.dart';
 import 'pages/02_03_Phone/02_Enter_Phone.dart';
 import 'pages/07_ver_comercios/ver_comercio.dart';
 import 'pages/07_ver_comercios/ver_galeria_fotos/ver_galeria_fotos.dart';
-import 'pages/08_tienda/crear_comercio/add-photos-page/Photos_Page.dart';
-import 'pages/08_tienda/crear_comercio/mapa_page/mapa_page.dart';
 
 Map<String, Widget Function(BuildContext)> router = {
   WelcomePage.pathName: (_) => WelcomePage(),

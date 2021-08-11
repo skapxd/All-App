@@ -1,5 +1,4 @@
-import 'package:allapp/src/pages/01_wellcome/01_wellcome.dart';
-import 'package:allapp/src/pages/08_tienda/crear_comercio/06_crear_comercio.dart';
+import 'src/pages/01_wellcome/01_wellcome.dart';
 
 import 'src/provider.dart';
 import 'src/router.dart';

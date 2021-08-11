@@ -1,3 +1,4 @@
+import 'store_page/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +9,6 @@ import '../../data/shared/pref.dart';
 import '../../utils/utils.dart';
 import 'bloc/home_bloc.dart';
 import 'mapa_page/mapa_page.dart';
-import 'tiendas_page/tiendas_page.dart';
 
 class Home extends StatefulWidget {
   static final String pathName = '/Home';
@@ -130,7 +130,7 @@ class _HomeState extends State<Home>
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              Tiendas(),
+              StorePage(),
               MapaPage(),
             ],
           ),

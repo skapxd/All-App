@@ -1,9 +1,10 @@
 part of 'stores_service.dart';
 
 class GetAllStoreService extends UrlBase {
-  Future<CacheStoreModel> getStore({
+  Future<CacheStoreModel> fetch({
     @required AddressModel cityPath,
     @required String category,
+    @required int limit,
   }) async {
     //
 
@@ -11,10 +12,8 @@ class GetAllStoreService extends UrlBase {
       'city': cityPath.city,
       'country': cityPath.country,
       'department': cityPath.department,
+      'limit': limit,
     };
-
-    print('GetAllStoreService $data');
-    print('GetAllStoreService $category');
 
     if (category != null) {
       data.addAll({'category': category});
@@ -24,8 +23,6 @@ class GetAllStoreService extends UrlBase {
           '/api-v1/stores',
           queryParameters: data,
         );
-
-    print(res);
 
     return CacheStoreModel.fromMap(res.data);
   }

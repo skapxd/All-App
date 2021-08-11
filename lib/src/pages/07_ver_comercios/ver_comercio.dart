@@ -1,3 +1,5 @@
+import '../04_home/store_page/widgets/row_store.dart';
+
 import '../../models/store_model.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';
@@ -10,7 +12,6 @@ import 'widget/fotos.dart';
 import 'widget/logo.dart';
 import '../../utils/utils.dart';
 import '../../widgets/BackgroundGradient.dart';
-import '../../widgets/RowShop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -137,45 +138,46 @@ class VerComercios extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: vw * 0.06, vertical: 3),
               ),
-              BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
-                builder: (context, state) {
-                  //
+              // BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
+              //   builder: (context, state) {
+              //     //
 
-                  if (state.address == null) {
-                    return _PlaceHolder();
-                  }
+              //     if (state.address == null) {
+              //       return _PlaceHolder();
+              //     }
 
-                  return FutureBuilder(
-                    // future: DBFirestore().getListCategoriesStore(
-                    //   cityPath: state.address,
-                    //   categories: ruburo,
-                    // ),
-                    // ignore: missing_return
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<List<StoreModel>> snapshot,
-                    ) {
-                      //
+              //     return FutureBuilder(
+              //       // future: DBFirestore().getListCategoriesStore(
+              //       //   cityPath: state.address,
+              //       //   categories: ruburo,
+              //       // ),
+              //       // ignore: missing_return
+              //       builder: (
+              //         BuildContext context,
+              //         AsyncSnapshot<List<StoreModel>> snapshot,
+              //       ) {
+              //         //
 
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.active:
-                        case ConnectionState.waiting:
-                          return _PlaceHolder();
+              //         switch (snapshot.connectionState) {
+              //           case ConnectionState.none:
+              //           case ConnectionState.active:
+              //           case ConnectionState.waiting:
+              //             return _PlaceHolder();
 
-                        case ConnectionState.done:
-                          final List<StoreModel> listStoreModel = snapshot.data;
+              //           case ConnectionState.done:
+              //             final List<StoreModel> listStoreModel = snapshot.data;
 
-                          return FilaDeTiendas(
-                            // nameBusiness: this.nameBusiness,
-                            listStoreModel: listStoreModel,
-                            ruburo: ruburo,
-                          );
-                      }
-                    },
-                  );
-                },
-              ),
+              //             return RowStore(
+              //               // nameBusiness: this.nameBusiness,
+              //               // listStoreModel: listStoreModel,
+              //               addressModel: ,
+              //               category: ruburo,
+              //             );
+              //         }
+              //       },
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

@@ -2,6 +2,7 @@ part of 'stores_service.dart';
 
 class CreateStoreService extends UrlBase {
   CreateStoreService({
+    String urlImage,
     String name,
     String iconPathCategory,
     String category,
@@ -15,6 +16,10 @@ class CreateStoreService extends UrlBase {
     Map<String, dynamic> data = {};
 
     final setData = () {
+      if (urlImage != null) {
+        data.addAll({'urlImage': urlImage});
+      }
+
       if (name != null) {
         data.addAll({'nameStore': name});
       }

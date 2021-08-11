@@ -1,5 +1,5 @@
-import 'package:allapp/src/data/shared/store_pref/store_pref.dart';
-import 'package:allapp/src/models/user_login_model.dart';
+import '../../data/shared/store_pref/store_pref.dart';
+import '../../models/user_login_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../data/bloc/mi_ubicacion/mi_ubicacion_bloc.dart';

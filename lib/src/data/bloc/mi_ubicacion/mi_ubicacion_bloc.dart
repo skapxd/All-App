@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../services/utils.dart';
+import 'package:allapp/src/data/services/utils/utils_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,7 +59,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
         // Get Address Model of Service
         final Future<void> Function() getAddressModel = () async {
-          UtilsServices().getAddressModel(
+          AddressModelService().getAddressModel(
             lat: '${latLng.latitude}',
             lng: '${latLng.longitude}',
             onSuccess: (addressModel) {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:allapp/src/models/store_model.dart';
+import '../../../models/store_model.dart';
 
 import '../pref.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
