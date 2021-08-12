@@ -1,0 +1,27 @@
+{
+  "name": "allapp",
+  "version": "1.0.0",
+  "description": "A new Flutter project.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build-apk": "flutter build apk --release",
+    "build": "flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --obfuscate --split-debug-info=/app-ofuscate",
+    "set-icon": "flutter pub run flutter_launcher_icons:main",
+    "SHA-1": "keytool -list -v -keystore \"C:\\key.jks\" -alias \"key\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skapxd/All-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skapxd/All-App/issues"
+  },
+  "homepage": "https://github.com/skapxd/All-App#readme"
+}
