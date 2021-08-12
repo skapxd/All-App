@@ -1,6 +1,7 @@
 // To parse this JSON data, do
 //
 //     final listProduct = listProductFromMap(jsonString);
+import 'package:equatable/equatable.dart';
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
@@ -35,7 +36,7 @@ class ListProduct {
       };
 }
 
-class ListProductElement {
+class ListProductElement extends Equatable {
   ListProductElement({
     @required this.idMongo,
     @required this.id,
@@ -94,4 +95,19 @@ class ListProductElement {
         "urlImageProductStore":
             urlImageProductStore == null ? null : urlImageProductStore,
       };
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [
+        idMongo,
+        id,
+        availabilityProductStore,
+        nameProductStore,
+        priceProductStore,
+        quantityProductStore,
+        categoryProductStore,
+        urlImageProductStore,
+      ];
 }

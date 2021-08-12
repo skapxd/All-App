@@ -28,7 +28,8 @@ class CreateCategoryProductBloc
       listCategory.add(value: event.category);
 
       final listCategoryTemp = listCategory.get();
-      SendListProductsCategory().send(productsCategories: listCategoryTemp);
+      SendListProductsCategoryService()
+          .send(productsCategories: listCategoryTemp);
 
       yield state.copyWith(listCategory: listCategoryTemp);
     } else if (event is MapToggleColor) {
@@ -64,7 +65,8 @@ class CreateCategoryProductBloc
       event.groupCategories.clear();
 
       final listCategoryTemp = listCategory.get();
-      SendListProductsCategory().send(productsCategories: listCategoryTemp);
+      SendListProductsCategoryService()
+          .send(productsCategories: listCategoryTemp);
 
       yield state.copyWith(listCategory: listCategoryTemp);
     }

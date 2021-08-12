@@ -85,6 +85,11 @@ class _ItemProductState extends State<ItemProduct> {
               : ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: FadeInImage.memoryNetwork(
+                    height: vw * 0.25,
+                    width: vw * 0.25,
+                    placeholder: kTransparentImage,
+                    image: this.widget.data.urlImageProductStore,
+                    fit: BoxFit.cover,
                     imageErrorBuilder: (context, error, stackTrace) {
                       return Container(
                         height: vw * 0.25,
@@ -92,11 +97,6 @@ class _ItemProductState extends State<ItemProduct> {
                         color: Colors.pink,
                       );
                     },
-                    placeholder: kTransparentImage,
-                    image: this.widget.data.urlImageProductStore,
-                    // height: vw * 0.25,
-                    // width: vw * 0.25,
-                    fit: BoxFit.cover,
                   ),
                 ),
         ),
@@ -140,75 +140,6 @@ class _ItemProductState extends State<ItemProduct> {
             );
           }
         },
-        // trailing: Container(
-        //   child: IconButton(
-        //     icon: Icon(
-        //       Icons.delete_forever,
-        //       color: hexaColor('#DDDDDD'),
-        //     ),
-        //     onPressed: () {
-        //       showDialog(
-        //         context: context,
-        //         builder: (context) {
-        //           return AlertDialog(
-        //             backgroundColor: hexaColor('#303030'),
-        //             title: Text(
-        //               'Confirme la eliminación del producto',
-        //               style: TextStyle(
-        //                 color: hexaColor('#DDDDDD'),
-        //               ),
-        //             ),
-        //             actions: [
-        //               OutlinedButton(
-        //                 style: ButtonStyle(
-        //                   overlayColor: MaterialStateProperty.all(
-        //                     hexaColor('#DDDDDD', opacity: 0.1),
-        //                   ),
-        //                 ),
-        //                 onPressed: () {
-        //                   //
-
-        //                   Navigator.pop(context);
-        //                 },
-        //                 child: Text(
-        //                   'Mejor no',
-        //                   style: TextStyle(
-        //                     color: hexaColor('#DDDDDD'),
-        //                   ),
-        //                 ),
-        //               ),
-        //               ElevatedButton(
-        //                 style: ButtonStyle(
-        //                   backgroundColor: MaterialStateProperty.all(
-        //                     hexaColor('#DDDDDD'),
-        //                   ),
-        //                 ),
-        //                 onPressed: () {
-        //                   //
-
-        //                   // DBFirestore().deleteProducInMyCategori(
-        //                   //   productName: data.id,
-        //                   //   categories: category,
-        //                   //   phoneIdStore: Pref().phone,
-        //                   //   cityPath: miUbicacionBloc.address,
-        //                   // );
-
-        //                   Navigator.pop(context);
-        //                 },
-        //                 child: Text(
-        //                   'Borrar',
-        //                   style: TextStyle(
-        //                     color: hexaColor('#303030'),
-        //                   ),
-        //                 ),
-        //               )
-        //             ],
-        //           );
-        //         },
-        //       );
-        //     },
-        //   ),
-        // ),
       ),
     );
   }

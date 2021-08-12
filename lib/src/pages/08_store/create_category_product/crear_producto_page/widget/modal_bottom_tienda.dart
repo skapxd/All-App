@@ -1,4 +1,5 @@
 import 'package:allapp/src/data/services/product/product_service.dart';
+import 'package:allapp/src/data/services/utils/utils_service.dart';
 
 import '../../../../../utils/utils.dart';
 
@@ -186,21 +187,26 @@ class _ModalButtomProductoState extends State<ModalButtomProducto> {
                     ),
                   ),
                 ),
-                onTap: () {
-                  if (nombre != null ||
-                      precio != null ||
-                      cantidad != null ||
-                      _productoBloc.state.pathImageProduct != null ||
-                      _productoBloc.state.ifDisponibilidad != null) {
+                onTap: () async {
+                  if ((nombre != null || widget.nombre != null) &&
+                      (precio != null || widget.precio != null) &&
+                      (cantidad != null || widget.cantidad != null) &&
+                      (localPathImageProduct != null ||
+                          widget.urlImage != null) &&
+                      (_productoBloc.state.ifDisponibilidad != null ||
+                          widget.disponibilidad != null)) {
                     //
-
+                    print('localPathImageProduct $localPathImageProduct');
                     _productoBloc.add(
                       CreateProduct(
-                          name: 'name',
-                          price: 'price',
-                          quantity: 'quantity',
-                          category: 'category',
-                          urlImageProductStore: 'urlImageProductStore'),
+                        id: widget.idProduct,
+                        context: context,
+                        pathImage: localPathImageProduct,
+                        name: nombre,
+                        price: precio,
+                        quantity: cantidad,
+                        category: widget.category,
+                      ),
                     );
 
                     Navigator.pop(context);

@@ -34,18 +34,22 @@ class AddCantidad extends CrearProductoEvent {
 }
 
 class CreateProduct extends CrearProductoEvent {
+  final String id;
   final String name;
   final String price;
   final String quantity;
   final String category;
-  final String urlImageProductStore;
+  final String pathImage;
+  final BuildContext context;
 
   CreateProduct({
+    this.id,
     @required this.name,
     @required this.price,
     @required this.quantity,
     @required this.category,
-    @required this.urlImageProductStore,
+    @required this.pathImage,
+    @required this.context,
   });
 }
 
@@ -56,6 +60,7 @@ class MapToggleColor extends CrearProductoEvent {
 
 class DeleteGroupCategories extends CrearProductoEvent {
   final List<int> groupCategories;
+  final BuildContext context;
 
-  DeleteGroupCategories(this.groupCategories);
+  DeleteGroupCategories(this.groupCategories, this.context);
 }

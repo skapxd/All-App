@@ -81,6 +81,7 @@ dependencies:
 
   animate_do: ^2.0.0
 
+  equatable: ^2.0.3
   # ninja_prime: ^2.0.0
 
 dev_dependencies:

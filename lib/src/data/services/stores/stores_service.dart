@@ -1,6 +1,3 @@
-import 'package:dio/dio.dart';
-
-import '../../shared/pref.dart';
 import '../../../models/address_model.dart';
 import '../../../models/store_model.dart';
 import 'package:meta/meta.dart';

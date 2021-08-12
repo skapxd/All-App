@@ -408,17 +408,11 @@ Se asumirá que usted está de acuerdo si decide continuar
                             final file = comercioBloc.state.icon?.path;
 
                             if (file != null) {
-                              await UploadImageService().uploadLogo(
-                                file: file,
-                                onFailed: (error) {
-                                  print('storesService.uploadLogo $error');
-                                },
-                                onSuccess: (String urlLogo) {
-                                  print('storesService.uploadLogo $urlLogo');
-
-                                  StoreLogoPref().setUrlLogo(value: urlLogo);
-                                },
+                              final urlLogo =
+                                  await UploadImageService().uploadLogo(
+                                path: file,
                               );
+                              StoreLogoPref().setUrlLogo(value: urlLogo);
                             }
 
                             CreateStoreService(

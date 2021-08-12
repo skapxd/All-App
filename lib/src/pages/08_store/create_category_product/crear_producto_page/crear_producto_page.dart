@@ -75,7 +75,8 @@ class CrearProductoPage extends StatelessWidget {
                       }
                     });
                     print(deleteGroup);
-                    productoBloc.add(DeleteGroupCategories(deleteGroup));
+                    productoBloc
+                        .add(DeleteGroupCategories(deleteGroup, context));
                     if (productoBloc.state.mapToggleColor.containsValue(true)) {
                       productoBloc.state.mapToggleColor.forEach((key, value) {
                         print('CategoryProductPage back $key $value');

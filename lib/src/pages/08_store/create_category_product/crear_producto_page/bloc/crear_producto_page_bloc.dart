@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:allapp/src/data/services/product/product_service.dart';
+import 'package:allapp/src/data/services/utils/utils_service.dart';
 import 'package:allapp/src/data/shared/produc_store_pref/product_store_pref.dart';
 import 'package:allapp/src/models/list_product.dart';
+import 'package:allapp/src/utils/utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'crear_producto_page_event.dart';
@@ -12,7 +15,7 @@ part 'crear_producto_page_state.dart';
 class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
   CrearProductoBloc()
       : super(CrearProductoState(
-          listProduct: ListProductStorePrefPref().get(),
+          listProduct: ListProductStorePref().get(),
         ));
 
   @override
@@ -52,19 +55,53 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
     } else if (event is CreateProduct) {
       //
 
-      final listProducts = await CreateProductService().push(
-        availability: state.ifDisponibilidad,
-        name: event.name,
-        price: event.price,
-        quantity: event.quantity,
-        category: event.category,
-        urlImageProductStore: event.urlImageProductStore,
+      customShowSnackBar(
+        context: event.context,
+        text: Text(
+          'Guardando datos, por favor, espere',
+          style: TextStyle(
+            color: hexaColor('#303030'),
+          ),
+        ),
       );
 
-      print(
-          'listProducts.listProduct.length ${listProducts.listProduct.length}');
+      print('CreateProduct');
+      try {
+        print('CreateProduct 1');
+        String urlImage;
+        if (event.pathImage != null) {
+          urlImage = await UploadImageService().uploadLogo(
+            path: event.pathImage,
+          );
+        }
+        print('CreateProduct 2');
 
-      yield state.copyWith(listProduct: listProducts);
+        final listProducts = await CreateProductService().push(
+          id: event.id,
+          availability: state.ifDisponibilidad,
+          name: event.name,
+          price: event.price,
+          quantity: event.quantity,
+          category: event.category,
+          urlImageProductStore: urlImage,
+        );
+        print('CreateProduct 3');
+
+        ListProductStorePref().set(value: listProducts);
+
+        yield state.copyWith(listProduct: listProducts);
+      } catch (e) {
+        print(e);
+        customShowSnackBar(
+          context: event.context,
+          text: Text(
+            'Por favor intentelo de nuevo',
+            style: TextStyle(
+              color: hexaColor('#303030'),
+            ),
+          ),
+        );
+      }
     } else if (event is MapToggleColor) {
       //
 
@@ -76,16 +113,39 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
       //
 
       print('object');
+      // print(event.groupCategories);
 
-      final getList = ListProductStorePrefPref().get();
+      final getList = ListProductStorePref().get();
 
-      // final List<String> deleteWord = [];
+      final List<ListProductElement> deleteProducts = [];
 
       event.groupCategories.forEach((element) {
-        deleteWord.add(
-          getList[element],
+        deleteProducts.add(
+          getList.listProduct[element],
         );
       });
+
+      try {
+        bool ifDelte = await DeleteGroupProducts().send(list: deleteProducts);
+
+        if (ifDelte) {
+          ListProductStorePref().delete(values: deleteProducts);
+        }
+        yield state.copyWith(listProduct: ListProductStorePref().get());
+      } catch (e) {
+        customShowSnackBar(
+          context: event.context,
+          text: Text(
+            'Por favor intentelo de nuevo',
+            style: TextStyle(
+              color: hexaColor('#303030'),
+            ),
+          ),
+        );
+      }
+
+      // deleteWord.clear();
+      // event.groupCategories.clear();
 
       // listCategory.deleteGroup(values: deleteWord);
 

@@ -1,6 +1,6 @@
 part of 'product_store_pref.dart';
 
-class ListProductStorePrefPref {
+class ListProductStorePref {
   final _pref = Pref();
   final _pathListProductStorePref = 'ListProductStorePref';
   void set({ListProduct value}) {
@@ -10,6 +10,16 @@ class ListProductStorePrefPref {
       path: this._pathListProductStorePref,
       object: data,
     );
+  }
+
+  void delete({List<ListProductElement> values}) {
+    ListProduct listOfCategories = get();
+
+    values.forEach((element) {
+      listOfCategories.listProduct.remove(element);
+    });
+
+    set(value: listOfCategories);
   }
 
   ListProduct get() {
