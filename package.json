@@ -11,7 +11,9 @@
     "build-apk": "flutter build apk --release",
     "build": "flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --obfuscate --split-debug-info=/app-ofuscate",
     "set-icon": "flutter pub run flutter_launcher_icons:main",
+    "SHA-1_Gradlew": "android/gradlew signingReport",
     "SHA-1": "keytool -list -v -keystore \"C:\\key.jks\" -alias \"key\""
+
   },
   "repository": {
     "type": "git",
