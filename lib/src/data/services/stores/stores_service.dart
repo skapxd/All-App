@@ -7,7 +7,8 @@ import '../url_base.dart';
 part 'create_store_service.dart';
 part 'get_all_store_service.dart';
 part 'set_location_store_service.dart';
-part 'send_list_products_category.dart';
+part 'create_list_products_category.dart';
+part 'delete_list_products_category.dart';
 
 class CustomGeoLocation {
   final double lat;

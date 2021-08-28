@@ -28,7 +28,7 @@ class CreateCategoryProductBloc
       listCategory.add(value: event.category);
 
       final listCategoryTemp = listCategory.get();
-      SendListProductsCategoryService()
+      CreateListProductsCategoryService()
           .send(productsCategories: listCategoryTemp);
 
       yield state.copyWith(listCategory: listCategoryTemp);
@@ -49,26 +49,30 @@ class CreateCategoryProductBloc
     } else if (event is DeleteGroupCategories) {
       //
 
-      final getList = listCategory.get();
+      try {
+        final getList = listCategory.get();
 
-      final List<String> deleteWord = [];
+        final List<String> deleteWord = [];
 
-      event.groupCategories.forEach((element) {
-        deleteWord.add(
-          getList[element],
-        );
-      });
+        event.groupCategories.forEach((element) {
+          deleteWord.add(
+            getList[element],
+          );
+        });
 
-      listCategory.deleteGroup(values: deleteWord);
+        listCategory.deleteGroup(values: deleteWord);
 
-      deleteWord.clear();
-      event.groupCategories.clear();
+        deleteWord.clear();
 
-      final listCategoryTemp = listCategory.get();
-      SendListProductsCategoryService()
-          .send(productsCategories: listCategoryTemp);
+        event.groupCategories.clear();
 
-      yield state.copyWith(listCategory: listCategoryTemp);
+        final listCategoryTemp = listCategory.get();
+
+        CreateListProductsCategoryService()
+            .send(productsCategories: listCategoryTemp);
+
+        yield state.copyWith(listCategory: listCategoryTemp);
+      } catch (e) {}
     }
   }
 }

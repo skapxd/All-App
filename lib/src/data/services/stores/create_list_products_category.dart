@@ -1,6 +1,6 @@
 part of 'stores_service.dart';
 
-class SendListProductsCategoryService extends UrlBase {
+class CreateListProductsCategoryService extends UrlBase {
   void send({
     @required List<String> productsCategories,
   }) {

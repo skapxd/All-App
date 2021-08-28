@@ -76,24 +76,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// flutter build appbundle --target-platform android-arm,android-arm64,android-x64
-// flutter build appbundle --target-platform android-arm,android-arm64,android-x64 --obfuscate --split-debug-info=/app-ofuscate
-// Construir apk   flutter build apk --release 
-
-// Comando para cambiar el icono
-// flutter pub run flutter_launcher_icons:main
-
-// Para obtener el SHA-1 es nesesario tener Java JDK
-
-// Obtener SHA-1 debug
-// keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-
-// Obtener SHA-1 Produccion
-// keytool -list -v -keystore "c:\path key" -alias "key-name"
-// ejp: keytool -list -v -keystore "C:\key.jks" -alias "key"
-
-// Obtener SHA-1 debug y Produccion
-// Dentro de la carpeta android de la app ejecutar el siguiente codigo
-// "./gradlew signingReport" solo si estas en la termina de VsCode
-// o gradlew signingReport si estas en cualquier terminal

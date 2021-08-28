@@ -74,7 +74,10 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
             path: event.pathImage,
           );
         }
+
         print('CreateProduct 2');
+        print('CreateProduct ${event.pathImage}');
+        print('CreateProduct $urlImage');
 
         final listProducts = await CreateProductService().push(
           id: event.id,
@@ -89,7 +92,7 @@ class CrearProductoBloc extends Bloc<CrearProductoEvent, CrearProductoState> {
 
         ListProductStorePref().set(value: listProducts);
 
-        yield state.copyWith(listProduct: listProducts);
+        yield state.copyWith(listProduct: ListProductStorePref().get());
       } catch (e) {
         print(e);
         customShowSnackBar(

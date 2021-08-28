@@ -11,7 +11,8 @@ abstract class UrlBase {
         'Authorization': 'Bearer ${UserTokenPref().getToken()}',
       },
       // baseUrl: 'https://allapp.app',
-      baseUrl: 'http://192.168.221.1:3000',
+      baseUrl: 'https://all-app.herokuapp.com/',
+      // baseUrl: 'http://192.168.221.1:3000',
     ),
   );
 }

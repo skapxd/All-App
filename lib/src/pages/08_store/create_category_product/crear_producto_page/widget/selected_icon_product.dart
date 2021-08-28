@@ -34,8 +34,6 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
 
     print('SelecteIcon - _image: $_image');
 
-    // final _miUbicacionBloc = BlocProvider.of<MiUbicacionBloc>(context).state;
-    // final _productoBloc = BlocProvider.of<CrearProductoBloc>(context);
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
       maxWidth: 512,
@@ -92,8 +90,8 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
       );
     } else if (_image != null) {
       return Container(
-        height: vw * 0.25,
-        width: vw * 0.25,
+        width: vw,
+        height: vw * 0.65,
         decoration: BoxDecoration(
           color: hexaColor('#353535'),
           boxShadow: [
@@ -103,10 +101,10 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
               offset: Offset(4, 4),
             ),
           ],
-          borderRadius: BorderRadius.circular(vw * 0.05),
+          borderRadius: BorderRadius.circular(vw * 0.01),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(vw * 0.05),
+          borderRadius: BorderRadius.circular(vw * 0.01),
           child: Image.file(
             _image,
             fit: BoxFit.cover,
@@ -116,8 +114,8 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
     } else {
       // } else if( widget.urlImage != null) {
       return Container(
-        height: vw * 0.25,
-        width: vw * 0.25,
+        height: vw * 0.65,
+        width: vw,
         decoration: BoxDecoration(
           color: hexaColor('#353535'),
           boxShadow: [
@@ -127,10 +125,10 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
               offset: Offset(4, 4),
             ),
           ],
-          borderRadius: BorderRadius.circular(vw * 0.05),
+          borderRadius: BorderRadius.circular(vw * 0.01),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(vw * 0.05),
+          borderRadius: BorderRadius.circular(vw * 0.01),
           child: Image.network(
             widget.urlImage,
             fit: BoxFit.cover,
@@ -138,24 +136,6 @@ class _SelectedIconProductState extends State<SelectedIconProduct> {
         ),
       );
     }
-    //   return Container(
-    //     padding: EdgeInsets.all(vw * 0.05),
-    //     height: vw * 0.25,
-    //     width: vw * 0.25,
-    //     decoration: BoxDecoration(
-    //       color: hexaColor('#353535'),
-    //       boxShadow: [
-    //         BoxShadow(
-    //           color: rgbColor(0, 0, 0, 0.3),
-    //           blurRadius: 10,
-    //           offset: Offset(4, 4),
-    //         ),
-    //       ],
-    //       borderRadius: BorderRadius.circular(vw * 0.05),
-    //     ),
-    //     child: SvgPicture.asset('assets/icons/placeholder.svg'),
-    //   );
-    // }
   }
 
   @override
